@@ -156,7 +156,7 @@ import "../styles/global.css";
 									전화번호 (자택)
 								</label>
 								<input
-									type="tel" id="phone_home" name="phone_home" autocomplete="tel"
+									type="tel" id="phone_home" name="phone_home" autocomplete="off"
 									class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
 									placeholder="02-0000-0000"
 								/>
@@ -304,6 +304,28 @@ import "../styles/global.css";
 					v = v.slice(0, 4) + '-' + v.slice(4);
 				}
 				e.target.value = v;
+			});
+
+			// 휴대폰 번호 자동 포맷 (+82 국제번호 변환 + 하이픈)
+			function formatMobile(raw) {
+				let v = raw.replace(/[^0-9+]/g, '');
+				// +82 → 0 변환
+				if (v.startsWith('+82')) v = '0' + v.slice(3);
+				else if (v.startsWith('82')) v = '0' + v.slice(2);
+				// 숫자만 남기기
+				v = v.replace(/[^0-9]/g, '');
+				if (v.length > 11) v = v.slice(0, 11);
+				// 하이픈 포맷
+				if (v.length >= 8) {
+					return v.slice(0, 3) + '-' + v.slice(3, v.length - 4) + '-' + v.slice(v.length - 4);
+				} else if (v.length >= 4) {
+					return v.slice(0, 3) + '-' + v.slice(3);
+				}
+				return v;
+			}
+
+			document.getElementById('phone_mobile').addEventListener('input', (e) => {
+				e.target.value = formatMobile(e.target.value);
 			});
 
 			// Set today's date
