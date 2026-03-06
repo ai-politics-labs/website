@@ -1,0 +1,199 @@
+---
+import "../styles/global.css";
+---
+
+<html lang="ko">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+		<title>관리자 | ai politics labs</title>
+	</head>
+	<body class="bg-white text-stone-900 antialiased overflow-x-hidden">
+		<nav class="pt-10">
+			<div class="max-w-[1146px] mx-auto px-6 flex items-center justify-between">
+				<a href="/" class="font-medium text-[15.84px] text-stone-900 tracking-[-0.32px]">
+					ai politics labs
+				</a>
+				<span class="text-[14px] text-stone-400 tracking-[-0.14px]">관리자</span>
+			</div>
+		</nav>
+
+		<!-- 로그인 폼 -->
+		<section id="login-section" class="pt-[60px]">
+			<div class="max-w-sm mx-auto px-6">
+				<h1 class="font-semibold mb-6 text-[22px] text-stone-800 tracking-[-0.32px]">관리자 로그인</h1>
+				<form id="login-form" class="space-y-4">
+					<div>
+						<label for="email" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">이메일</label>
+						<input type="email" id="email" required
+							class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+							placeholder="admin@example.com" />
+					</div>
+					<div>
+						<label for="password" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">비밀번호</label>
+						<input type="password" id="password" required
+							class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]" />
+					</div>
+					<div id="login-error" class="hidden p-3 bg-red-50 rounded-xl text-[13px] text-red-600"></div>
+					<button type="submit" id="login-btn"
+						class="inline-flex items-center justify-center h-10 px-6 text-sm font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px] w-full">
+						로그인
+					</button>
+				</form>
+			</div>
+		</section>
+
+		<!-- 데이터 테이블 -->
+		<section id="data-section" class="hidden pt-[60px] pb-24">
+			<div class="max-w-[1146px] mx-auto px-6">
+				<div class="flex items-center justify-between mb-6">
+					<h1 class="font-semibold text-[22px] text-stone-800 tracking-[-0.32px]">
+						발기인 접수 목록 <span id="total-count" class="text-stone-400 text-[15px] font-normal"></span>
+					</h1>
+					<button id="logout-btn"
+						class="text-[13px] text-stone-400 hover:text-stone-600 transition-colors tracking-[-0.14px]">
+						로그아웃
+					</button>
+				</div>
+
+				<div id="loading" class="text-[15px] text-stone-400 tracking-[-0.14px]">불러오는 중...</div>
+				<div id="members-list" class="space-y-4"></div>
+			</div>
+		</section>
+
+		<!-- 서명 확대 모달 -->
+		<div id="signature-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-6">
+			<div class="bg-white rounded-2xl p-6 max-w-lg w-full">
+				<div class="flex items-center justify-between mb-4">
+					<p id="modal-name" class="text-[15px] font-semibold text-stone-800 tracking-[-0.14px]"></p>
+					<button id="close-modal" class="text-stone-400 hover:text-stone-600 transition-colors text-[20px]">&times;</button>
+				</div>
+				<img id="modal-signature" class="w-full border border-stone-200 rounded-xl" alt="서명" />
+			</div>
+		</div>
+
+		<script type="module">
+			import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+			const SUPABASE_URL = 'https://bsiatqjivenmblkcujjw.supabase.co';
+			const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzaWF0cWppdmVubWJsa2N1amp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3ODk2OTMsImV4cCI6MjA4ODM2NTY5M30.ReRm1mteN7bsWiRoMhHc8EfhLncJuLZ_8hSR-El8-S4';
+			const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+			const loginSection = document.getElementById('login-section');
+			const dataSection = document.getElementById('data-section');
+			const loginForm = document.getElementById('login-form');
+			const loginError = document.getElementById('login-error');
+			const membersList = document.getElementById('members-list');
+			const loading = document.getElementById('loading');
+			const totalCount = document.getElementById('total-count');
+
+			// Check existing session
+			const { data: { session } } = await supabase.auth.getSession();
+			if (session) {
+				showData();
+			}
+
+			// Login
+			loginForm.addEventListener('submit', async (e) => {
+				e.preventDefault();
+				loginError.classList.add('hidden');
+				const email = document.getElementById('email').value;
+				const password = document.getElementById('password').value;
+
+				const { error } = await supabase.auth.signInWithPassword({ email, password });
+				if (error) {
+					loginError.textContent = '로그인 실패: ' + error.message;
+					loginError.classList.remove('hidden');
+					return;
+				}
+				showData();
+			});
+
+			// Logout
+			document.getElementById('logout-btn').addEventListener('click', async () => {
+				await supabase.auth.signOut();
+				loginSection.classList.remove('hidden');
+				dataSection.classList.add('hidden');
+			});
+
+			// Load data
+			async function showData() {
+				loginSection.classList.add('hidden');
+				dataSection.classList.remove('hidden');
+				loading.classList.remove('hidden');
+				membersList.innerHTML = '';
+
+				const { data, error } = await supabase
+					.from('founding_members')
+					.select('*')
+					.order('created_at', { ascending: false });
+
+				loading.classList.add('hidden');
+
+				if (error) {
+					membersList.innerHTML = `<p class="text-red-500 text-[14px]">데이터 로드 실패: ${error.message}</p>`;
+					return;
+				}
+
+				totalCount.textContent = `(${data.length}명)`;
+
+				if (data.length === 0) {
+					membersList.innerHTML = '<p class="text-stone-400 text-[15px]">아직 접수된 발기인이 없습니다.</p>';
+					return;
+				}
+
+				data.forEach((m, i) => {
+					const card = document.createElement('div');
+					card.className = 'bg-stone-100 rounded-2xl p-6';
+					card.innerHTML = `
+						<div class="flex items-start justify-between gap-4">
+							<div class="flex-1 min-w-0">
+								<div class="flex items-center gap-3 mb-3">
+									<span class="text-[15px] font-semibold text-stone-900 tracking-[-0.14px]">${esc(m.name)}</span>
+									<span class="text-[13px] text-stone-400 tracking-[-0.14px]">${m.gender} · ${m.birth_date}</span>
+									<span class="text-[12px] text-stone-300 tracking-[-0.14px]">${new Date(m.created_at).toLocaleString('ko-KR')}</span>
+								</div>
+								<div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 text-[13px] tracking-[-0.14px]">
+									<p><span class="text-stone-400">주소</span> <span class="text-stone-700 ml-2">${esc(m.address)}</span></p>
+									<p><span class="text-stone-400">직업</span> <span class="text-stone-700 ml-2">${esc(m.occupation)}</span></p>
+									<p><span class="text-stone-400">휴대폰</span> <span class="text-stone-700 ml-2">${esc(m.phone_mobile)}</span></p>
+									<p><span class="text-stone-400">자택</span> <span class="text-stone-700 ml-2">${esc(m.phone_home || '-')}</span></p>
+								</div>
+							</div>
+							<button class="sig-btn shrink-0 border border-stone-200 rounded-xl overflow-hidden hover:border-stone-400 transition-colors" data-name="${esc(m.name)}" data-sig="${m.signature_data}">
+								<img src="${m.signature_data}" alt="서명" class="w-[120px] h-[60px] object-contain bg-white" />
+							</button>
+						</div>
+					`;
+					membersList.appendChild(card);
+				});
+
+				// Signature click → modal
+				document.querySelectorAll('.sig-btn').forEach(btn => {
+					btn.addEventListener('click', () => {
+						document.getElementById('modal-name').textContent = btn.dataset.name + ' 서명';
+						document.getElementById('modal-signature').src = btn.dataset.sig;
+						document.getElementById('signature-modal').classList.remove('hidden');
+					});
+				});
+			}
+
+			// Modal close
+			document.getElementById('close-modal').addEventListener('click', () => {
+				document.getElementById('signature-modal').classList.add('hidden');
+			});
+			document.getElementById('signature-modal').addEventListener('click', (e) => {
+				if (e.target === e.currentTarget) {
+					e.currentTarget.classList.add('hidden');
+				}
+			});
+
+			function esc(str) {
+				const d = document.createElement('div');
+				d.textContent = str;
+				return d.innerHTML;
+			}
+		</script>
+	</body>
+</html>
