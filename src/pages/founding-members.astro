@@ -243,32 +243,22 @@ import "../styles/global.css";
 				penColor: 'rgb(0, 0, 0)',
 			});
 
-			let lastCanvasWidth = 0;
-
-			function resizeCanvas() {
+			// 캔버스 초기화 (최초 1회만 실행, resize 이벤트 제거 — 카카오톡 인앱 브라우저 대응)
+			function initCanvas() {
 				const ratio = Math.max(window.devicePixelRatio || 1, 1);
 				const rect = canvas.getBoundingClientRect();
-				const newWidth = Math.round(rect.width);
-
-				// 너비가 변하지 않으면 리사이즈 무시 (카카오톡 인앱 브라우저 키보드/주소창 대응)
-				if (newWidth === lastCanvasWidth && !signaturePad.isEmpty()) return;
-				lastCanvasWidth = newWidth;
-
-				// 서명 데이터 백업 후 복원
-				const data = signaturePad.isEmpty() ? null : signaturePad.toData();
+				if (rect.width === 0) return; // 아직 레이아웃 안 된 경우 무시
 				canvas.width = rect.width * ratio;
 				canvas.height = rect.height * ratio;
 				canvas.getContext('2d').scale(ratio, ratio);
-
-				if (data) {
-					signaturePad.fromData(data);
-				} else {
-					signaturePad.clear();
-				}
+				signaturePad.clear();
 			}
 
-			window.addEventListener('resize', resizeCanvas);
-			resizeCanvas();
+			if (document.readyState === 'complete') {
+				initCanvas();
+			} else {
+				window.addEventListener('load', initCanvas);
+			}
 
 			document.getElementById('clear-signature').addEventListener('click', () => {
 				signaturePad.clear();
