@@ -236,29 +236,18 @@ import "../styles/global.css";
 			const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzaWF0cWppdmVubWJsa2N1amp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3ODk2OTMsImV4cCI6MjA4ODM2NTY5M30.ReRm1mteN7bsWiRoMhHc8EfhLncJuLZ_8hSR-El8-S4';
 			const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-			// Signature pad setup
+			// Signature pad setup — 캔버스 크기를 먼저 설정한 뒤 SignaturePad 생성
 			const canvas = document.getElementById('signature-canvas');
+			const ratio = Math.max(window.devicePixelRatio || 1, 1);
+			const rect = canvas.getBoundingClientRect();
+			canvas.width = rect.width * ratio;
+			canvas.height = rect.height * ratio;
+			canvas.getContext('2d').scale(ratio, ratio);
+
 			const signaturePad = new SignaturePad(canvas, {
 				backgroundColor: 'rgb(255, 255, 255)',
 				penColor: 'rgb(0, 0, 0)',
 			});
-
-			// 캔버스 초기화 (최초 1회만 실행, resize 이벤트 제거 — 카카오톡 인앱 브라우저 대응)
-			function initCanvas() {
-				const ratio = Math.max(window.devicePixelRatio || 1, 1);
-				const rect = canvas.getBoundingClientRect();
-				if (rect.width === 0) return; // 아직 레이아웃 안 된 경우 무시
-				canvas.width = rect.width * ratio;
-				canvas.height = rect.height * ratio;
-				canvas.getContext('2d').scale(ratio, ratio);
-				signaturePad.clear();
-			}
-
-			if (document.readyState === 'complete') {
-				initCanvas();
-			} else {
-				window.addEventListener('load', initCanvas);
-			}
 
 			document.getElementById('clear-signature').addEventListener('click', () => {
 				signaturePad.clear();
