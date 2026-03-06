@@ -283,6 +283,20 @@ import "../styles/global.css";
 				signaturePad.clear();
 			});
 
+			// 자택 전화번호 크롬 자동완성 방지
+			const phoneHome = document.getElementById('phone_home');
+			const clearAutofill = () => {
+				if (phoneHome.value && !phoneHome.dataset.userTyped) {
+					phoneHome.value = '';
+				}
+			};
+			// 크롬 자동완성은 약간의 딜레이 후 값을 채움
+			document.querySelectorAll('input').forEach(input => {
+				input.addEventListener('focus', () => setTimeout(clearAutofill, 20));
+			});
+			phoneHome.addEventListener('animationstart', clearAutofill); // 크롬 autofill 애니메이션 감지
+			phoneHome.addEventListener('keydown', () => { phoneHome.dataset.userTyped = '1'; });
+
 			// 다음 주소 검색 API
 			document.getElementById('search-address').addEventListener('click', () => {
 				new daum.Postcode({
