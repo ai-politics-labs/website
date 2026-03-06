@@ -243,13 +243,28 @@ import "../styles/global.css";
 				penColor: 'rgb(0, 0, 0)',
 			});
 
+			let lastCanvasWidth = 0;
+
 			function resizeCanvas() {
 				const ratio = Math.max(window.devicePixelRatio || 1, 1);
 				const rect = canvas.getBoundingClientRect();
+				const newWidth = Math.round(rect.width);
+
+				// 너비가 변하지 않으면 리사이즈 무시 (카카오톡 인앱 브라우저 키보드/주소창 대응)
+				if (newWidth === lastCanvasWidth && !signaturePad.isEmpty()) return;
+				lastCanvasWidth = newWidth;
+
+				// 서명 데이터 백업 후 복원
+				const data = signaturePad.isEmpty() ? null : signaturePad.toData();
 				canvas.width = rect.width * ratio;
 				canvas.height = rect.height * ratio;
 				canvas.getContext('2d').scale(ratio, ratio);
-				signaturePad.clear();
+
+				if (data) {
+					signaturePad.fromData(data);
+				} else {
+					signaturePad.clear();
+				}
 			}
 
 			window.addEventListener('resize', resizeCanvas);
