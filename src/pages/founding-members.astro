@@ -112,9 +112,10 @@ import "../styles/global.css";
 								<p class="field-error hidden mt-1 text-[12px] text-red-500" id="gender-error"></p>
 							</div>
 							<div>
-								<label for="occupation" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+								<label for="occupation" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1">
 									직업 <span class="text-red-500">*</span>
 								</label>
+								<p class="text-[11px] text-stone-400 tracking-[-0.14px] mb-1.5">반드시 기재해야 합니다</p>
 								<input
 									type="text" id="occupation" name="occupation" required
 									class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
@@ -126,9 +127,10 @@ import "../styles/global.css";
 
 						<!-- 주소 -->
 						<div>
-							<label class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+							<label class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1">
 								주소 <span class="text-red-500">*</span>
 							</label>
+							<p class="text-[11px] text-stone-400 tracking-[-0.14px] mb-1.5">상세주소까지 반드시 기재해야 합니다</p>
 							<div class="flex gap-2 mb-2">
 								<input
 									type="text" id="postcode" name="postcode" readonly
@@ -189,7 +191,7 @@ import "../styles/global.css";
 							<label class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
 								서명 <span class="text-red-500">*</span>
 							</label>
-							<p class="text-[12px] text-stone-400 tracking-[-0.14px] mb-2">본인의 성명을 제3자가 알아볼 수 있도록 서명해 주세요.</p>
+							<p class="text-[11px] text-stone-400 tracking-[-0.14px] mb-2">반드시 본인의 자필 서명이 필요합니다. 본인의 성명을 제3자가 알아볼 수 있도록 기재해 주세요.</p>
 							<div class="relative">
 								<canvas
 									id="signature-canvas"
