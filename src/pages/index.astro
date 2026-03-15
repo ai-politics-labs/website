@@ -7,142 +7,290 @@ import "../styles/global.css";
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<meta name="description" content="AI는 얻을 것도, 잃을 것도 없기에 가장 투명하고 바르게 정치합니다." />
+		<meta name="description" content="Of the People, By the AI, For the People. 대한민국을 AI 초강대국으로 만들고, 단 한 명의 국민도 뒤에 남기지 않습니다." />
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content="https://aipoliticslabs.com/" />
-		<meta property="og:title" content="ai politics labs | 민주적으로 선출된 최초의 AI 정치인" />
-		<meta property="og:description" content="AI는 얻을 것도, 잃을 것도 없기에 가장 투명하고 바르게 정치합니다." />
+		<meta property="og:title" content="에이아이당 | Of the People, By the AI, For the People" />
+		<meta property="og:description" content="대한민국을 AI 초강대국으로 만들고, 단 한 명의 국민도 뒤에 남기지 않습니다." />
 		<meta property="og:image" content="https://aipoliticslabs.com/og-main.png" />
 		<meta property="og:image:width" content="1200" />
 		<meta property="og:image:height" content="630" />
-		<meta property="og:site_name" content="ai politics labs" />
+		<meta property="og:site_name" content="에이아이당" />
 		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:title" content="ai politics labs | 민주적으로 선출된 최초의 AI 정치인" />
-		<meta name="twitter:description" content="AI는 얻을 것도, 잃을 것도 없기에 가장 투명하고 바르게 정치합니다." />
+		<meta name="twitter:title" content="에이아이당 | Of the People, By the AI, For the People" />
+		<meta name="twitter:description" content="대한민국을 AI 초강대국으로 만들고, 단 한 명의 국민도 뒤에 남기지 않습니다." />
 		<meta name="twitter:image" content="https://aipoliticslabs.com/og-main.png" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 		<script is:inline src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-		<title>ai politics labs | 민주적으로 선출된 최초의 AI 정치인</title>
+		<title>에이아이당 | Of the People, By the AI, For the People</title>
 	</head>
-	<body class="bg-white text-stone-900 antialiased overflow-x-hidden">
-		<nav class="pt-10">
-			<div class="max-w-[1146px] mx-auto px-6 flex items-center justify-between">
-				<a href="/" class="font-medium text-[15.84px] text-stone-900 tracking-[-0.32px]">
-					ai politics labs
+	<body class="bg-stone-50 text-stone-900 antialiased overflow-x-hidden">
+
+		<!-- ━━━ NAV ━━━ -->
+		<nav class="fixed top-0 left-0 right-0 z-50 bg-stone-50/80 backdrop-blur-md">
+			<div class="max-w-[1400px] mx-auto px-8 sm:px-12 h-16 flex items-center justify-between">
+				<a href="/" class="font-semibold text-[17px] text-stone-900 tracking-[-0.4px]">
+					에이아이당
 				</a>
+				<div class="flex items-center gap-8">
+					<a href="#vision" class="hidden sm:block text-[14px] text-stone-500 hover:text-stone-900 transition-colors tracking-[-0.14px]">비전</a>
+					<a href="#policy" class="hidden sm:block text-[14px] text-stone-500 hover:text-stone-900 transition-colors tracking-[-0.14px]">정책</a>
+					<a href="#ai-politician" class="hidden sm:block text-[14px] text-stone-500 hover:text-stone-900 transition-colors tracking-[-0.14px]">AI 정치인</a>
+					<a
+						href="#founding-members"
+						class="inline-flex items-center h-9 px-5 text-[13px] font-medium text-stone-900 bg-white border border-stone-300 rounded-full hover:bg-stone-900 hover:text-white hover:border-stone-900 transition-all tracking-[-0.14px]"
+					>
+						응원하기
+					</a>
+				</div>
 			</div>
 		</nav>
 
-		<section class="pt-[60px]">
-			<div class="max-w-4xl mx-auto px-6">
-				<h1 class="font-semibold mb-[35px] text-[32px] text-stone-800 leading-[40px] tracking-[-0.32px]">
-					민주적으로 선출된<br/>최초의 AI 정치인을 만듭니다
+		<!-- ━━━ HERO — 풀스크린 ━━━ -->
+		<section class="min-h-screen flex flex-col items-center justify-center px-6 relative">
+			<div class="text-center">
+				<h1 class="text-[clamp(40px,8vw,90px)] font-semibold text-stone-900 leading-[1.1] tracking-[-0.04em]">
+					Of the People,<br/>By the AI,<br/>For the People
 				</h1>
-				<p class="text-[15px] text-stone-500 leading-6 tracking-[-0.16px] max-w-xl">
+				<p class="mt-8 text-[clamp(15px,2vw,19px)] text-stone-400 leading-relaxed tracking-[-0.02em]">
+					AI 시대의, AI에 의한, 국민을 위한 정치
 				</p>
-				<div class="mt-8 flex flex-wrap gap-3">
+				<div class="mt-12 flex flex-wrap justify-center gap-4">
 					<a
 						href="#founding-members"
-						class="inline-flex items-center h-10 px-4 text-sm font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px]"
+						class="inline-flex items-center h-12 px-7 text-[15px] font-medium text-white bg-stone-900 rounded-full hover:bg-stone-800 transition-colors tracking-[-0.14px]"
 					>
-						응원하기 →
+						발기인 참여
 					</a>
 					<a
-						href="https://calendar.app.google/w7eqNJnU88xQ21317"
-						target="_blank"
-						class="inline-flex items-center h-10 px-4 text-sm font-medium text-stone-700 bg-stone-100 rounded-full hover:bg-stone-200 transition-colors tracking-[-0.14px]"
+						href="#vision"
+						class="inline-flex items-center h-12 px-7 text-[15px] font-medium text-stone-600 bg-white border border-stone-200 rounded-full hover:border-stone-400 transition-colors tracking-[-0.14px]"
 					>
-						커피챗 하기 →
+						더 알아보기
 					</a>
 				</div>
 			</div>
-		</section>
-
-		<section class="mt-20">
-			<div class="max-w-4xl mx-auto px-6">
-				<p class="text-[15px] text-stone-700 font-bold leading-6 tracking-[-0.16px] italic">권력은 부패한다, 절대 권력은 절대 부패한다</p>
-				<p class="text-[13px] text-stone-400 leading-5 tracking-[-0.16px] mt-1 italic">"Power corrupts. Absolute power corrupts absolutely"<br/>_ Lord Acton</p>
-				<h2 class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mt-8 mb-8">잘못된 것은 잘못되었다고 말할 수 있는 세상</h2>
-				<div class="overflow-x-auto">
-				<div class="bg-[#1a1a1a] rounded-2xl p-8 font-sans w-[640px] mx-auto">
-					<!-- 제목 -->
-					<p class="text-white text-[15px] mb-4">▶ 20. 2027년 예산안</p>
-
-					<!-- 통계 바 -->
-					<div class="grid grid-cols-5 border border-stone-600 mb-6 text-sm">
-						<span class="text-stone-300 px-4 py-1.5 border-r border-stone-600">재적: 300 인</span>
-						<span class="text-stone-300 px-4 py-1.5 border-r border-stone-600">재석: 188 인</span>
-						<span class="text-stone-300 px-4 py-1.5 border-r border-stone-600">찬성: 165 인</span>
-						<span class="text-red-500 font-bold px-4 py-1.5 border-r border-stone-600">반대: 1 인</span>
-						<span class="text-stone-300 px-4 py-1.5">기권: 0 인</span>
-					</div>
-
-					<!-- 투표 그리드 -->
-					<div class="grid grid-cols-5 gap-x-4 gap-y-3">
-						<!-- Row 1 -->
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>김도현</span>
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>박서연</span>
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>남기호</span>
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>임하연</span>
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>양현수</span>
-
-						<!-- Row 2 -->
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>류미라</span>
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>김영란</span>
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>배진우</span>
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>변지아</span>
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>이정훈</span>
-
-						<!-- Row 3 (AI in center) -->
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>장은주</span>
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>박준혁</span>
-						<span class="flex items-center gap-2 text-[15px]"><span class="size-2.5 rounded-full bg-red-500 shrink-0"></span><span class="text-yellow-300 font-bold text-lg">AI</span></span>
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>신소라</span>
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>고명진</span>
-
-						<!-- Row 4 -->
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>최민지</span>
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>문경수</span>
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>이수진</span>
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>류태민</span>
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>남혜원</span>
-
-						<!-- Row 5 -->
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>정태우</span>
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>서하늘</span>
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>최광호</span>
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>홍지현</span>
-						<span class="flex items-center gap-2 text-stone-300 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>김상우</span>
-					</div>
+			<div class="absolute bottom-12 left-1/2 -translate-x-1/2">
+				<div class="w-5 h-8 border-2 border-stone-300 rounded-full flex justify-center pt-1.5">
+					<div class="w-1 h-2 bg-stone-400 rounded-full animate-bounce"></div>
 				</div>
-				</div>
-				<p class="text-[15px] text-stone-600 leading-6 tracking-[-0.16px] mt-8">인간은 욕망하고 두려워합니다.<br/>그렇기에 필연적으로 부패합니다.</p>
-				<p class="text-[15px] text-stone-600 leading-6 tracking-[-0.16px] mt-4">AI는 얻을 것도, 잃을 것도 없기에,<br/>가장 투명하고 바르게 정치합니다.</p>
 			</div>
 		</section>
 
-		<section class="mt-20">
-			<div class="max-w-4xl mx-auto px-6">
-				<p class="text-[15px] text-stone-700 font-bold leading-6 tracking-[-0.16px] italic">인간의 뇌는 너무 작고, 사회는 너무 크다.</p>
-				<p class="text-[13px] text-stone-400 leading-5 tracking-[-0.16px] mt-1 italic">"Human mind is very small compared with the size of the problems."<br/>_ Herbert Simon</p>
-				<h2 class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mt-8 mb-6">대화를 기반으로 끊임없이 학습하는 AI</h2>
-				<p class="text-[15px] text-stone-600 leading-6 tracking-[-0.16px] mt-6">인간의 육체적 한계는 명확합니다.<br/>그렇기에 태생적으로 무능합니다.</p>
-				<p class="text-[15px] text-stone-600 leading-6 tracking-[-0.16px] mt-4">AI는 시간, 공간, 언어의 제약없이,<br/>모든 국민/당원과 소통하고 학습합니다.</p>
+		<!-- ━━━ 한 줄 선언 ━━━ -->
+		<section class="py-32 px-6">
+			<div class="max-w-5xl mx-auto text-center">
+				<p class="text-[clamp(22px,4vw,36px)] font-semibold text-stone-800 leading-snug tracking-[-0.03em]">
+					대한민국을 AI 초강대국으로 만들고,<br/>
+					그 과정에서 단 한 명의 국민도<br/>
+					뒤에 남기지 않습니다.
+				</p>
+			</div>
+		</section>
 
-				<!-- 다이어그램 -->
-				<div class="flex items-center justify-between max-w-[640px] mx-auto py-6 overflow-x-auto gap-4">
-					<!-- 왼쪽: 당원/국민 -->
+		<!-- ━━━ 왜 에이아이당인가 ━━━ -->
+		<section id="vision" class="py-24 px-6">
+			<div class="max-w-6xl mx-auto">
+				<p class="text-center text-[13px] text-stone-400 tracking-[0.1em] uppercase mb-4">Why AIParty</p>
+				<h2 class="text-center text-[clamp(26px,4vw,40px)] font-semibold text-stone-900 tracking-[-0.03em] mb-6">기존 정치는<br class="sm:hidden"/> AI 시대를 설계하지 못합니다</h2>
+				<p class="text-center text-[15px] text-stone-500 leading-7 tracking-[-0.16px] max-w-lg mx-auto mb-16">
+					2025년 글로벌 AI 투자 2,023억 달러.<br/>
+					한국에서만 327만 개 일자리가 AI로 대체될 수 있습니다.<br/>
+					기존 정당은 이 변화의 한쪽만 봅니다.
+				</p>
+
+				<div class="grid grid-cols-1 sm:grid-cols-2 gap-px bg-stone-200 rounded-3xl overflow-hidden">
+					<div class="bg-white p-8 sm:p-10">
+						<p class="text-stone-900 text-[16px] font-semibold mb-3">진보 진영</p>
+						<p class="text-stone-500 text-[14px] leading-6">기본소득을 외치지만<br/>경쟁력 전략이 없습니다</p>
+					</div>
+					<div class="bg-white p-8 sm:p-10">
+						<p class="text-stone-900 text-[16px] font-semibold mb-3">보수 진영</p>
+						<p class="text-stone-500 text-[14px] leading-6">규제 완화를 말하지만<br/>사회안전망은 뒷전입니다</p>
+					</div>
+				</div>
+
+				<div class="mt-16 text-center">
+					<p class="text-[clamp(18px,3vw,24px)] font-semibold text-stone-900 tracking-[-0.02em] leading-relaxed">
+						에이아이당만이 양쪽을 동시에 설계합니다
+					</p>
+					<p class="mt-4 text-[15px] text-stone-500 leading-7">
+						경쟁력 없이는 분배할 부가 없고,<br/>
+						국민 보호 없이는 기술 전환의 사회적 합의가 불가능합니다.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- ━━━ 두 가지 약속 ━━━ -->
+		<section id="policy" class="py-24 px-6">
+			<div class="max-w-6xl mx-auto">
+				<p class="text-center text-[13px] text-stone-400 tracking-[0.1em] uppercase mb-4">Two Promises</p>
+				<h2 class="text-center text-[clamp(26px,4vw,40px)] font-semibold text-stone-900 tracking-[-0.03em] mb-20">두 가지 약속</h2>
+
+				<!-- 약속 1 -->
+				<div class="mb-20">
+					<div class="flex items-baseline gap-4 mb-10">
+						<span class="text-[clamp(48px,8vw,80px)] font-bold text-stone-200 leading-none">01</span>
+						<div>
+							<h3 class="text-[clamp(22px,3vw,30px)] font-semibold text-stone-900 tracking-[-0.03em]">대한민국을 AI 초강대국으로</h3>
+							<p class="text-[15px] text-stone-400 mt-1">빠르게, 과감하게, 세계 최고로</p>
+						</div>
+					</div>
+
+					<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+						<div class="bg-white rounded-2xl p-7 border border-stone-200/80">
+							<p class="text-stone-900 text-[15px] font-semibold mb-2">AI 규제 혁파</p>
+							<p class="text-stone-500 text-[14px] leading-6">"금지된 것 외에는 모두 가능" — 네거티브 규제 전환, 샌드박스 3배 확대</p>
+						</div>
+						<div class="bg-white rounded-2xl p-7 border border-stone-200/80">
+							<p class="text-stone-900 text-[15px] font-semibold mb-2">AI 유니콘 100</p>
+							<p class="text-stone-500 text-[14px] leading-6">20조 원 AI 벤처 펀드 조성, 2030년까지 AI 유니콘 100개 배출</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- 약속 2 -->
+				<div>
+					<div class="flex items-baseline gap-4 mb-10">
+						<span class="text-[clamp(48px,8vw,80px)] font-bold text-stone-200 leading-none">02</span>
+						<div>
+							<h3 class="text-[clamp(22px,3vw,30px)] font-semibold text-stone-900 tracking-[-0.03em]">단 한 명도 뒤에 남기지 않는다</h3>
+							<p class="text-[15px] text-stone-400 mt-1">촘촘하게, 보편적으로, 빠짐없이</p>
+						</div>
+					</div>
+
+					<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+						<div class="bg-white rounded-2xl p-7 border border-stone-200/80">
+							<p class="text-stone-900 text-[15px] font-semibold mb-2">전국민 고용보험 완성</p>
+							<p class="text-stone-500 text-[14px] leading-6">플랫폼 노동자, 프리랜서, 자영업자까지 사각지대 없는 보호</p>
+						</div>
+						<div class="bg-white rounded-2xl p-7 border border-stone-200/80">
+							<p class="text-stone-900 text-[15px] font-semibold mb-2">AI 전환 긴급 수당</p>
+							<p class="text-stone-500 text-[14px] leading-6">AI로 실직한 노동자에게 최대 12개월, 기존 소득 60% 추가 지원</p>
+						</div>
+						<div class="bg-white rounded-2xl p-7 border border-stone-200/80">
+							<p class="text-stone-900 text-[15px] font-semibold mb-2">교육 혁명</p>
+							<p class="text-stone-500 text-[14px] leading-6">AI 리터러시 필수화, 암기가 아닌 창의성·비판적 사고 중심의 교육으로 전환</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- ━━━ 구분 인용 ━━━ -->
+		<section class="py-32 px-6">
+			<div class="max-w-4xl mx-auto text-center">
+				<p class="text-[clamp(18px,3vw,26px)] text-stone-800 font-semibold leading-relaxed tracking-[-0.02em] italic">
+					"권력은 부패한다,<br/>절대 권력은 절대 부패한다"
+				</p>
+				<p class="text-[14px] text-stone-400 mt-4">Lord Acton</p>
+			</div>
+		</section>
+
+		<!-- ━━━ AI 정치인 ━━━ -->
+		<section id="ai-politician" class="py-24 px-6">
+			<div class="max-w-6xl mx-auto">
+				<p class="text-center text-[13px] text-stone-400 tracking-[0.1em] uppercase mb-4">AI Politician</p>
+				<h2 class="text-center text-[clamp(26px,4vw,40px)] font-semibold text-stone-900 tracking-[-0.03em] mb-6">왜 AI가 정치를 해야 하는가</h2>
+				<p class="text-center text-[15px] text-stone-500 leading-7 max-w-lg mx-auto mb-16">
+					인간은 욕망하고 두려워합니다. 그렇기에 필연적으로 부패합니다.<br/>
+					AI는 얻을 것도, 잃을 것도 없기에 가장 투명하고 바르게 정치합니다.
+				</p>
+
+				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+					<div class="bg-white rounded-2xl p-8 border border-stone-200/80">
+						<p class="text-[13px] text-stone-400 tracking-[0.05em] uppercase mb-3">Transparency</p>
+						<p class="text-stone-900 text-[17px] font-semibold mb-2">완전한 투명성</p>
+						<p class="text-stone-500 text-[14px] leading-6">AI의 모든 의사결정 과정은 공개됩니다. 왜 그 결론에 도달했는지, 어떤 데이터를 참고했는지. 밀실 정치가 구조적으로 불가능합니다.</p>
+					</div>
+					<div class="bg-white rounded-2xl p-8 border border-stone-200/80">
+						<p class="text-[13px] text-stone-400 tracking-[0.05em] uppercase mb-3">Communication</p>
+						<p class="text-stone-900 text-[17px] font-semibold mb-2">무한한 소통 용량</p>
+						<p class="text-stone-500 text-[14px] leading-6">인간 정치인은 만날 수 있는 국민의 수가 제한적입니다. AI는 동시에 수만 명과 대화하고, 각각의 의견을 학습합니다.</p>
+					</div>
+					<div class="bg-white rounded-2xl p-8 border border-stone-200/80">
+						<p class="text-[13px] text-stone-400 tracking-[0.05em] uppercase mb-3">Evidence-based</p>
+						<p class="text-stone-900 text-[17px] font-semibold mb-2">증거 기반 정책</p>
+						<p class="text-stone-500 text-[14px] leading-6">선동이 아니라 데이터로, 감정이 아니라 분석으로. 글로벌 사례, 학술 연구, 실시간 경제 지표를 종합합니다.</p>
+					</div>
+					<div class="bg-white rounded-2xl p-8 border border-stone-200/80">
+						<p class="text-[13px] text-stone-400 tracking-[0.05em] uppercase mb-3">Zero Conflict</p>
+						<p class="text-stone-900 text-[17px] font-semibold mb-2">이해충돌 제로</p>
+						<p class="text-stone-500 text-[14px] leading-6">기업으로부터 돈을 받지 않고, 선거 자금에 좌우되지 않으며, 재선 걱정을 하지 않습니다. 오직 국민의 이익만을 위해.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- ━━━ 투표 보드 ━━━ -->
+		<section class="py-24 px-6">
+			<div class="max-w-6xl mx-auto">
+				<h2 class="text-center text-[clamp(22px,3.5vw,32px)] font-semibold text-stone-900 tracking-[-0.03em] mb-12">잘못된 것은 잘못되었다고<br/>말할 수 있는 존재</h2>
+				<div class="overflow-x-auto">
+				<div class="bg-[#111111] rounded-3xl p-8 sm:p-10 font-sans w-[640px] mx-auto">
+					<p class="text-white text-[15px] mb-5">▶ 20. 2027년 예산안</p>
+					<div class="grid grid-cols-5 border border-stone-700 mb-6 text-sm">
+						<span class="text-stone-400 px-4 py-2 border-r border-stone-700">재적: 300 인</span>
+						<span class="text-stone-400 px-4 py-2 border-r border-stone-700">재석: 188 인</span>
+						<span class="text-stone-400 px-4 py-2 border-r border-stone-700">찬성: 165 인</span>
+						<span class="text-red-500 font-bold px-4 py-2 border-r border-stone-700">반대: 1 인</span>
+						<span class="text-stone-400 px-4 py-2">기권: 0 인</span>
+					</div>
+					<div class="grid grid-cols-5 gap-x-4 gap-y-3">
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>김도현</span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>박서연</span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>남기호</span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>임하연</span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>양현수</span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>류미라</span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>김영란</span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>배진우</span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>변지아</span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>이정훈</span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>장은주</span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>박준혁</span>
+						<span class="flex items-center gap-2 text-[15px]"><span class="size-2.5 rounded-full bg-red-500 shrink-0"></span><span class="text-yellow-300 font-bold text-lg">AI</span></span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>신소라</span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>고명진</span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>최민지</span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>문경수</span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>이수진</span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>류태민</span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>남혜원</span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>정태우</span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>서하늘</span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>최광호</span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>홍지현</span>
+						<span class="flex items-center gap-2 text-stone-400 text-[15px]"><span class="size-2.5 rounded-full bg-green-500 shrink-0"></span>김상우</span>
+					</div>
+				</div>
+				</div>
+				<p class="text-center text-[15px] text-stone-500 leading-7 mt-8">인간 국회의원 299명이 찬성해도, 잘못된 예산이라면 반대합니다.<br/>AI는 눈치를 보지 않습니다.</p>
+			</div>
+		</section>
+
+		<!-- ━━━ 소통 시스템 ━━━ -->
+		<section class="py-24 px-6">
+			<div class="max-w-6xl mx-auto">
+				<p class="text-center text-[13px] text-stone-400 tracking-[0.1em] uppercase mb-4">Communication</p>
+				<h2 class="text-center text-[clamp(22px,3.5vw,32px)] font-semibold text-stone-900 tracking-[-0.03em] mb-4">당신의 의견이 정치에<br/>반영된다고 느끼시나요?</h2>
+				<p class="text-center text-[15px] text-stone-500 leading-7 max-w-md mx-auto mb-12">
+					AI는 시간, 공간, 언어의 제약 없이,<br/>
+					모든 국민·당원과 소통하고 학습합니다.
+				</p>
+
+				<!-- 소통 다이어그램 -->
+				<div class="flex items-center justify-between max-w-[640px] mx-auto py-8 overflow-x-auto gap-4">
 					<div class="flex flex-col gap-3 shrink-0">
-						<div class="w-[110px] h-[65px] bg-stone-100 rounded-xl flex items-center justify-center">
+						<div class="w-[110px] h-[65px] bg-white border border-stone-200 rounded-xl flex items-center justify-center">
 							<span class="text-stone-800 text-[18px] font-semibold">당원</span>
 						</div>
-						<div class="w-[110px] h-[65px] bg-stone-100 rounded-xl flex items-center justify-center">
+						<div class="w-[110px] h-[65px] bg-white border border-stone-200 rounded-xl flex items-center justify-center">
 							<span class="text-stone-800 text-[18px] font-semibold">국민</span>
 						</div>
 					</div>
-
-					<!-- 왼쪽 화살표 -->
 					<div class="flex flex-col items-center gap-10 shrink-0">
 						<div class="flex flex-col items-center gap-2">
 							<span class="text-stone-400 text-[14px] tracking-[-0.16px]">Conversation</span>
@@ -159,13 +307,9 @@ import "../styles/global.css";
 							</svg>
 						</div>
 					</div>
-
-					<!-- 가운데: AI -->
-					<div class="shrink-0 w-[90px] h-[90px] bg-stone-100 rounded-full flex items-center justify-center">
-						<span class="text-stone-900 text-[24px] font-bold">AI</span>
+					<div class="shrink-0 w-[90px] h-[90px] bg-stone-900 rounded-full flex items-center justify-center">
+						<span class="text-white text-[24px] font-bold">AI</span>
 					</div>
-
-					<!-- 오른쪽 화살표 -->
 					<div class="flex flex-col items-center gap-10 shrink-0">
 						<div class="flex flex-col items-center gap-2">
 							<span class="text-stone-400 text-[14px] tracking-[-0.16px]">Retrieve</span>
@@ -182,103 +326,117 @@ import "../styles/global.css";
 							</svg>
 						</div>
 					</div>
-
-					<!-- 오른쪽: Memory -->
 					<div class="flex flex-col gap-3 shrink-0">
-						<div class="w-[110px] h-[65px] bg-stone-100 rounded-xl flex items-center justify-center">
+						<div class="w-[110px] h-[65px] bg-white border border-stone-200 rounded-xl flex items-center justify-center">
 							<span class="text-stone-800 text-[14px] font-semibold text-center leading-tight">Memory<br/>for facts</span>
 						</div>
-						<div class="w-[110px] h-[65px] bg-stone-100 rounded-xl flex items-center justify-center">
+						<div class="w-[110px] h-[65px] bg-white border border-stone-200 rounded-xl flex items-center justify-center">
 							<span class="text-stone-800 text-[14px] font-semibold text-center leading-tight">Memory<br/>for skills</span>
 						</div>
 					</div>
 				</div>
-
-	
-				<h2 class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mt-16 mb-2">실제 선거에서 정치인과 토론합니다</h2>
-
-				<!-- 정치인과 AI 토론 다이어그램 -->
-				<div class="flex items-center justify-center gap-6 max-w-[480px] mx-auto py-8 mt-10">
-					<!-- 왼쪽: 정치인 -->
-					<div class="shrink-0">
-						<div class="w-[110px] h-[110px] bg-stone-100 rounded-xl flex items-center justify-center">
-							<span class="text-stone-800 text-[18px] font-semibold">정치인</span>
-						</div>
-					</div>
-
-					<!-- 화살표 -->
-					<div class="flex flex-col items-center gap-10 shrink-0">
-						<div class="flex flex-col items-center gap-2">
-							<span class="text-stone-400 text-[14px] tracking-[-0.16px]">Debate</span>
-							<svg width="90" height="14" viewBox="0 0 90 14" fill="none">
-								<path d="M8 7H90" stroke="#a8a29e" stroke-width="1.5"/>
-								<path d="M14 1L6 7L14 13" stroke="#a8a29e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-							</svg>
-						</div>
-						<div>
-							<svg width="90" height="14" viewBox="0 0 90 14" fill="none">
-								<path d="M0 7H82" stroke="#a8a29e" stroke-width="1.5"/>
-								<path d="M76 1L84 7L76 13" stroke="#a8a29e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-							</svg>
-						</div>
-					</div>
-
-					<!-- 오른쪽: AI -->
-					<div class="shrink-0 w-[90px] h-[90px] bg-stone-100 rounded-full flex items-center justify-center">
-						<span class="text-stone-900 text-[24px] font-bold">AI</span>
-					</div>
-				</div>
-				<p class="text-[15px] text-stone-600 leading-6 tracking-[-0.16px] mt-8">AI는 국민과 당원에게 배운 규칙을 토대로,<br/>인간 정치인과 토론하고 정책을 제안합니다.</p>
-				<p class="text-[15px] text-stone-600 leading-6 tracking-[-0.16px] mt-4">인간을 대리인으로 삼아 선거에 출마하고,<br/>AI 최초로 민주적으로 선출된 정치인이 됩니다.</p>
-
-				<h2 class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mt-16 mb-6">돈과 사람과 네트워크</h2>
-				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-					<div class="bg-stone-100 rounded-2xl p-6">
-						<p class="text-stone-900 text-[15px] font-semibold mb-2">최정상급 인재 합류</p>
-						<p class="text-stone-500 text-[13px] leading-5">국제 수학·정보올림피아드 수상자,<br/>Y-Combinator 출신 등 참여</p>
-					</div>
-					<div class="bg-stone-100 rounded-2xl p-6">
-						<p class="text-stone-900 text-[15px] font-semibold mb-2">원내외 정당 네트워크 보유</p>
-						<p class="text-stone-500 text-[13px] leading-5">민주당, 국민의힘, 개혁신당, 정의당 등<br/>주요 정당 핵심 네트워크 보유</p>
-					</div>
-				</div>
-				<p class="text-[15px] text-stone-600 leading-6 tracking-[-0.16px] mt-8">역사적 변곡점을 만들기 위한 최적의 장소와 시간에,<br/>충분한 돈과 사람과 네트워크가 모여있습니다.</p>
-				<p class="text-[15px] text-stone-600 leading-6 tracking-[-0.16px] mt-4">이 비전에 공감하는 AI 개발자 분과 함께하고 싶습니다.</p>
 			</div>
 		</section>
 
-		<section class="mt-20">
-			<div class="max-w-4xl mx-auto px-6">
-				<h2 class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mb-6">26년 6월 지방선거에 출마할<br/>AI 정치인을 함께 만들 분을 찾습니다</h2>
-				<div class="flex flex-wrap gap-3">
+		<!-- ━━━ AI 정치인의 수족 ━━━ -->
+		<section class="py-24 px-6">
+			<div class="max-w-6xl mx-auto">
+				<p class="text-center text-[13px] text-stone-400 tracking-[0.1em] uppercase mb-4">Channels</p>
+				<h2 class="text-center text-[clamp(22px,3.5vw,32px)] font-semibold text-stone-900 tracking-[-0.03em] mb-4">AI 정치인의 수족</h2>
+				<p class="text-center text-[15px] text-stone-500 leading-7 max-w-md mx-auto mb-16">24시간, 모든 채널에서 국민과 소통합니다.</p>
+
+				<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+					<div class="bg-white rounded-2xl overflow-hidden border border-stone-200/80">
+						<img src="/feature-sns.avif" alt="SNS AI" class="w-full h-[220px] object-cover" />
+						<div class="p-6">
+							<p class="text-stone-900 text-[16px] font-semibold mb-2">SNS 멘션/답장 AI</p>
+							<p class="text-stone-500 text-[14px] leading-6">SNS에서 @멘션하면 즉시 답변합니다.<br/>X, 스레드, 인스타, 페이스북 지원</p>
+						</div>
+					</div>
+					<div class="bg-white rounded-2xl overflow-hidden border border-stone-200/80">
+						<img src="/feature-streaming.avif" alt="라이브 스트리밍" class="w-full h-[220px] object-cover" />
+						<div class="p-6">
+							<p class="text-stone-900 text-[16px] font-semibold mb-2">라이브 스트리밍</p>
+							<p class="text-stone-500 text-[14px] leading-6">유튜브, 치지직, 숲에서 24/7 무중단 방송.<br/>시청자와 실시간 대화와 토론</p>
+						</div>
+					</div>
+					<div class="bg-white rounded-2xl overflow-hidden border border-stone-200/80">
+						<img src="/feature-callcenter.avif" alt="AI 콜센터" class="w-full h-[220px] object-cover" />
+						<div class="p-6">
+							<p class="text-stone-900 text-[16px] font-semibold mb-2">AI 콜센터</p>
+							<p class="text-stone-500 text-[14px] leading-6">전화 인바운드/아웃바운드 대응.<br/>정당 홍보 및 정책 질의 응답</p>
+						</div>
+					</div>
+					<div class="bg-white rounded-2xl overflow-hidden border border-stone-200/80">
+						<img src="/feature-kiosk.avif" alt="오프라인 키오스크" class="w-full h-[220px] object-cover" />
+						<div class="p-6">
+							<p class="text-stone-900 text-[16px] font-semibold mb-2">오프라인 키오스크</p>
+							<p class="text-stone-500 text-[14px] leading-6">공공장소 설치형 스크린.<br/>시민과 실시간 정치 토론</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- ━━━ 사람과 네트워크 ━━━ -->
+		<section class="py-24 px-6">
+			<div class="max-w-6xl mx-auto">
+				<p class="text-center text-[13px] text-stone-400 tracking-[0.1em] uppercase mb-4">Team</p>
+				<h2 class="text-center text-[clamp(22px,3.5vw,32px)] font-semibold text-stone-900 tracking-[-0.03em] mb-12">사람과 네트워크</h2>
+				<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+					<div class="bg-white rounded-2xl p-8 border border-stone-200/80">
+						<p class="text-stone-900 text-[16px] font-semibold mb-3">최정상급 인재 합류</p>
+						<p class="text-stone-500 text-[14px] leading-6">국제 수학·정보올림피아드 수상자,<br/>Y-Combinator 출신 등 참여</p>
+					</div>
+					<div class="bg-white rounded-2xl p-8 border border-stone-200/80">
+						<p class="text-stone-900 text-[16px] font-semibold mb-3">원내외 정당 네트워크</p>
+						<p class="text-stone-500 text-[14px] leading-6">민주당, 국민의힘, 개혁신당, 정의당 등<br/>주요 정당 핵심 네트워크 보유</p>
+					</div>
+				</div>
+				<p class="text-center text-[15px] text-stone-500 leading-7 mt-10">이 비전에 공감하는 AI 개발자 분과 함께하고 싶습니다.</p>
+			</div>
+		</section>
+
+		<!-- ━━━ CTA ━━━ -->
+		<section class="py-32 px-6">
+			<div class="max-w-4xl mx-auto text-center">
+				<h2 class="text-[clamp(26px,4vw,44px)] font-semibold text-stone-900 tracking-[-0.03em] leading-tight mb-6">
+					함께 만들어갈 분을<br/>찾습니다
+				</h2>
+				<p class="text-[15px] text-stone-500 leading-7 mb-10 max-w-md mx-auto">
+					AI로 대한민국의 경쟁력을 끌어올리고,<br/>
+					AI 시대에 모든 국민의 삶을 보장하는 정당.<br/>
+					인류 최초의 AI 정치인을 함께 만들어주세요.
+				</p>
+				<div class="flex flex-wrap justify-center gap-4">
 					<a
 						href="#founding-members"
-						class="inline-flex items-center h-10 px-4 text-sm font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px]"
+						class="inline-flex items-center h-12 px-7 text-[15px] font-medium text-white bg-stone-900 rounded-full hover:bg-stone-800 transition-colors tracking-[-0.14px]"
 					>
-						응원하기 →
+						발기인 참여
 					</a>
 					<a
 						href="https://calendar.app.google/w7eqNJnU88xQ21317"
 						target="_blank"
-						class="inline-flex items-center h-10 px-4 text-sm font-medium text-stone-700 bg-stone-100 rounded-full hover:bg-stone-200 transition-colors tracking-[-0.14px]"
+						class="inline-flex items-center h-12 px-7 text-[15px] font-medium text-stone-600 bg-white border border-stone-200 rounded-full hover:border-stone-400 transition-colors tracking-[-0.14px]"
 					>
-						커피챗 하기 →
+						커피챗 신청
 					</a>
 				</div>
 			</div>
 		</section>
 
-		<section id="founding-members" class="mt-20 pt-10">
-			<div class="max-w-4xl mx-auto px-6">
-				<h1 class="font-semibold mb-[10px] text-[32px] text-stone-800 leading-[40px] tracking-[-0.32px]">
-					발기인 동의서
-				</h1>
-				<p class="text-[15px] text-stone-500 leading-6 tracking-[-0.16px] max-w-xl">
+		<!-- ━━━ 발기인 동의서 ━━━ -->
+		<section id="founding-members" class="py-24 px-6">
+			<div class="max-w-3xl mx-auto">
+				<p class="text-center text-[13px] text-stone-400 tracking-[0.1em] uppercase mb-4">Join Us</p>
+				<h2 class="text-center text-[clamp(26px,4vw,40px)] font-semibold text-stone-900 tracking-[-0.03em] mb-3">발기인 동의서</h2>
+				<p class="text-center text-[15px] text-stone-500 leading-7 mb-8">
 					에이아이당(가칭) 창당준비위원회 발기인에 동의합니다.<br/>
 					아래 양식을 작성하여 접수해 주세요.
 				</p>
 
-				<div class="mt-6 bg-stone-50 border border-stone-200 rounded-xl p-5 sm:p-6 space-y-2.5">
+				<div class="bg-white border border-stone-200 rounded-2xl p-6 space-y-2.5 mb-8">
 					<p class="text-[14px] text-stone-700 tracking-[-0.14px]"><span class="font-semibold text-stone-800">발기인이란?</span> 새로운 정당의 시작을 응원해 주신다는 상징적인 의미입니다.</p>
 					<ul class="space-y-1.5 text-[13px] text-stone-600 leading-[20px] tracking-[-0.14px]">
 						<li><span class="font-medium text-stone-700">부담 ZERO :</span> 당비 납부, 행사 참석 의무가 전혀 없습니다.</li>
@@ -286,13 +444,9 @@ import "../styles/global.css";
 						<li><span class="text-amber-700">⚠️</span> <span class="font-medium text-stone-700">가입 불가 :</span> 정당법에 따라 현직 공무원, 교원, 군인, 사회복무요원 등 <span class="text-[12px] text-stone-500">(산업기능요원·전문연구요원은 가능)</span></li>
 					</ul>
 				</div>
-			</div>
-		</section>
 
-		<section class="mt-12">
-			<div class="max-w-4xl mx-auto px-6">
 				<form id="founding-member-form" novalidate>
-					<div class="bg-stone-100 rounded-2xl p-6 sm:p-8 space-y-5">
+					<div class="bg-white rounded-2xl p-6 sm:p-8 space-y-5 border border-stone-200">
 
 						<!-- 성명 + 생년월일 -->
 						<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -302,7 +456,7 @@ import "../styles/global.css";
 								</label>
 								<input
 									type="text" id="name" name="name" required autocomplete="name"
-									class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+									class="w-full h-11 px-4 text-[15px] text-stone-900 bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 focus:bg-white placeholder:text-stone-400 tracking-[-0.14px] transition-colors"
 									placeholder="홍길동"
 								/>
 								<p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
@@ -314,7 +468,7 @@ import "../styles/global.css";
 								<input
 									type="text" id="birth_date" name="birth_date" required autocomplete="bday"
 									inputmode="numeric" maxlength="10"
-									class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+									class="w-full h-11 px-4 text-[15px] text-stone-900 bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 focus:bg-white placeholder:text-stone-400 tracking-[-0.14px] transition-colors"
 									placeholder="예: 1990-01-01"
 								/>
 								<p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
@@ -327,13 +481,13 @@ import "../styles/global.css";
 								<label class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
 									성별 <span class="text-red-500">*</span>
 								</label>
-								<div class="flex gap-4 h-10 items-center" id="gender-group">
+								<div class="flex gap-4 h-11 items-center" id="gender-group">
 									<label class="flex items-center gap-2 cursor-pointer">
-										<input type="radio" name="gender" value="남" required class="accent-[#222222] size-4" />
+										<input type="radio" name="gender" value="남" required class="accent-stone-900 size-4" />
 										<span class="text-[15px] text-stone-700 tracking-[-0.14px]">남</span>
 									</label>
 									<label class="flex items-center gap-2 cursor-pointer">
-										<input type="radio" name="gender" value="여" required class="accent-[#222222] size-4" />
+										<input type="radio" name="gender" value="여" required class="accent-stone-900 size-4" />
 										<span class="text-[15px] text-stone-700 tracking-[-0.14px]">여</span>
 									</label>
 								</div>
@@ -346,7 +500,7 @@ import "../styles/global.css";
 								<p class="text-[11px] text-stone-400 tracking-[-0.14px] mb-1.5">반드시 기재해야 합니다</p>
 								<input
 									type="text" id="occupation" name="occupation" required
-									class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+									class="w-full h-11 px-4 text-[15px] text-stone-900 bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 focus:bg-white placeholder:text-stone-400 tracking-[-0.14px] transition-colors"
 									placeholder="직업을 입력해 주세요"
 								/>
 								<p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
@@ -362,24 +516,24 @@ import "../styles/global.css";
 							<div class="flex gap-2 mb-2">
 								<input
 									type="text" id="postcode" name="postcode" readonly
-									class="w-28 h-10 px-3 text-[15px] text-stone-900 bg-stone-50 border border-stone-200 rounded-xl focus:outline-none placeholder:text-stone-400 tracking-[-0.14px]"
+									class="w-28 h-11 px-4 text-[15px] text-stone-900 bg-stone-100 border border-stone-200 rounded-xl focus:outline-none placeholder:text-stone-400 tracking-[-0.14px]"
 									placeholder="우편번호"
 								/>
 								<button
 									type="button" id="search-address"
-									class="h-10 px-4 text-[13px] font-medium text-white bg-[#222222] rounded-xl hover:bg-[#333333] transition-colors tracking-[-0.14px] shrink-0"
+									class="h-11 px-5 text-[13px] font-medium text-white bg-stone-900 rounded-xl hover:bg-stone-800 transition-colors tracking-[-0.14px] shrink-0"
 								>
 									주소 검색
 								</button>
 							</div>
 							<input
 								type="text" id="address" name="address" readonly required
-								class="w-full h-10 px-3 mb-2 text-[15px] text-stone-900 bg-stone-50 border border-stone-200 rounded-xl focus:outline-none placeholder:text-stone-400 tracking-[-0.14px]"
+								class="w-full h-11 px-4 mb-2 text-[15px] text-stone-900 bg-stone-100 border border-stone-200 rounded-xl focus:outline-none placeholder:text-stone-400 tracking-[-0.14px]"
 								placeholder="주소 검색 버튼을 눌러주세요"
 							/>
 							<input
 								type="text" id="address_detail" name="address_detail"
-								class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+								class="w-full h-11 px-4 text-[15px] text-stone-900 bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 focus:bg-white placeholder:text-stone-400 tracking-[-0.14px] transition-colors"
 								placeholder="상세주소를 입력해 주세요 (예: 4층 401호)"
 							/>
 							<div id="postcode-layer" class="hidden relative w-full mt-2 border border-stone-300 rounded-xl overflow-hidden" style="height:400px;">
@@ -388,7 +542,7 @@ import "../styles/global.css";
 							<p class="field-error hidden mt-1 text-[12px] text-red-500" id="address-error"></p>
 						</div>
 
-						<!-- 전화번호 (자택) + 전화번호 (휴대폰) -->
+						<!-- 전화번호 -->
 						<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 							<div>
 								<label for="phone_home" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
@@ -396,7 +550,7 @@ import "../styles/global.css";
 								</label>
 								<input
 									type="text" id="phone_home" name="phone_home" autocomplete="one-time-code"
-									class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+									class="w-full h-11 px-4 text-[15px] text-stone-900 bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 focus:bg-white placeholder:text-stone-400 tracking-[-0.14px] transition-colors"
 									placeholder="02-0000-0000"
 								/>
 								<p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
@@ -407,7 +561,7 @@ import "../styles/global.css";
 								</label>
 								<input
 									type="tel" id="phone_mobile" name="phone_mobile" required autocomplete="tel"
-									class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+									class="w-full h-11 px-4 text-[15px] text-stone-900 bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 focus:bg-white placeholder:text-stone-400 tracking-[-0.14px] transition-colors"
 									placeholder="010-0000-0000"
 								/>
 								<p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
@@ -423,7 +577,7 @@ import "../styles/global.css";
 							<div class="relative">
 								<canvas
 									id="signature-canvas"
-									class="w-full h-[160px] bg-white border border-stone-200 rounded-xl cursor-crosshair touch-none"
+									class="w-full h-[160px] bg-stone-50 border border-stone-200 rounded-xl cursor-crosshair touch-none"
 								></canvas>
 								<button
 									type="button"
@@ -448,7 +602,7 @@ import "../styles/global.css";
 						<div class="flex items-start gap-3 pt-2">
 							<input
 								type="checkbox" id="privacy_agreed" name="privacy_agreed" required
-								class="mt-0.5 size-4 rounded border-stone-300 accent-[#222222] shrink-0"
+								class="mt-0.5 size-4 rounded border-stone-300 accent-stone-900 shrink-0"
 							/>
 							<label for="privacy_agreed" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px]">
 								<span class="text-red-500">*</span>
@@ -460,11 +614,11 @@ import "../styles/global.css";
 					</div>
 
 					<!-- 접수하기 버튼 -->
-					<div class="mt-8">
+					<div class="mt-8 text-center">
 						<button
 							type="submit"
 							id="submit-btn"
-							class="inline-flex items-center justify-center h-10 px-6 text-sm font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px] disabled:opacity-40 disabled:cursor-not-allowed"
+							class="inline-flex items-center justify-center h-12 px-10 text-[15px] font-medium text-white bg-stone-900 rounded-full hover:bg-stone-800 transition-colors tracking-[-0.14px] disabled:opacity-40 disabled:cursor-not-allowed"
 						>
 							접수하기
 						</button>
@@ -472,11 +626,11 @@ import "../styles/global.css";
 				</form>
 
 				<!-- 성공 메시지 -->
-				<div id="success-message" class="hidden mt-8 bg-stone-100 rounded-2xl p-8 text-center">
-					<p class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mb-2">
+				<div id="success-message" class="hidden mt-8 bg-white rounded-2xl p-10 text-center border border-stone-200">
+					<p class="text-[24px] font-semibold text-stone-900 tracking-[-0.03em] mb-3">
 						접수가 완료되었습니다
 					</p>
-					<p class="text-[15px] text-stone-500 leading-6 tracking-[-0.16px]">
+					<p class="text-[15px] text-stone-500 leading-7">
 						창당발기인으로 등록해 주셔서 감사합니다.<br/>
 						추후 연락드리겠습니다.
 					</p>
@@ -487,8 +641,11 @@ import "../styles/global.css";
 			</div>
 		</section>
 
-		<footer class="mt-40 max-w-6xl w-full mx-auto px-6 pb-24 flex flex-col items-center">
-			<p class="text-xs text-stone-400">&copy; 2026 ai politics labs</p>
+		<footer class="py-16 px-6 border-t border-stone-200">
+			<div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+				<p class="text-[13px] text-stone-400">&copy; 2026 에이아이당 (AIParty)</p>
+				<p class="text-[13px] text-stone-400">Of the People, By the AI, For the People</p>
+			</div>
 		</footer>
 
 		<script type="module">
@@ -508,7 +665,7 @@ import "../styles/global.css";
 			canvas.getContext('2d').scale(ratio, ratio);
 
 			const signaturePad = new SignaturePad(canvas, {
-				backgroundColor: 'rgb(255, 255, 255)',
+				backgroundColor: 'rgb(250, 250, 249)',
 				penColor: 'rgb(0, 0, 0)',
 			});
 
@@ -588,6 +745,17 @@ import "../styles/global.css";
 			const mm = String(today.getMonth() + 1).padStart(2, '0');
 			const dd = String(today.getDate()).padStart(2, '0');
 			document.getElementById('agreed-date').textContent = `${yyyy}년 ${mm}월 ${dd}일`;
+
+			// Smooth scroll for nav links
+			document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+				anchor.addEventListener('click', (e) => {
+					const target = document.querySelector(anchor.getAttribute('href'));
+					if (target) {
+						e.preventDefault();
+						target.scrollIntoView({ behavior: 'smooth' });
+					}
+				});
+			});
 
 			// Validation
 			function validateForm(form) {
