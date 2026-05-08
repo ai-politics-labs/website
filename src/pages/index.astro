@@ -42,6 +42,252 @@ import "../styles/global.css";
 				word-break: keep-all;
 				overflow-wrap: break-word;
 			}
+
+			.apl-support {
+				color: #FFF0DF;
+			}
+
+			.apl-support__summary {
+				align-items: center;
+				background: #FFF0DF;
+				border: 0;
+				border-radius: 999px;
+				color: #050505;
+				display: inline-flex;
+				gap: 18px;
+				justify-content: space-between;
+				min-height: 58px;
+				min-width: 188px;
+				padding: 7px 7px 7px 22px;
+				cursor: pointer;
+				font-size: 20px;
+				font-weight: 500;
+				letter-spacing: -0.06em;
+				line-height: 1;
+				list-style: none;
+				transition: background-color 180ms ease, transform 180ms ease;
+			}
+
+			.apl-support__summary:hover {
+				background: rgb(255 240 223 / 0.92);
+			}
+
+			.apl-support__summary:focus-visible {
+				outline: 1px solid rgb(255 240 223 / 0.75);
+				outline-offset: 5px;
+			}
+
+			.apl-support__summary::-webkit-details-marker {
+				display: none;
+			}
+
+			.apl-support__summary::marker {
+				content: "";
+			}
+
+			.apl-support__label--open {
+				display: none;
+			}
+
+			.apl-support[open] .apl-support__label--closed {
+				display: none;
+			}
+
+			.apl-support[open] .apl-support__label--open {
+				display: inline;
+			}
+
+			.apl-support__summary-icon {
+				align-items: center;
+				background: #050505;
+				border-radius: 999px;
+				color: #FFF0DF;
+				display: inline-flex;
+				flex: 0 0 auto;
+				font-size: 24px;
+				height: 44px;
+				justify-content: center;
+				letter-spacing: 0;
+				line-height: 1;
+				transition: transform 180ms ease;
+				width: 44px;
+			}
+
+			.apl-support__summary:hover .apl-support__summary-icon,
+			.apl-support[open] .apl-support__summary-icon {
+				transform: translateX(2px);
+			}
+
+			.apl-support__form {
+				display: grid;
+				gap: 12px;
+				margin-top: 16px;
+				max-width: 520px;
+			}
+
+			.apl-support__entry {
+				background: #FFF0DF;
+				border: 0;
+				border-radius: 30px;
+				color: #050505;
+				display: grid;
+				padding: 10px 66px 10px 20px;
+				position: relative;
+			}
+
+			.apl-support__field {
+				align-items: center;
+				display: flex;
+				min-height: 42px;
+			}
+
+			.apl-support__field + .apl-support__field {
+				border-top: 1px solid rgb(0 0 0 / 0.12);
+			}
+
+			.apl-support__field-label {
+				color: rgb(5 5 5 / 0.54);
+				flex: 0 0 72px;
+				font-size: 14px;
+				font-weight: 500;
+				letter-spacing: -0.06em;
+				line-height: 1;
+			}
+
+			.apl-support__consent,
+			.apl-support__status {
+				font-size: 15px;
+				font-weight: 400;
+				letter-spacing: -0.06em;
+				line-height: 1.45;
+			}
+
+			.apl-support__input {
+				background: transparent;
+				border: 0;
+				border-radius: 0;
+				color: #050505;
+				flex: 1 1 auto;
+				font: inherit;
+				font-size: 17px;
+				font-weight: 400;
+				letter-spacing: -0.04em;
+				min-width: 0;
+				outline: none;
+				padding: 11px 0;
+				width: 100%;
+			}
+
+			.apl-support__input:focus {
+				outline: none;
+			}
+
+			.apl-support__input::placeholder {
+				color: rgb(5 5 5 / 0.34);
+			}
+
+			.apl-support__consent {
+				align-items: flex-start;
+				color: rgb(255 240 223 / 0.68);
+				display: flex;
+				gap: 9px;
+				margin-top: 20px;
+				overflow-wrap: break-word;
+				word-break: keep-all;
+			}
+
+			.apl-support__checkbox {
+				accent-color: #FFF0DF;
+				margin-top: 3px;
+			}
+
+			.apl-support__submit {
+				align-items: center;
+				background: #050505;
+				border: 0;
+				border-radius: 999px;
+				color: #FFF0DF;
+				cursor: pointer;
+				display: inline-flex;
+				font-size: 24px;
+				height: 46px;
+				justify-content: center;
+				letter-spacing: 0;
+				line-height: 1;
+				position: absolute;
+				right: 9px;
+				top: 50%;
+				transform: translateY(-50%);
+				transition: opacity 180ms ease, transform 180ms ease;
+				width: 46px;
+			}
+
+			.apl-support__submit:hover,
+			.apl-support__submit:focus-visible {
+				outline: none;
+				transform: translate(2px, -50%);
+			}
+
+			.apl-support__submit:disabled {
+				cursor: not-allowed;
+				opacity: 0.45;
+			}
+
+			.apl-support__status {
+				color: rgb(255 240 223 / 0.68);
+				margin-top: 14px;
+				min-height: 22px;
+			}
+
+			.apl-support__status[data-tone="error"] {
+				color: #ff9b9b;
+			}
+
+			@media (min-width: 640px) {
+				.apl-support__summary {
+					font-size: 21px;
+				}
+			}
+
+			@media (max-width: 520px) {
+				.apl-support__summary {
+					min-height: 54px;
+					min-width: 176px;
+					padding-left: 20px;
+				}
+
+				.apl-support__summary-icon {
+					height: 40px;
+					width: 40px;
+				}
+
+				.apl-support__entry {
+					border-radius: 28px;
+					padding: 9px 58px 9px 18px;
+				}
+
+				.apl-support__field {
+					align-items: flex-start;
+					flex-direction: column;
+					gap: 2px;
+					padding: 9px 0;
+				}
+
+				.apl-support__field-label {
+					flex: none;
+				}
+
+				.apl-support__input {
+					font-size: 16px;
+					padding: 0;
+				}
+
+				.apl-support__submit {
+					height: 42px;
+					right: 8px;
+					width: 42px;
+				}
+			}
 		</style>
 	</head>
 	<body class="bg-black text-[#FFF0DF] antialiased overflow-x-hidden">
@@ -57,9 +303,38 @@ import "../styles/global.css";
 						By AI, For Humans
 					</h1>
 
-					<span class="mt-8 inline-flex text-[22px] font-medium leading-[1.1] tracking-[-0.06em] text-[#FFF0DF] underline decoration-[#FFF0DF]/80 decoration-1 underline-offset-[6px] sm:text-[24px]">
-						지지하기 →
-					</span>
+					<details class="apl-support mt-8">
+						<summary class="apl-support__summary">
+							<span class="apl-support__label apl-support__label--closed">▶︎ 지지하기</span>
+							<span class="apl-support__label apl-support__label--open">▼ 지지하기</span>
+							<span class="apl-support__summary-icon" aria-hidden="true">→</span>
+						</summary>
+
+						<form class="apl-support__form" data-support-form data-cta-position="top" novalidate>
+							<div class="apl-support__entry">
+								<label class="apl-support__field" for="support-email-top">
+									<span class="apl-support__field-label">이메일</span>
+									<input id="support-email-top" name="email" type="email" inputmode="email" autocomplete="email" class="apl-support__input" placeholder="your@email.com" required />
+								</label>
+
+								<label class="apl-support__field" for="support-phone-top">
+									<span class="apl-support__field-label">전화번호</span>
+									<input id="support-phone-top" name="phone" type="tel" inputmode="tel" autocomplete="tel" class="apl-support__input" placeholder="010-0000-0000" required />
+								</label>
+
+								<button type="submit" class="apl-support__submit" aria-label="지지하기 제출">
+									<span aria-hidden="true">→</span>
+								</button>
+							</div>
+
+							<label class="apl-support__consent">
+								<input name="privacyConsent" type="checkbox" required class="apl-support__checkbox" />
+								<span>전화번호와 이메일을 지지자 연락 및 소식 안내 목적으로 수집·이용하는 데 동의합니다.</span>
+							</label>
+
+							<p class="apl-support__status" role="status" aria-live="polite"></p>
+						</form>
+					</details>
 
 					<div class="mt-16 space-y-[1.35em] text-[19px] font-normal leading-[1.64] tracking-[-0.08em] text-[#FFF0DF]/64 sm:text-[21px] sm:leading-[1.6]">
 						<p>
@@ -73,11 +348,120 @@ import "../styles/global.css";
 						</p>
 					</div>
 
-					<span class="mt-9 inline-flex text-[22px] font-medium leading-[1.1] tracking-[-0.06em] text-[#FFF0DF] underline decoration-[#FFF0DF]/80 decoration-1 underline-offset-[6px] sm:text-[24px]">
-						지지하기 →
-					</span>
+					<details class="apl-support mt-9">
+						<summary class="apl-support__summary">
+							<span class="apl-support__label apl-support__label--closed">▶︎ 지지하기</span>
+							<span class="apl-support__label apl-support__label--open">▼ 지지하기</span>
+							<span class="apl-support__summary-icon" aria-hidden="true">→</span>
+						</summary>
+
+						<form class="apl-support__form" data-support-form data-cta-position="bottom" novalidate>
+							<div class="apl-support__entry">
+								<label class="apl-support__field" for="support-email-bottom">
+									<span class="apl-support__field-label">이메일</span>
+									<input id="support-email-bottom" name="email" type="email" inputmode="email" autocomplete="email" class="apl-support__input" placeholder="your@email.com" required />
+								</label>
+
+								<label class="apl-support__field" for="support-phone-bottom">
+									<span class="apl-support__field-label">전화번호</span>
+									<input id="support-phone-bottom" name="phone" type="tel" inputmode="tel" autocomplete="tel" class="apl-support__input" placeholder="010-0000-0000" required />
+								</label>
+
+								<button type="submit" class="apl-support__submit" aria-label="지지하기 제출">
+									<span aria-hidden="true">→</span>
+								</button>
+							</div>
+
+							<label class="apl-support__consent">
+								<input name="privacyConsent" type="checkbox" required class="apl-support__checkbox" />
+								<span>전화번호와 이메일을 지지자 연락 및 소식 안내 목적으로 수집·이용하는 데 동의합니다.</span>
+							</label>
+
+							<p class="apl-support__status" role="status" aria-live="polite"></p>
+						</form>
+					</details>
 				</div>
 			</section>
 		</main>
+
+		<script type="module">
+			import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+			const SUPABASE_URL = 'https://bsiatqjivenmblkcujjw.supabase.co';
+			const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzaWF0cWppdmVubWJsa2N1amp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3ODk2OTMsImV4cCI6MjA4ODM2NTY5M30.ReRm1mteN7bsWiRoMhHc8EfhLncJuLZ_8hSR-El8-S4';
+			const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+			function normalizePhone(value) {
+				return value.replace(/[^\d+]/g, '').trim();
+			}
+
+			function setStatus(form, message, tone = '') {
+				const status = form.querySelector('.apl-support__status');
+				status.textContent = message;
+				if (tone) {
+					status.dataset.tone = tone;
+				} else {
+					delete status.dataset.tone;
+				}
+			}
+
+			function setSubmitButton(submit, symbol, disabled, label) {
+				submit.textContent = symbol;
+				submit.disabled = disabled;
+				submit.setAttribute('aria-label', label);
+			}
+
+			document.querySelectorAll('[data-support-form]').forEach((form) => {
+				form.addEventListener('submit', async (event) => {
+					event.preventDefault();
+
+					const submit = form.querySelector('.apl-support__submit');
+					const formData = new FormData(form);
+					const phone = normalizePhone(String(formData.get('phone') || ''));
+					const email = String(formData.get('email') || '').trim().toLowerCase();
+					const privacyAgreed = form.querySelector('input[name="privacyConsent"]').checked;
+
+					if (!/^\+?\d{8,15}$/.test(phone)) {
+						setStatus(form, '올바른 전화번호를 입력해 주세요.', 'error');
+						form.querySelector('input[name="phone"]').focus();
+						return;
+					}
+
+					if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+						setStatus(form, '올바른 이메일을 입력해 주세요.', 'error');
+						form.querySelector('input[name="email"]').focus();
+						return;
+					}
+
+					if (!privacyAgreed) {
+						setStatus(form, '개인정보 수집·이용 동의가 필요합니다.', 'error');
+						form.querySelector('input[name="privacyConsent"]').focus();
+						return;
+					}
+
+					setSubmitButton(submit, '…', true, '제출 중');
+					setStatus(form, '');
+
+					const { error } = await supabase.from('support_signups').insert({
+						phone,
+						email,
+						privacy_consent: true,
+						consent_version: 'landing-support-2026-05-09',
+						cta_position: form.dataset.ctaPosition || 'unknown',
+					});
+
+					if (error) {
+						console.error('Support submission error:', error);
+						setStatus(form, '저장 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.', 'error');
+						setSubmitButton(submit, '→', false, '지지하기 제출');
+						return;
+					}
+
+					form.reset();
+					setSubmitButton(submit, '✓', true, '제출 완료');
+					setStatus(form, '지지 의사를 남겨주셔서 감사합니다.');
+				});
+			});
+		</script>
 	</body>
 </html>
