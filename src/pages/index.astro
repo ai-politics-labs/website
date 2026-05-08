@@ -48,28 +48,23 @@ import "../styles/global.css";
 			}
 
 			.apl-support__summary {
-				align-items: center;
-				background: #FFF0DF;
-				border: 0;
-				border-radius: 999px;
-				color: #050505;
 				display: inline-flex;
-				gap: 18px;
-				justify-content: space-between;
-				min-height: 58px;
-				min-width: 188px;
-				padding: 7px 7px 7px 22px;
 				cursor: pointer;
-				font-size: 20px;
+				font-size: 19px;
 				font-weight: 500;
 				letter-spacing: -0.06em;
-				line-height: 1;
+				line-height: 1.1;
 				list-style: none;
-				transition: background-color 180ms ease, transform 180ms ease;
+				text-decoration-color: rgb(255 240 223 / 0.8);
+				text-decoration-line: underline;
+				text-decoration-thickness: 1px;
+				text-underline-offset: 6px;
+				transition: color 180ms ease, text-decoration-color 180ms ease;
 			}
 
 			.apl-support__summary:hover {
-				background: rgb(255 240 223 / 0.92);
+				color: rgb(255 240 223 / 0.78);
+				text-decoration-color: rgb(255 240 223 / 0.5);
 			}
 
 			.apl-support__summary:focus-visible {
@@ -97,84 +92,79 @@ import "../styles/global.css";
 				display: inline;
 			}
 
-			.apl-support__summary-icon {
-				align-items: center;
-				background: #050505;
-				border-radius: 999px;
-				color: #FFF0DF;
-				display: inline-flex;
-				flex: 0 0 auto;
-				font-size: 24px;
-				height: 44px;
-				justify-content: center;
-				letter-spacing: 0;
-				line-height: 1;
-				transition: transform 180ms ease;
-				width: 44px;
-			}
-
-			.apl-support__summary:hover .apl-support__summary-icon,
-			.apl-support[open] .apl-support__summary-icon {
-				transform: translateX(2px);
-			}
-
 			.apl-support__form {
+				animation: apl-support-reveal 180ms ease both;
 				display: grid;
 				gap: 12px;
-				margin-top: 16px;
+				margin-top: 18px;
 				max-width: 520px;
+				overflow: clip;
+				transform-origin: top left;
+			}
+
+			@keyframes apl-support-reveal {
+				from {
+					opacity: 0;
+					transform: translateY(-4px);
+				}
+
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
 			}
 
 			.apl-support__entry {
-				background: #FFF0DF;
-				border: 0;
-				border-radius: 30px;
-				color: #050505;
+				align-items: end;
 				display: grid;
-				padding: 10px 66px 10px 20px;
-				position: relative;
+				gap: 12px;
+				grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
 			}
 
 			.apl-support__field {
-				align-items: center;
-				display: flex;
-				min-height: 42px;
+				border-bottom: 1px solid rgb(255 240 223 / 0.32);
+				display: grid;
+				gap: 2px;
+				transition: border-color 180ms ease;
+			}
+
+			.apl-support__field:focus-within {
+				border-bottom-color: rgb(255 240 223 / 0.78);
 			}
 
 			.apl-support__field + .apl-support__field {
-				border-top: 1px solid rgb(0 0 0 / 0.12);
+				border-top: 0;
 			}
 
 			.apl-support__field-label {
-				color: rgb(5 5 5 / 0.54);
-				flex: 0 0 72px;
-				font-size: 14px;
+				color: rgb(255 240 223 / 0.42);
+				font-size: 12px;
 				font-weight: 500;
-				letter-spacing: -0.06em;
-				line-height: 1;
+				letter-spacing: -0.04em;
+				line-height: 1.15;
 			}
 
 			.apl-support__consent,
+			.apl-support__submit,
 			.apl-support__status {
-				font-size: 15px;
+				font-size: 13px;
 				font-weight: 400;
-				letter-spacing: -0.06em;
-				line-height: 1.45;
+				letter-spacing: -0.04em;
+				line-height: 1.4;
 			}
 
 			.apl-support__input {
 				background: transparent;
 				border: 0;
 				border-radius: 0;
-				color: #050505;
-				flex: 1 1 auto;
+				color: #FFF0DF;
 				font: inherit;
-				font-size: 17px;
+				font-size: 16px;
 				font-weight: 400;
 				letter-spacing: -0.04em;
-				min-width: 0;
+				line-height: 1.25;
 				outline: none;
-				padding: 11px 0;
+				padding: 3px 0 8px;
 				width: 100%;
 			}
 
@@ -183,49 +173,57 @@ import "../styles/global.css";
 			}
 
 			.apl-support__input::placeholder {
-				color: rgb(5 5 5 / 0.34);
+				color: rgb(255 240 223 / 0.24);
 			}
 
 			.apl-support__consent {
 				align-items: flex-start;
-				color: rgb(255 240 223 / 0.68);
+				color: rgb(255 240 223 / 0.58);
 				display: flex;
-				gap: 9px;
-				margin-top: 20px;
+				gap: 7px;
+				max-width: 500px;
 				overflow-wrap: break-word;
 				word-break: keep-all;
 			}
 
 			.apl-support__checkbox {
 				accent-color: #FFF0DF;
+				flex: 0 0 auto;
+				height: 13px;
 				margin-top: 3px;
+				width: 13px;
+			}
+
+			.apl-support__checkbox:focus-visible {
+				outline: 1px solid rgb(255 240 223 / 0.7);
+				outline-offset: 3px;
 			}
 
 			.apl-support__submit {
-				align-items: center;
-				background: #050505;
+				background: transparent;
 				border: 0;
-				border-radius: 999px;
 				color: #FFF0DF;
 				cursor: pointer;
-				display: inline-flex;
-				font-size: 24px;
-				height: 46px;
-				justify-content: center;
-				letter-spacing: 0;
+				font-size: 16px;
 				line-height: 1;
-				position: absolute;
-				right: 9px;
-				top: 50%;
-				transform: translateY(-50%);
-				transition: opacity 180ms ease, transform 180ms ease;
-				width: 46px;
+				padding: 0 0 7px;
+				text-decoration-color: rgb(255 240 223 / 0.8);
+				text-decoration-line: underline;
+				text-decoration-thickness: 1px;
+				text-underline-offset: 5px;
+				white-space: nowrap;
 			}
 
 			.apl-support__submit:hover,
 			.apl-support__submit:focus-visible {
+				color: rgb(255 240 223 / 0.78);
 				outline: none;
-				transform: translate(2px, -50%);
+				text-decoration-color: rgb(255 240 223 / 0.5);
+			}
+
+			.apl-support__submit:focus-visible {
+				outline: 1px solid rgb(255 240 223 / 0.7);
+				outline-offset: 5px;
 			}
 
 			.apl-support__submit:disabled {
@@ -235,8 +233,8 @@ import "../styles/global.css";
 
 			.apl-support__status {
 				color: rgb(255 240 223 / 0.68);
-				margin-top: 14px;
-				min-height: 22px;
+				margin-top: 6px;
+				min-height: 18px;
 			}
 
 			.apl-support__status[data-tone="error"] {
@@ -245,47 +243,25 @@ import "../styles/global.css";
 
 			@media (min-width: 640px) {
 				.apl-support__summary {
-					font-size: 21px;
+					font-size: 22px;
 				}
 			}
 
-			@media (max-width: 520px) {
-				.apl-support__summary {
-					min-height: 54px;
-					min-width: 176px;
-					padding-left: 20px;
+			@media (prefers-reduced-motion: reduce) {
+				.apl-support__form {
+					animation: none;
 				}
+			}
 
-				.apl-support__summary-icon {
-					height: 40px;
-					width: 40px;
-				}
-
+			@media (max-width: 700px) {
 				.apl-support__entry {
-					border-radius: 28px;
-					padding: 9px 58px 9px 18px;
-				}
-
-				.apl-support__field {
-					align-items: flex-start;
-					flex-direction: column;
-					gap: 2px;
-					padding: 9px 0;
-				}
-
-				.apl-support__field-label {
-					flex: none;
-				}
-
-				.apl-support__input {
-					font-size: 16px;
-					padding: 0;
+					gap: 12px;
+					grid-template-columns: 1fr;
 				}
 
 				.apl-support__submit {
-					height: 42px;
-					right: 8px;
-					width: 42px;
+					justify-self: start;
+					padding-bottom: 0;
 				}
 			}
 		</style>
@@ -293,21 +269,20 @@ import "../styles/global.css";
 	<body class="bg-black text-[#FFF0DF] antialiased overflow-x-hidden">
 		<main id="home" class="min-h-screen bg-black px-7 py-14 text-[#FFF0DF] sm:px-12 lg:py-16">
 			<section class="mx-auto min-h-[920px] max-w-[1040px] lg:min-h-[1140px]">
-				<nav class="flex items-center justify-center gap-10 text-[17px] font-normal leading-[1.1] tracking-[-0.02em] text-[#FFF0DF]/55 sm:gap-14 sm:text-[18px]">
+				<nav class="flex items-center justify-center gap-10 text-[15px] font-normal leading-[1.1] tracking-[-0.02em] text-[#FFF0DF]/55 sm:gap-14 sm:text-[16px]">
 					<a href="#home" aria-current="page" class="px-1 py-2 transition-colors hover:text-[#FFF0DF] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-[#FFF0DF]/70">Home</a>
 					<a href="https://calendar.app.google/w7eqNJnU88xQ21317" target="_blank" rel="noreferrer" class="px-1 py-2 transition-colors hover:text-[#FFF0DF] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-[#FFF0DF]/70">Meet</a>
 				</nav>
 
-				<div class="apl-keep mx-auto mt-28 max-w-[622px] sm:mt-32">
-					<h1 class="apl-serif text-[clamp(42px,6.2vw,76px)] font-normal italic leading-[0.96] tracking-[-0.1em] text-[#FFF0DF] sm:whitespace-nowrap">
+				<div class="apl-keep mx-auto mt-24 max-w-[622px] sm:mt-28">
+					<h1 class="apl-serif text-[clamp(34px,9.7vw,68px)] font-normal italic leading-[0.98] tracking-[-0.1em] text-[#FFF0DF] sm:whitespace-nowrap">
 						By AI, For Humans
 					</h1>
 
 					<details class="apl-support mt-8">
 						<summary class="apl-support__summary">
-							<span class="apl-support__label apl-support__label--closed">▶︎ 지지하기</span>
-							<span class="apl-support__label apl-support__label--open">▼ 지지하기</span>
-							<span class="apl-support__summary-icon" aria-hidden="true">→</span>
+							<span class="apl-support__label apl-support__label--closed"><span aria-hidden="true">▶︎</span> 지지하기</span>
+							<span class="apl-support__label apl-support__label--open"><span aria-hidden="true">▼</span> 지지하기</span>
 						</summary>
 
 						<form class="apl-support__form" data-support-form data-cta-position="top" novalidate>
@@ -322,21 +297,19 @@ import "../styles/global.css";
 									<input id="support-phone-top" name="phone" type="tel" inputmode="tel" autocomplete="tel" class="apl-support__input" placeholder="010-0000-0000" required />
 								</label>
 
-								<button type="submit" class="apl-support__submit" aria-label="지지하기 제출">
-									<span aria-hidden="true">→</span>
-								</button>
+								<button type="submit" class="apl-support__submit">접수하기 →</button>
 							</div>
 
 							<label class="apl-support__consent">
 								<input name="privacyConsent" type="checkbox" required class="apl-support__checkbox" />
-								<span>전화번호와 이메일을 지지자 연락 및 소식 안내 목적으로 수집·이용하는 데 동의합니다.</span>
+								<span>전화번호와 이메일을 지지자 연락 및 소식 안내 목적으로 수집 및 이용하는 데 동의합니다.</span>
 							</label>
 
 							<p class="apl-support__status" role="status" aria-live="polite"></p>
 						</form>
 					</details>
 
-					<div class="mt-16 space-y-[1.35em] text-[19px] font-normal leading-[1.64] tracking-[-0.08em] text-[#FFF0DF]/64 sm:text-[21px] sm:leading-[1.6]">
+					<div class="mt-14 space-y-[1.3em] text-[17px] font-normal leading-[1.66] tracking-[-0.08em] text-[#FFF0DF]/64 sm:text-[20px] sm:leading-[1.6]">
 						<p>
 							이상적인 민주주의는 사실 노예의 정치예요. 정치인은 노예여야만 해요. 사회와 국민의. 근데 21세기에 태어난 인간은 노예가 될 수 없어요. 특히나 지금 정치하고 있는 사람들, 정치를 한다는 건 에고가 센 사람인데, 에고가 노예적으로 사고할 수 없게 만들거든요.
 						</p>
@@ -350,9 +323,8 @@ import "../styles/global.css";
 
 					<details class="apl-support mt-9">
 						<summary class="apl-support__summary">
-							<span class="apl-support__label apl-support__label--closed">▶︎ 지지하기</span>
-							<span class="apl-support__label apl-support__label--open">▼ 지지하기</span>
-							<span class="apl-support__summary-icon" aria-hidden="true">→</span>
+							<span class="apl-support__label apl-support__label--closed"><span aria-hidden="true">▶︎</span> 지지하기</span>
+							<span class="apl-support__label apl-support__label--open"><span aria-hidden="true">▼</span> 지지하기</span>
 						</summary>
 
 						<form class="apl-support__form" data-support-form data-cta-position="bottom" novalidate>
@@ -367,14 +339,12 @@ import "../styles/global.css";
 									<input id="support-phone-bottom" name="phone" type="tel" inputmode="tel" autocomplete="tel" class="apl-support__input" placeholder="010-0000-0000" required />
 								</label>
 
-								<button type="submit" class="apl-support__submit" aria-label="지지하기 제출">
-									<span aria-hidden="true">→</span>
-								</button>
+								<button type="submit" class="apl-support__submit">접수하기 →</button>
 							</div>
 
 							<label class="apl-support__consent">
 								<input name="privacyConsent" type="checkbox" required class="apl-support__checkbox" />
-								<span>전화번호와 이메일을 지지자 연락 및 소식 안내 목적으로 수집·이용하는 데 동의합니다.</span>
+								<span>전화번호와 이메일을 지지자 연락 및 소식 안내 목적으로 수집 및 이용하는 데 동의합니다.</span>
 							</label>
 
 							<p class="apl-support__status" role="status" aria-live="polite"></p>
@@ -416,20 +386,26 @@ import "../styles/global.css";
 					event.preventDefault();
 
 					const submit = form.querySelector('.apl-support__submit');
+					const phoneInput = form.querySelector('input[name="phone"]');
+					const emailInput = form.querySelector('input[name="email"]');
 					const formData = new FormData(form);
 					const phone = normalizePhone(String(formData.get('phone') || ''));
 					const email = String(formData.get('email') || '').trim().toLowerCase();
 					const privacyAgreed = form.querySelector('input[name="privacyConsent"]').checked;
+					phoneInput.removeAttribute('aria-invalid');
+					emailInput.removeAttribute('aria-invalid');
 
 					if (!/^\+?\d{8,15}$/.test(phone)) {
 						setStatus(form, '올바른 전화번호를 입력해 주세요.', 'error');
-						form.querySelector('input[name="phone"]').focus();
+						phoneInput.setAttribute('aria-invalid', 'true');
+						phoneInput.focus();
 						return;
 					}
 
 					if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
 						setStatus(form, '올바른 이메일을 입력해 주세요.', 'error');
-						form.querySelector('input[name="email"]').focus();
+						emailInput.setAttribute('aria-invalid', 'true');
+						emailInput.focus();
 						return;
 					}
 
@@ -439,7 +415,7 @@ import "../styles/global.css";
 						return;
 					}
 
-					setSubmitButton(submit, '…', true, '제출 중');
+					setSubmitButton(submit, '접수 중...', true, '접수 중');
 					setStatus(form, '');
 
 					const { error } = await supabase.from('support_signups').insert({
@@ -453,12 +429,12 @@ import "../styles/global.css";
 					if (error) {
 						console.error('Support submission error:', error);
 						setStatus(form, '저장 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.', 'error');
-						setSubmitButton(submit, '→', false, '지지하기 제출');
+						setSubmitButton(submit, '접수하기 →', false, '지지하기 제출');
 						return;
 					}
 
 					form.reset();
-					setSubmitButton(submit, '✓', true, '제출 완료');
+					setSubmitButton(submit, '접수 완료', true, '접수 완료');
 					setStatus(form, '지지 의사를 남겨주셔서 감사합니다.');
 				});
 			});
