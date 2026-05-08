@@ -44,11 +44,18 @@ import "../styles/global.css";
 			}
 
 			.apl-support {
+				align-items: flex-start;
 				color: #FFF0DF;
+				column-gap: 14px;
+				display: grid;
+				grid-template-columns: auto minmax(0, 1fr);
+				row-gap: 10px;
+				width: 100%;
 			}
 
 			.apl-support__summary {
 				display: inline-flex;
+				flex: 0 0 auto;
 				cursor: pointer;
 				font-size: 19px;
 				font-weight: 500;
@@ -96,8 +103,9 @@ import "../styles/global.css";
 				animation: apl-support-reveal 180ms ease both;
 				display: grid;
 				gap: 12px;
-				margin-top: 18px;
-				max-width: 520px;
+				margin-top: 0;
+				max-width: 430px;
+				min-width: 0;
 				overflow: clip;
 				transform-origin: top left;
 			}
@@ -118,22 +126,19 @@ import "../styles/global.css";
 				align-items: end;
 				display: grid;
 				gap: 12px;
-				grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+				grid-template-columns: minmax(0, 1fr) auto;
 			}
 
 			.apl-support__field {
 				border-bottom: 1px solid rgb(255 240 223 / 0.32);
 				display: grid;
 				gap: 2px;
+				min-width: 0;
 				transition: border-color 180ms ease;
 			}
 
 			.apl-support__field:focus-within {
 				border-bottom-color: rgb(255 240 223 / 0.78);
-			}
-
-			.apl-support__field + .apl-support__field {
-				border-top: 0;
 			}
 
 			.apl-support__field-label {
@@ -163,6 +168,7 @@ import "../styles/global.css";
 				font-weight: 400;
 				letter-spacing: -0.04em;
 				line-height: 1.25;
+				min-width: 0;
 				outline: none;
 				padding: 3px 0 8px;
 				width: 100%;
@@ -181,7 +187,7 @@ import "../styles/global.css";
 				color: rgb(255 240 223 / 0.58);
 				display: flex;
 				gap: 7px;
-				max-width: 500px;
+				max-width: 430px;
 				overflow-wrap: break-word;
 				word-break: keep-all;
 			}
@@ -254,13 +260,16 @@ import "../styles/global.css";
 			}
 
 			@media (max-width: 700px) {
+				.apl-support {
+					column-gap: 12px;
+				}
+
 				.apl-support__entry {
-					gap: 12px;
-					grid-template-columns: 1fr;
+					gap: 8px;
 				}
 
 				.apl-support__submit {
-					justify-self: start;
+					font-size: 14px;
 					padding-bottom: 0;
 				}
 			}
@@ -287,14 +296,9 @@ import "../styles/global.css";
 
 						<form class="apl-support__form" data-support-form data-cta-position="top" novalidate>
 							<div class="apl-support__entry">
-								<label class="apl-support__field" for="support-email-top">
-									<span class="apl-support__field-label">이메일</span>
-									<input id="support-email-top" name="email" type="email" inputmode="email" autocomplete="email" class="apl-support__input" placeholder="your@email.com" required />
-								</label>
-
-								<label class="apl-support__field" for="support-phone-top">
-									<span class="apl-support__field-label">전화번호</span>
-									<input id="support-phone-top" name="phone" type="tel" inputmode="tel" autocomplete="tel" class="apl-support__input" placeholder="010-0000-0000" required />
+								<label class="apl-support__field" for="support-contact-top">
+									<span class="apl-support__field-label">전화번호 또는 이메일</span>
+									<input id="support-contact-top" name="contact" type="text" autocomplete="email" class="apl-support__input" placeholder="010-0000-0000 / email" required />
 								</label>
 
 								<button type="submit" class="apl-support__submit">접수하기 →</button>
@@ -302,7 +306,7 @@ import "../styles/global.css";
 
 							<label class="apl-support__consent">
 								<input name="privacyConsent" type="checkbox" required class="apl-support__checkbox" />
-								<span>전화번호와 이메일을 지지자 연락 및 소식 안내 목적으로 수집 및 이용하는 데 동의합니다.</span>
+								<span>전화번호 또는 이메일을 지지자 연락 및 소식 안내 목적으로 수집 및 이용하는 데 동의합니다.</span>
 							</label>
 
 							<p class="apl-support__status" role="status" aria-live="polite"></p>
@@ -329,14 +333,9 @@ import "../styles/global.css";
 
 						<form class="apl-support__form" data-support-form data-cta-position="bottom" novalidate>
 							<div class="apl-support__entry">
-								<label class="apl-support__field" for="support-email-bottom">
-									<span class="apl-support__field-label">이메일</span>
-									<input id="support-email-bottom" name="email" type="email" inputmode="email" autocomplete="email" class="apl-support__input" placeholder="your@email.com" required />
-								</label>
-
-								<label class="apl-support__field" for="support-phone-bottom">
-									<span class="apl-support__field-label">전화번호</span>
-									<input id="support-phone-bottom" name="phone" type="tel" inputmode="tel" autocomplete="tel" class="apl-support__input" placeholder="010-0000-0000" required />
+								<label class="apl-support__field" for="support-contact-bottom">
+									<span class="apl-support__field-label">전화번호 또는 이메일</span>
+									<input id="support-contact-bottom" name="contact" type="text" autocomplete="email" class="apl-support__input" placeholder="010-0000-0000 / email" required />
 								</label>
 
 								<button type="submit" class="apl-support__submit">접수하기 →</button>
@@ -344,7 +343,7 @@ import "../styles/global.css";
 
 							<label class="apl-support__consent">
 								<input name="privacyConsent" type="checkbox" required class="apl-support__checkbox" />
-								<span>전화번호와 이메일을 지지자 연락 및 소식 안내 목적으로 수집 및 이용하는 데 동의합니다.</span>
+								<span>전화번호 또는 이메일을 지지자 연락 및 소식 안내 목적으로 수집 및 이용하는 데 동의합니다.</span>
 							</label>
 
 							<p class="apl-support__status" role="status" aria-live="polite"></p>
@@ -363,6 +362,22 @@ import "../styles/global.css";
 
 			function normalizePhone(value) {
 				return value.replace(/[^\d+]/g, '').trim();
+			}
+
+			function parseContact(value) {
+				const contact = value.trim();
+				const email = contact.toLowerCase();
+				const phone = normalizePhone(contact);
+
+				if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+					return { email, phone: null };
+				}
+
+				if (/^\+?\d{8,15}$/.test(phone)) {
+					return { email: null, phone };
+				}
+
+				return null;
 			}
 
 			function setStatus(form, message, tone = '') {
@@ -386,26 +401,16 @@ import "../styles/global.css";
 					event.preventDefault();
 
 					const submit = form.querySelector('.apl-support__submit');
-					const phoneInput = form.querySelector('input[name="phone"]');
-					const emailInput = form.querySelector('input[name="email"]');
+					const contactInput = form.querySelector('input[name="contact"]');
 					const formData = new FormData(form);
-					const phone = normalizePhone(String(formData.get('phone') || ''));
-					const email = String(formData.get('email') || '').trim().toLowerCase();
+					const contact = parseContact(String(formData.get('contact') || ''));
 					const privacyAgreed = form.querySelector('input[name="privacyConsent"]').checked;
-					phoneInput.removeAttribute('aria-invalid');
-					emailInput.removeAttribute('aria-invalid');
+					contactInput.removeAttribute('aria-invalid');
 
-					if (!/^\+?\d{8,15}$/.test(phone)) {
-						setStatus(form, '올바른 전화번호를 입력해 주세요.', 'error');
-						phoneInput.setAttribute('aria-invalid', 'true');
-						phoneInput.focus();
-						return;
-					}
-
-					if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-						setStatus(form, '올바른 이메일을 입력해 주세요.', 'error');
-						emailInput.setAttribute('aria-invalid', 'true');
-						emailInput.focus();
+					if (!contact) {
+						setStatus(form, '올바른 전화번호 또는 이메일을 입력해 주세요.', 'error');
+						contactInput.setAttribute('aria-invalid', 'true');
+						contactInput.focus();
 						return;
 					}
 
@@ -419,8 +424,8 @@ import "../styles/global.css";
 					setStatus(form, '');
 
 					const { error } = await supabase.from('support_signups').insert({
-						phone,
-						email,
+						phone: contact.phone,
+						email: contact.email,
 						privacy_consent: true,
 						consent_version: 'landing-support-2026-05-09',
 						cta_position: form.dataset.ctaPosition || 'unknown',
