@@ -43,4 +43,5 @@ drop table if exists public.admin_users;
 
 grant usage on schema public to anon, authenticated;
 grant insert on public.support_signups to anon, authenticated;
+revoke select, update, delete on public.support_signups from anon, authenticated;
 grant usage, select on sequence public.support_signups_id_seq to anon, authenticated;
