@@ -47,21 +47,24 @@ import "../styles/global.css";
 				align-items: end;
 				color: #fff;
 				display: grid;
-				gap: 12px 18px;
-				grid-template-columns: minmax(0, 1fr) auto;
-				max-width: 680px;
+				column-gap: 10px;
+				row-gap: 12px;
+				grid-template-columns: minmax(260px, 1fr) max-content;
 				width: 100%;
 			}
 
 			.apl-support__field {
-				border-bottom: 1px solid rgb(255 255 255 / 0.72);
-				display: block;
+				align-items: center;
+				border: 1px solid rgb(255 255 255 / 0.64);
+				border-radius: 10px;
+				display: flex;
+				min-height: 44px;
 				min-width: 0;
 				transition: border-color 180ms ease;
 			}
 
 			.apl-support__field:focus-within {
-				border-bottom-color: rgb(255 255 255 / 0.78);
+				border-color: rgb(255 255 255 / 0.78);
 			}
 
 			.apl-support__submit,
@@ -76,13 +79,15 @@ import "../styles/global.css";
 				border-radius: 0;
 				color: #fff;
 				font: inherit;
-				font-size: clamp(16px, 1.8vw, 19px);
+				font-size: 17px;
 				font-weight: 400;
-				letter-spacing: -0.08em;
-				line-height: 1.2;
+				font-variant-numeric: tabular-nums;
+				letter-spacing: 0;
+				line-height: 1.25;
 				min-width: 0;
 				outline: none;
-				padding: 0 0 13px;
+				padding: 0 14px;
+				text-align: start;
 				width: 100%;
 			}
 
@@ -92,22 +97,30 @@ import "../styles/global.css";
 
 			.apl-support__input::placeholder {
 				color: rgb(255 255 255 / 0.46);
+				font-size: 15px;
+				letter-spacing: -0.04em;
+			}
+
+			.apl-support__input:not(:placeholder-shown) {
+				text-align: start;
 			}
 
 			.apl-support__submit {
 				background: transparent;
 				border: 0;
+				border-radius: 0;
 				color: #fff;
 				cursor: pointer;
-				font-size: clamp(20px, 2.4vw, 27px);
+				display: inline-flex;
+				font-size: 17px;
 				font-weight: 500;
-				letter-spacing: -0.08em;
-				line-height: 1;
-				padding: 0 0 12px;
-				text-decoration-color: rgb(255 255 255 / 0.8);
-				text-decoration-line: underline;
-				text-decoration-thickness: 1px;
-				text-underline-offset: 8px;
+				align-items: center;
+				justify-content: center;
+				letter-spacing: 0;
+				line-height: 1.2;
+				min-height: 44px;
+				padding: 0;
+				text-decoration: none;
 				white-space: nowrap;
 			}
 
@@ -115,7 +128,6 @@ import "../styles/global.css";
 			.apl-support__submit:focus-visible {
 				color: rgb(255 255 255 / 0.78);
 				outline: none;
-				text-decoration-color: rgb(255 255 255 / 0.5);
 			}
 
 			.apl-support__submit:focus-visible {
@@ -141,46 +153,72 @@ import "../styles/global.css";
 				color: #ff9b9b;
 			}
 
-			@media (max-width: 700px) {
-				.apl-support {
-					gap: 10px 12px;
+			@media (min-width: 640px) {
+				.apl-support__input,
+				.apl-support__submit {
+					font-size: 18px;
+				}
+
+				.apl-support__input::placeholder {
+					font-size: 16px;
+				}
+			}
+
+			@media (min-width: 1024px) {
+				.apl-support__input {
+					font-size: 20px;
 				}
 
 				.apl-support__submit {
-					font-size: 18px;
-					padding-bottom: 0;
-					text-underline-offset: 5px;
+					font-size: 19px;
 				}
 
-				.apl-support__input {
-					font-size: 16px;
-					padding-bottom: 8px;
+				.apl-support__input::placeholder {
+					font-size: 17px;
+				}
+			}
+
+			@media (max-width: 700px) {
+				.apl-support {
+					column-gap: 10px;
+					grid-template-columns: minmax(0, 1fr) max-content;
+					row-gap: 10px;
+				}
+			}
+
+			@media (max-width: 389px) {
+				.apl-support {
+					grid-template-columns: 1fr;
+				}
+
+				.apl-support__submit {
+					justify-self: start;
 				}
 			}
 		</style>
 	</head>
 	<body class="bg-black text-[#fff] antialiased overflow-x-hidden">
-		<main id="home" class="min-h-screen bg-black px-7 py-14 text-[#fff] sm:px-12 lg:py-16">
-			<section class="apl-keep mx-auto min-h-[920px] max-w-[760px] lg:min-h-[1140px]">
-				<div>
-					<h1 class="apl-serif text-[clamp(38px,7.8vw,84px)] font-normal italic leading-[0.94] tracking-[-0.1em] text-[#fff] sm:whitespace-nowrap">
+		<main id="home" class="min-h-dvh bg-black px-6 pt-[88px] pb-20 text-[#fff] sm:px-10 sm:pt-[104px] md:px-16 md:pt-[124px] lg:px-0 lg:pt-[144px] xl:pt-[152px]">
+			<section class="apl-keep min-h-dvh w-full">
+				<div class="mx-auto w-full max-w-[680px]">
+					<h1 class="apl-serif max-w-[760px] text-[40px] font-normal italic leading-[0.98] tracking-normal text-[#fff] min-[390px]:text-[44px] sm:whitespace-nowrap sm:text-[52px] md:text-[60px] lg:text-[72px]">
 						By AI, For Humans
 					</h1>
 
-					<p class="mt-12 text-[clamp(18px,2.4vw,26px)] font-normal leading-[1.34] tracking-[-0.08em] text-[#fff]/80">
+					<p class="mt-9 max-w-[610px] text-[18px] font-normal leading-[1.5] tracking-normal text-[#fff]/82 sm:text-[19px] lg:mt-10 lg:text-[21px]">
 						AI 정당을 만듭니다. 가장 빠르게 연락드릴게요.
 					</p>
 
-					<form class="apl-support mt-9" data-support-form data-cta-position="hero" novalidate>
+					<form class="apl-support mt-7 max-w-[600px] lg:mt-8" data-support-form data-cta-position="hero" novalidate>
 						<label class="apl-support__field" for="support-contact">
-							<input id="support-contact" name="contact" type="text" autocomplete="email" aria-label="이메일 또는 전화번호" class="apl-support__input" placeholder="이메일 또는 전화번호를 입력해주세요" required />
+							<input id="support-contact" name="contact" type="text" autocomplete="email" aria-label="이메일 또는 전화번호" class="apl-support__input" placeholder="이메일 또는 전화번호를 입력해주세요" required autofocus />
 						</label>
 
 						<button type="submit" class="apl-support__submit">구독하기 →</button>
 						<p class="apl-support__status" role="status" aria-live="polite"></p>
 					</form>
 
-					<div class="mt-14 space-y-[1.22em] text-[clamp(18px,2.2vw,23px)] font-normal leading-[1.48] tracking-[-0.08em] text-[#fff]/78">
+					<div class="mt-14 max-w-[600px] space-y-[1.28em] text-[17px] font-normal leading-[1.64] tracking-normal text-[#fff]/76 sm:text-[18px] lg:mt-16 lg:text-[19px]">
 						<p>
 							이상적인 민주주의는 사실 노예의 정치예요. 정치인은 노예여야만 해요. 사회와 국민의. 근데 21세기에 태어난 인간은 노예가 될 수 없어요. 특히나 지금 정치하고 있는 사람들, 정치를 한다는 건 에고가 센 사람인데, 에고가 노예적으로 사고할 수 없게 만들거든요.
 						</p>
@@ -190,7 +228,25 @@ import "../styles/global.css";
 						<p>
 							그래서 애초에 노예인 존재를 만들어야 된다고 생각해요. 그게 AI가 됐든, 어떤 특정한 알고리즘이 됐든, 월드 모델이 됐든, 어떤 형태로든요. 그냥 주어진 인풋을 바탕으로 아웃풋을 내는, 우리 사회가 설정한 어떤 목표를 달성하기 위해 판단하는, 그런 어떤 노예가 있어야 된다고 생각하는 거예요. 그런게 정치를 할 만한 좋은 존재이지 않을까. 그렇게 생각해요.
 						</p>
+						<p>
+							정치가 어려운 이유는 대부분의 판단이 너무 많은 이해관계 위에 올라가 있기 때문이라고 생각해요. 어떤 사람에게는 선의였던 결정이 다른 사람에게는 폭력이 되고, 어떤 집단에게 필요한 속도가 다른 집단에게는 불안이 되잖아요. 그래서 정치인은 계속 자기 편을 만들고, 자기 편을 잃지 않으려고 하고, 결국 판단보다 생존을 먼저 생각하게 되는 것 같아요.
+						</p>
+						<p>
+							그런데 AI는 적어도 그런 식의 생존 본능은 없어요. 자리를 지켜야 할 이유도 없고, 다음 선거를 걱정할 이유도 없고, 누군가에게 잘 보이기 위해 말을 바꿀 이유도 없어요. 물론 그래서 더 위험할 수도 있죠. 그래서 중요한 건 AI에게 권력을 넘기는 게 아니라, 우리가 정한 원칙과 목표를 아주 투명하게 실행하도록 만드는 구조라고 생각해요.
+						</p>
+						<p>
+							저는 그 구조가 새로운 정당의 형태일 수 있다고 봐요. 사람은 방향을 정하고, 사회는 목표를 합의하고, AI는 그 사이에서 계속 계산하고 설명하고 반박을 받아들이는 존재가 되는 거예요. 정치가 누군가의 욕망을 대표하는 일이 아니라, 공동의 목적을 가장 덜 왜곡되게 처리하는 일이 될 수 있다면, 그때는 조금 다른 민주주의를 상상할 수 있지 않을까 해요.
+						</p>
 					</div>
+
+					<form class="apl-support mt-14 max-w-[600px]" data-support-form data-cta-position="bottom" novalidate>
+						<label class="apl-support__field" for="support-contact-bottom">
+							<input id="support-contact-bottom" name="contact" type="text" autocomplete="email" aria-label="이메일 또는 전화번호" class="apl-support__input" placeholder="이메일 또는 전화번호를 입력해주세요" required />
+						</label>
+
+						<button type="submit" class="apl-support__submit">구독하기 →</button>
+						<p class="apl-support__status" role="status" aria-live="polite"></p>
+					</form>
 				</div>
 			</section>
 		</main>
@@ -198,8 +254,8 @@ import "../styles/global.css";
 		<script type="module">
 			import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-			const SUPABASE_URL = 'https://bsiatqjivenmblkcujjw.supabase.co';
-			const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzaWF0cWppdmVubWJsa2N1amp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3ODk2OTMsImV4cCI6MjA4ODM2NTY5M30.ReRm1mteN7bsWiRoMhHc8EfhLncJuLZ_8hSR-El8-S4';
+			const SUPABASE_URL = 'https://hjilaodigquqootzlhrp.supabase.co';
+			const SUPABASE_ANON_KEY = 'sb_publishable_L-6st50djIUgSbADAwL-yg_-kbIEihy';
 			const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 			function normalizePhone(value) {

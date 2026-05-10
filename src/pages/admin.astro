@@ -50,7 +50,7 @@ import "../styles/global.css";
 			<div class="max-w-[1146px] mx-auto px-6">
 				<div class="flex items-center justify-between mb-6">
 					<h1 class="font-semibold text-[22px] text-stone-800 tracking-[-0.32px]">
-						발기인 접수 목록 <span id="total-count" class="text-stone-400 text-[15px] font-normal"></span>
+						구독 접수 목록 <span id="total-count" class="text-stone-400 text-[15px] font-normal"></span>
 					</h1>
 					<button id="logout-btn"
 						class="text-[13px] text-stone-400 hover:text-stone-600 transition-colors tracking-[-0.14px]">
@@ -63,22 +63,11 @@ import "../styles/global.css";
 			</div>
 		</section>
 
-		<!-- 서명 확대 모달 -->
-		<div id="signature-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-6">
-			<div class="bg-white rounded-2xl p-6 max-w-lg w-full">
-				<div class="flex items-center justify-between mb-4">
-					<p id="modal-name" class="text-[15px] font-semibold text-stone-800 tracking-[-0.14px]"></p>
-					<button id="close-modal" class="text-stone-400 hover:text-stone-600 transition-colors text-[20px]">&times;</button>
-				</div>
-				<img id="modal-signature" class="w-full border border-stone-200 rounded-xl" alt="서명" />
-			</div>
-		</div>
-
 		<script type="module">
 			import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-			const SUPABASE_URL = 'https://bsiatqjivenmblkcujjw.supabase.co';
-			const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzaWF0cWppdmVubWJsa2N1amp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3ODk2OTMsImV4cCI6MjA4ODM2NTY5M30.ReRm1mteN7bsWiRoMhHc8EfhLncJuLZ_8hSR-El8-S4';
+			const SUPABASE_URL = 'https://hjilaodigquqootzlhrp.supabase.co';
+			const SUPABASE_ANON_KEY = 'sb_publishable_L-6st50djIUgSbADAwL-yg_-kbIEihy';
 			const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 			const loginSection = document.getElementById('login-section');
@@ -126,8 +115,8 @@ import "../styles/global.css";
 				membersList.innerHTML = '';
 
 				const { data, error } = await supabase
-					.from('founding_members')
-					.select('*')
+					.from('support_signups')
+					.select('id, created_at, phone, email, privacy_consent, consent_version, cta_position')
 					.order('created_at', { ascending: false });
 
 				loading.classList.add('hidden');
@@ -137,58 +126,63 @@ import "../styles/global.css";
 					return;
 				}
 
-				totalCount.textContent = `(${data.length}명)`;
+				totalCount.textContent = `(${data.length}건)`;
 
 				if (data.length === 0) {
-					membersList.innerHTML = '<p class="text-stone-400 text-[15px]">아직 접수된 발기인이 없습니다.</p>';
+					membersList.innerHTML = '<p class="text-stone-400 text-[15px]">아직 구독 접수가 없습니다.</p>';
 					return;
 				}
 
-				data.forEach((m, i) => {
+				data.forEach((m) => {
 					const card = document.createElement('div');
 					card.className = 'bg-stone-100 rounded-2xl p-6';
 					card.innerHTML = `
 						<div class="flex items-start justify-between gap-4">
 							<div class="flex-1 min-w-0">
 								<div class="flex items-center gap-3 mb-3">
-									<span class="text-[15px] font-semibold text-stone-900 tracking-[-0.14px]">${esc(m.name)}</span>
-									<span class="text-[13px] text-stone-400 tracking-[-0.14px]">${m.gender} · ${m.birth_date}</span>
-									<span class="text-[12px] text-stone-300 tracking-[-0.14px]">${new Date(m.created_at).toLocaleString('ko-KR')}</span>
+									<span class="text-[15px] font-semibold text-stone-900 tracking-[-0.14px]">${esc(formatContact(m))}</span>
+									<span class="text-[13px] text-stone-400 tracking-[-0.14px]">${formatContactType(m)}</span>
+									<span class="text-[12px] text-stone-300 tracking-[-0.14px]">${formatCreatedAt(m.created_at)}</span>
 								</div>
 								<div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 text-[13px] tracking-[-0.14px]">
-									<p><span class="text-stone-400">주소</span> <span class="text-stone-700 ml-2">${esc(m.address)}</span></p>
-									<p><span class="text-stone-400">직업</span> <span class="text-stone-700 ml-2">${esc(m.occupation)}</span></p>
-									<p><span class="text-stone-400">휴대폰</span> <span class="text-stone-700 ml-2">${esc(m.phone_mobile)}</span></p>
-									<p><span class="text-stone-400">자택</span> <span class="text-stone-700 ml-2">${esc(m.phone_home || '-')}</span></p>
+									<p><span class="text-stone-400">이메일</span> <span class="text-stone-700 ml-2">${esc(m.email || '-')}</span></p>
+									<p><span class="text-stone-400">전화번호</span> <span class="text-stone-700 ml-2">${esc(m.phone || '-')}</span></p>
+									<p><span class="text-stone-400">생성 시간</span> <span class="text-stone-700 ml-2">${formatCreatedAt(m.created_at)}</span></p>
+									<p><span class="text-stone-400">위치</span> <span class="text-stone-700 ml-2">${esc(formatCtaPosition(m.cta_position))}</span></p>
+									<p><span class="text-stone-400">동의</span> <span class="text-stone-700 ml-2">${m.privacy_consent ? '동의' : '-'}</span></p>
 								</div>
 							</div>
-							<button class="sig-btn shrink-0 border border-stone-200 rounded-xl overflow-hidden hover:border-stone-400 transition-colors" data-name="${esc(m.name)}" data-sig="${m.signature_data}">
-								<img src="${m.signature_data}" alt="서명" class="w-[120px] h-[60px] object-contain bg-white" />
-							</button>
 						</div>
 					`;
 					membersList.appendChild(card);
 				});
-
-				// Signature click → modal
-				document.querySelectorAll('.sig-btn').forEach(btn => {
-					btn.addEventListener('click', () => {
-						document.getElementById('modal-name').textContent = btn.dataset.name + ' 서명';
-						document.getElementById('modal-signature').src = btn.dataset.sig;
-						document.getElementById('signature-modal').classList.remove('hidden');
-					});
-				});
 			}
 
-			// Modal close
-			document.getElementById('close-modal').addEventListener('click', () => {
-				document.getElementById('signature-modal').classList.add('hidden');
-			});
-			document.getElementById('signature-modal').addEventListener('click', (e) => {
-				if (e.target === e.currentTarget) {
-					e.currentTarget.classList.add('hidden');
-				}
-			});
+			function formatContact(member) {
+				return member.email || member.phone || '-';
+			}
+
+			function formatContactType(member) {
+				if (member.email) return '이메일';
+				if (member.phone) return '전화번호';
+				return '-';
+			}
+
+			function formatCtaPosition(position) {
+				if (position === 'hero') return '상단';
+				if (position === 'bottom') return '하단';
+				return position || '-';
+			}
+
+			function formatCreatedAt(value) {
+				return new Date(value).toLocaleString('ko-KR', {
+					year: 'numeric',
+					month: '2-digit',
+					day: '2-digit',
+					hour: '2-digit',
+					minute: '2-digit',
+				});
+			}
 
 			function esc(str) {
 				const d = document.createElement('div');
