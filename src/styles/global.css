@@ -17,6 +17,6 @@ section { scroll-margin-top: 80px; }
   }
 }
 
-.toc-link { color: #a8a29e; transition: color 0.15s; }
-.toc-link:hover { color: #57534e; }
-.toc-link.active { color: #1c1917; font-weight: 500; }
+.toc-link { color: #78716c; transition: color 0.15s; }
+.toc-link:hover { color: #d6d3d1; }
+.toc-link.active { color: #fafaf9; font-weight: 500; }
