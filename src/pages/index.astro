@@ -43,18 +43,17 @@ import "../styles/global.css";
 		<aside class="hidden lg:block fixed top-[64px] left-0 w-[260px] h-[calc(100dvh-64px)] overflow-y-auto border-r border-stone-200 py-8 px-6">
 			<p class="mb-6 text-[11px] font-medium uppercase tracking-[0.15em] text-stone-400">목차</p>
 			<ul class="space-y-1">
-				<li><a href="#intro" class="toc-link block py-1 text-[13px] leading-snug">01 왜 500년째 그대로야</a></li>
-				<li><a href="#system" class="toc-link block py-1 text-[13px] leading-snug">02 문제는 시스템이야 바보야</a></li>
-				<li><a href="#function" class="toc-link block py-1 text-[13px] leading-snug">03 인간 중심에서 기능 중심으로</a></li>
-				<li><a href="#platform" class="toc-link block py-1 text-[13px] leading-snug">04 가장 크고도 불친절한 플랫폼</a></li>
-				<li><a href="#product" class="toc-link block py-1 text-[13px] leading-snug">05 정당도 서비스다</a></li>
-				<li><a href="#vision" class="toc-link block py-1 text-[13px] leading-snug">06 AI 시대의 국가 비전</a></li>
-				<li><a href="#axis" class="toc-link block py-1 text-[13px] leading-snug">07 좌파냐 우파냐?</a></li>
-				<li><a href="#kpi" class="toc-link block py-1 text-[13px] leading-snug">08 국가의 KPI 정의</a></li>
-				<li><a href="#os" class="toc-link block py-1 text-[13px] leading-snug">09 AI가 운영합니다</a></li>
-				<li><a href="#ux" class="toc-link block py-1 text-[13px] leading-snug">10 FUN, COOL, SEXY</a></li>
-				<li><a href="#milestone" class="toc-link block py-1 text-[13px] leading-snug">11 미친 꿈을 꿉니다</a></li>
-				<li><a href="#join" class="toc-link block py-1 text-[13px] leading-snug">12 동료를 찾습니다</a></li>
+				<li><a href="#system" class="toc-link block py-1 text-[13px] leading-snug">01 문제는 시스템이야 바보야</a></li>
+				<li><a href="#function" class="toc-link block py-1 text-[13px] leading-snug">02 인간 중심에서 기능 중심으로</a></li>
+				<li><a href="#platform" class="toc-link block py-1 text-[13px] leading-snug">03 가장 크고도 불친절한 플랫폼</a></li>
+				<li><a href="#product" class="toc-link block py-1 text-[13px] leading-snug">04 정당도 서비스다</a></li>
+				<li><a href="#vision" class="toc-link block py-1 text-[13px] leading-snug">05 AI 시대의 국가 비전</a></li>
+				<li><a href="#axis" class="toc-link block py-1 text-[13px] leading-snug">06 좌파냐 우파냐?</a></li>
+				<li><a href="#kpi" class="toc-link block py-1 text-[13px] leading-snug">07 국가의 KPI 정의</a></li>
+				<li><a href="#os" class="toc-link block py-1 text-[13px] leading-snug">08 AI가 운영합니다</a></li>
+				<li><a href="#ux" class="toc-link block py-1 text-[13px] leading-snug">09 FUN, COOL, SEXY</a></li>
+				<li><a href="#milestone" class="toc-link block py-1 text-[13px] leading-snug">10 미친 꿈을 꿉니다</a></li>
+				<li><a href="#join" class="toc-link block py-1 text-[13px] leading-snug">11 동료를 찾습니다</a></li>
 				<li class="pt-2 mt-2 border-t border-stone-200"><a href="#founding-members" class="toc-link block py-1 text-[13px] leading-snug">발기인 동의서</a></li>
 			</ul>
 		</aside>
@@ -63,66 +62,38 @@ import "../styles/global.css";
 		<div id="toc-overlay" class="hidden lg:hidden fixed inset-0 z-40 bg-white/95 backdrop-blur-xl pt-[64px] overflow-y-auto">
 			<div class="p-6">
 				<p class="mb-4 text-[11px] font-medium uppercase tracking-[0.15em] text-stone-400">목차</p>
-				<a href="#intro" class="toc-link block border-b border-stone-200 py-3 text-[15px]">01 왜 500년째 그대로야</a>
-				<a href="#system" class="toc-link block border-b border-stone-200 py-3 text-[15px]">02 문제는 시스템이야 바보야</a>
-				<a href="#function" class="toc-link block border-b border-stone-200 py-3 text-[15px]">03 인간 중심에서 기능 중심으로</a>
-				<a href="#platform" class="toc-link block border-b border-stone-200 py-3 text-[15px]">04 가장 크고도 불친절한 플랫폼</a>
-				<a href="#product" class="toc-link block border-b border-stone-200 py-3 text-[15px]">05 정당도 서비스다</a>
-				<a href="#vision" class="toc-link block border-b border-stone-200 py-3 text-[15px]">06 AI 시대의 국가 비전</a>
-				<a href="#axis" class="toc-link block border-b border-stone-200 py-3 text-[15px]">07 좌파냐 우파냐?</a>
-				<a href="#kpi" class="toc-link block border-b border-stone-200 py-3 text-[15px]">08 국가의 KPI 정의</a>
-				<a href="#os" class="toc-link block border-b border-stone-200 py-3 text-[15px]">09 AI가 운영합니다</a>
-				<a href="#ux" class="toc-link block border-b border-stone-200 py-3 text-[15px]">10 FUN, COOL, SEXY</a>
-				<a href="#milestone" class="toc-link block border-b border-stone-200 py-3 text-[15px]">11 미친 꿈을 꿉니다</a>
-				<a href="#join" class="toc-link block border-b border-stone-200 py-3 text-[15px]">12 동료를 찾습니다</a>
+				<a href="#system" class="toc-link block border-b border-stone-200 py-3 text-[15px]">01 문제는 시스템이야 바보야</a>
+				<a href="#function" class="toc-link block border-b border-stone-200 py-3 text-[15px]">02 인간 중심에서 기능 중심으로</a>
+				<a href="#platform" class="toc-link block border-b border-stone-200 py-3 text-[15px]">03 가장 크고도 불친절한 플랫폼</a>
+				<a href="#product" class="toc-link block border-b border-stone-200 py-3 text-[15px]">04 정당도 서비스다</a>
+				<a href="#vision" class="toc-link block border-b border-stone-200 py-3 text-[15px]">05 AI 시대의 국가 비전</a>
+				<a href="#axis" class="toc-link block border-b border-stone-200 py-3 text-[15px]">06 좌파냐 우파냐?</a>
+				<a href="#kpi" class="toc-link block border-b border-stone-200 py-3 text-[15px]">07 국가의 KPI 정의</a>
+				<a href="#os" class="toc-link block border-b border-stone-200 py-3 text-[15px]">08 AI가 운영합니다</a>
+				<a href="#ux" class="toc-link block border-b border-stone-200 py-3 text-[15px]">09 FUN, COOL, SEXY</a>
+				<a href="#milestone" class="toc-link block border-b border-stone-200 py-3 text-[15px]">10 미친 꿈을 꿉니다</a>
+				<a href="#join" class="toc-link block border-b border-stone-200 py-3 text-[15px]">11 동료를 찾습니다</a>
 				<a href="#founding-members" class="toc-link block py-3 text-[15px]">발기인 동의서</a>
 			</div>
 		</div>
 
 		<main class="lg:ml-[260px] pt-[64px]">
 
-		<!-- Hero / 왜 정치는 500년 동안 그대로인가? -->
-		<section id="intro" class="pt-[60px]">
+		<!-- 문제는 시스템입니다 -->
+		<section id="system" class="pt-[60px]">
 			<div class="max-w-4xl mx-auto px-6">
 				<p class="text-[12px] font-medium text-stone-400 tracking-[0.14em] uppercase mb-5">AIP · AI Party</p>
-				<h1 class="font-semibold mb-8 text-[32px] sm:text-[40px] text-stone-800 leading-[1.25] tracking-[-0.32px]">
-					왜 500년째<br/>그대로야?
-				</h1>
-				<div class="space-y-5 text-[15px] text-stone-600 leading-7 tracking-[-0.16px] max-w-xl">
-					<p>지금의 정당은 너무 오래되었습니다.<br/>사람을 모으고, 파벌을 만들고, 구호를 외치고,<br/>선거 때마다 신선한 얼굴로 갈아 끼웁니다.</p>
-					<p>정책은 감에서 나오고,<br/>조직은 전화와 술자리로 굴러가고,<br/>의사결정은 몇몇 사람의 이해관계에 묶입니다.</p>
-					<p>국가는 5000만 국민의 삶을 다루는 가장 큰 시스템인데,<br/>그 시스템에 접근하는 방식은 500년 전에 머무릅니다.</p>
-					<p class="text-stone-800 font-medium">우리는 이걸 바꿀 겁니다.<br/>AIP는 단순히 신생 정당이 아니라,<br/>AI 시대 인류의 새로운 OS입니다.</p>
-					<p>시민은 유저이고,<br/>정당은 제품이며,<br/>정책은 기능입니다.</p>
-				</div>
-				<div class="mt-9 flex flex-wrap gap-3">
-					<a
-						href="#founding-members"
-						class="inline-flex items-center h-10 px-4 text-sm font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px]"
-					>
-						응원하기 →
-					</a>
-					<a
-						href="https://calendar.app.google/A6wYKXx7pB5wrigd8"
-						target="_blank"
-						class="inline-flex items-center h-10 px-4 text-sm font-medium text-stone-700 bg-stone-100 rounded-full hover:bg-stone-200 transition-colors tracking-[-0.14px]"
-					>
-						커피챗 하기 →
-					</a>
-				</div>
-			</div>
-		</section>
-
-		<!-- 문제는 시스템입니다 -->
-		<section id="system" class="mt-24">
-			<div class="max-w-4xl mx-auto px-6">
-				<h2 class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mb-7">문제는 시스템이야. 바보야.</h2>
+				<h2 class="font-semibold mb-8 text-[32px] sm:text-[40px] text-stone-800 leading-[1.25] tracking-[-0.32px]">문제는 시스템이야.<br/>바보야.</h2>
 				<div class="space-y-5 text-[15px] text-stone-600 leading-7 tracking-[-0.16px] max-w-xl">
 					<p>정치인을 욕하는 건 쉽습니다.</p>
 					<p>부패했다.<br/>무능하다.<br/>말을 바꾼다.<br/>자기 사람만 챙긴다.<br/>권력을 잡으면 달라진다.</p>
 					<p>다 맞는 말일 수 있습니다.</p>
 					<p>하지만 본질적인 문제는 사람 한 명이 아닙니다.<br/>그런 사람이 계속 올라갈 수밖에 없는 시스템입니다.<br/>지금의 정치는 가장 탐욕스러운 사람을 가장 높은 곳으로 밀어올립니다.</p>
 					<p class="text-stone-800 font-medium">AIP는 이 시스템부터 틀려먹었다고 봅니다.<br/>인간에게 의존하는 정치는 확실하게 실패했습니다.</p>
+				</div>
+				<div class="mt-9 flex flex-wrap gap-3">
+					<a href="#founding-members" class="inline-flex items-center h-10 px-4 text-sm font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px]">응원하기 →</a>
+					<a href="https://calendar.app.google/A6wYKXx7pB5wrigd8" target="_blank" class="inline-flex items-center h-10 px-4 text-sm font-medium text-stone-700 bg-stone-100 rounded-full hover:bg-stone-200 transition-colors tracking-[-0.14px]">커피챗 하기 →</a>
 				</div>
 			</div>
 		</section>
@@ -619,7 +590,7 @@ import "../styles/global.css";
 		</main>
 
 		<script>
-			const tocIds = ['intro','system','function','platform','product','vision','axis','kpi','os','ux','milestone','join','founding-members'];
+			const tocIds = ['system','function','platform','product','vision','axis','kpi','os','ux','milestone','join','founding-members'];
 			const tocLinks = Array.from(document.querySelectorAll('.toc-link'));
 			function setActiveToc(id) {
 				tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
