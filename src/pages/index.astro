@@ -21,488 +21,614 @@ import "../styles/global.css";
 		<meta name="twitter:description" content="인간에게 의존하는 정치는 실패했습니다. AIP는 문제 해결을 중심에 둔 AI-native 정당입니다." />
 		<meta name="twitter:image" content="https://aiparty.kr/og-main.png" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 		<script is:inline src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 		<title>AIP · AI Party | AI 시대 인류의 새로운 OS</title>
 	</head>
-	<body class="bg-bg text-fg antialiased">
-		<nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-2xl bg-bg/80 border-b border-border">
-			<div class="max-w-full mx-auto px-6 h-[64px] flex items-center justify-between">
+	<body class="bg-white text-stone-900 antialiased overflow-x-hidden">
+		<!-- 상단 바 -->
+		<header class="fixed top-0 left-0 right-0 z-50 h-[64px] bg-white/80 backdrop-blur-xl border-b border-stone-200">
+			<div class="h-full px-6 flex items-center justify-between">
 				<div class="flex items-center gap-3">
-					<a href="#" class="text-fg font-medium text-[17px] tracking-[-0.01em]">AIP</a>
-					<span class="text-fg-dim text-[12px] tracking-[0.05em] hidden sm:inline">AI Party</span>
+					<button id="toc-toggle" type="button" class="lg:hidden -ml-2 p-2 text-stone-800" aria-label="목차 열기">
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+					</button>
+					<a href="#" class="font-semibold text-[15.84px] text-stone-900 tracking-[-0.32px]">AIP · AI Party</a>
 				</div>
-				<a href="#founding-members" class="text-fg-sub text-[13px] hover:text-fg transition-colors">발기인 동의서 →</a>
+				<span class="hidden sm:inline text-[12px] text-stone-400 tracking-[0.05em]">AI 시대 인류의 새로운 OS</span>
 			</div>
-		</nav>
+		</header>
 
-		<main class="pt-[64px]">
-			<article class="wp-prose px-6 py-16 md:py-24">
+		<!-- 좌측 네비게이션 -->
+		<aside class="hidden lg:block fixed top-[64px] left-0 w-[260px] h-[calc(100dvh-64px)] overflow-y-auto border-r border-stone-200 py-8 px-6">
+			<p class="mb-6 text-[11px] font-medium uppercase tracking-[0.15em] text-stone-400">목차</p>
+			<ul class="space-y-1">
+				<li><a href="#intro" class="toc-link block py-1 text-[13px] leading-snug">01 왜 500년 동안 그대로인가</a></li>
+				<li><a href="#system" class="toc-link block py-1 text-[13px] leading-snug">02 문제는 시스템입니다</a></li>
+				<li><a href="#function" class="toc-link block py-1 text-[13px] leading-snug">03 기능 중심으로</a></li>
+				<li><a href="#platform" class="toc-link block py-1 text-[13px] leading-snug">04 국가라는 플랫폼</a></li>
+				<li><a href="#product" class="toc-link block py-1 text-[13px] leading-snug">05 정당도 제품입니다</a></li>
+				<li><a href="#vision" class="toc-link block py-1 text-[13px] leading-snug">06 AI 시대 비전</a></li>
+				<li><a href="#axis" class="toc-link block py-1 text-[13px] leading-snug">07 좌파냐 우파냐?</a></li>
+				<li><a href="#kpi" class="toc-link block py-1 text-[13px] leading-snug">08 국가 KPI</a></li>
+				<li><a href="#os" class="toc-link block py-1 text-[13px] leading-snug">09 AI가 정당을 운영</a></li>
+				<li><a href="#ux" class="toc-link block py-1 text-[13px] leading-snug">10 개인의 삶에 와닿는 UX</a></li>
+				<li><a href="#milestone" class="toc-link block py-1 text-[13px] leading-snug">11 마일스톤</a></li>
+				<li><a href="#join" class="toc-link block py-1 text-[13px] leading-snug">12 우리가 찾는 사람들</a></li>
+				<li class="pt-2 mt-2 border-t border-stone-200"><a href="#founding-members" class="toc-link block py-1 text-[13px] leading-snug">발기인 동의서</a></li>
+			</ul>
+		</aside>
 
-				<header class="pb-10 mb-2 border-b border-border">
-					<p class="font-mono text-[12px] text-fg-dim tracking-[0.14em] uppercase mb-5 m-0">AIP · AI Party</p>
-					<h1 class="text-[34px] md:text-[40px] font-medium tracking-[-0.01em] leading-[1.2] mb-4 text-fg">
-						AI 시대 인류의<br/>새로운 OS를 만듭니다
-					</h1>
-					<p class="text-[16px] text-fg-sub leading-7 m-0 max-w-xl">
-						시민은 유저이고, 정당은 제품이며, 정책은 기능입니다.<br/>
-						인간에게 의존하는 정치는 실패했습니다. AIP는 문제 해결을 중심에 둔 AI-native 정당입니다.
-					</p>
-					<div class="mt-8 flex flex-wrap gap-3">
-						<a href="#founding-members" class="btn btn-primary">응원하기 →</a>
-						<a href="https://calendar.app.google/A6wYKXx7pB5wrigd8" target="_blank" class="btn btn-ghost">커피챗 하기 →</a>
-					</div>
-				</header>
+		<!-- 모바일 목차 오버레이 -->
+		<div id="toc-overlay" class="hidden lg:hidden fixed inset-0 z-40 bg-white/95 backdrop-blur-xl pt-[64px] overflow-y-auto">
+			<div class="p-6">
+				<p class="mb-4 text-[11px] font-medium uppercase tracking-[0.15em] text-stone-400">목차</p>
+				<a href="#intro" class="toc-link block border-b border-stone-200 py-3 text-[15px]">01 왜 500년 동안 그대로인가</a>
+				<a href="#system" class="toc-link block border-b border-stone-200 py-3 text-[15px]">02 문제는 시스템입니다</a>
+				<a href="#function" class="toc-link block border-b border-stone-200 py-3 text-[15px]">03 기능 중심으로</a>
+				<a href="#platform" class="toc-link block border-b border-stone-200 py-3 text-[15px]">04 국가라는 플랫폼</a>
+				<a href="#product" class="toc-link block border-b border-stone-200 py-3 text-[15px]">05 정당도 제품입니다</a>
+				<a href="#vision" class="toc-link block border-b border-stone-200 py-3 text-[15px]">06 AI 시대 비전</a>
+				<a href="#axis" class="toc-link block border-b border-stone-200 py-3 text-[15px]">07 좌파냐 우파냐?</a>
+				<a href="#kpi" class="toc-link block border-b border-stone-200 py-3 text-[15px]">08 국가 KPI</a>
+				<a href="#os" class="toc-link block border-b border-stone-200 py-3 text-[15px]">09 AI가 정당을 운영</a>
+				<a href="#ux" class="toc-link block border-b border-stone-200 py-3 text-[15px]">10 개인의 삶에 와닿는 UX</a>
+				<a href="#milestone" class="toc-link block border-b border-stone-200 py-3 text-[15px]">11 마일스톤</a>
+				<a href="#join" class="toc-link block border-b border-stone-200 py-3 text-[15px]">12 우리가 찾는 사람들</a>
+				<a href="#founding-members" class="toc-link block py-3 text-[15px]">발기인 동의서</a>
+			</div>
+		</div>
 
-				<!-- 01 -->
-				<section id="why">
-					<h2 class="flex items-baseline"><span class="section-num">01</span><span>왜 정치는 500년 동안 그대로인가?</span></h2>
+		<main class="lg:ml-[260px] pt-[64px]">
+
+		<!-- Hero / 왜 정치는 500년 동안 그대로인가? -->
+		<section id="intro" class="pt-[60px]">
+			<div class="max-w-4xl mx-auto px-6">
+				<p class="text-[12px] font-medium text-stone-400 tracking-[0.14em] uppercase mb-5">AIP · AI Party</p>
+				<h1 class="font-semibold mb-8 text-[32px] sm:text-[40px] text-stone-800 leading-[1.25] tracking-[-0.32px]">
+					왜 정치는 500년 동안<br/>그대로인가?
+				</h1>
+				<div class="space-y-5 text-[15px] text-stone-600 leading-7 tracking-[-0.16px] max-w-xl">
 					<p>지금의 정당은 너무 오래되었습니다.<br/>사람을 모으고, 파벌을 만들고, 구호를 외치고,<br/>선거 때마다 신선한 얼굴로 갈아 끼웁니다.</p>
 					<p>정책은 감에서 나오고,<br/>조직은 전화와 술자리로 굴러가고,<br/>의사결정은 몇몇 사람의 이해관계에 묶입니다.</p>
 					<p>국가는 5000만 국민의 삶을 다루는 가장 큰 시스템인데,<br/>그 시스템에 접근하는 방식은 500년 전에 머무릅니다.</p>
-					<p class="lead">우리는 이걸 바꿀 겁니다.<br/>AIP는 단순히 신생 정당이 아니라, AI 시대 인류의 새로운 OS입니다.</p>
+					<p class="text-stone-800 font-medium">우리는 이걸 바꿀 겁니다.<br/>AIP는 단순히 신생 정당이 아니라,<br/>AI 시대 인류의 새로운 OS입니다.</p>
 					<p>시민은 유저이고,<br/>정당은 제품이며,<br/>정책은 기능입니다.</p>
-				</section>
-				<hr/>
+				</div>
+				<div class="mt-9 flex flex-wrap gap-3">
+					<a
+						href="#founding-members"
+						class="inline-flex items-center h-10 px-4 text-sm font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px]"
+					>
+						응원하기 →
+					</a>
+					<a
+						href="https://calendar.app.google/A6wYKXx7pB5wrigd8"
+						target="_blank"
+						class="inline-flex items-center h-10 px-4 text-sm font-medium text-stone-700 bg-stone-100 rounded-full hover:bg-stone-200 transition-colors tracking-[-0.14px]"
+					>
+						커피챗 하기 →
+					</a>
+				</div>
+			</div>
+		</section>
 
-				<!-- 02 -->
-				<section id="system">
-					<h2 class="flex items-baseline"><span class="section-num">02</span><span>문제는 시스템입니다</span></h2>
+		<!-- 문제는 시스템입니다 -->
+		<section id="system" class="mt-24">
+			<div class="max-w-4xl mx-auto px-6">
+				<h2 class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mb-7">문제는 시스템입니다</h2>
+				<div class="space-y-5 text-[15px] text-stone-600 leading-7 tracking-[-0.16px] max-w-xl">
 					<p>정치인을 욕하는 건 쉽습니다.</p>
 					<p>부패했다.<br/>무능하다.<br/>말을 바꾼다.<br/>자기 사람만 챙긴다.<br/>권력을 잡으면 달라진다.</p>
 					<p>다 맞는 말일 수 있습니다.</p>
 					<p>하지만 본질적인 문제는 사람 한 명이 아닙니다.<br/>그런 사람이 계속 올라갈 수밖에 없는 시스템입니다.<br/>지금의 정치는 가장 탐욕적인 사람을 가장 높은 곳으로 밀어올립니다.</p>
-					<p class="lead">AIP는 이 구조가 틀렸다고 봅니다.<br/>인간에게 의존하는 정치는 확실하게 실패했습니다.</p>
-				</section>
-				<hr/>
+					<p class="text-stone-800 font-medium">AIP는 이 구조가 틀렸다고 봅니다.<br/>인간에게 의존하는 정치는 확실하게 실패했습니다.</p>
+				</div>
+			</div>
+		</section>
 
-				<!-- 03 -->
-				<section id="function">
-					<h2 class="flex items-baseline"><span class="section-num">03</span><span>인간 중심에서 기능 중심으로</span></h2>
+		<!-- 인간 중심에서 기능 중심으로 -->
+		<section id="function" class="mt-24 bg-stone-50 py-20">
+			<div class="max-w-4xl mx-auto px-6">
+				<h2 class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mb-7">인간 중심에서 기능 중심으로</h2>
+				<div class="space-y-5 text-[15px] text-stone-600 leading-7 tracking-[-0.16px] max-w-xl">
 					<p>기존 정당의 중심에는 언제나 사람이 있었습니다.</p>
 					<p>누가 대표냐.<br/>누가 대선주자냐.<br/>누가 공천권을 쥐느냐.</p>
-					<p class="lead">AIP의 중심에는 기능이 있습니다.</p>
+					<p class="text-stone-800 font-medium">AIP의 중심에는 기능이 있습니다.</p>
 					<p>시민에게 어떤 문제를 해결하는가.<br/>국가의 어떤 비효율을 어떻게 줄이는가.<br/>AI 시대의 산업 전환을 얼마나 잘 설계하는가.</p>
 					<p>우리는 정치인을 부정하지 않습니다.<br/>다만 정치인이 정당의 전부가 되어서는 안 됩니다.</p>
 					<p>1000원짜리 라면도 리뷰되는데,<br/>1000억짜리 정책은 리뷰되지 않습니다.</p>
-					<p class="lead">AIP는 인간을 중심에 둔 정당이 아니라,<br/>문제 해결을 중심에 둔 정당을 만듭니다.</p>
-				</section>
-				<hr/>
+					<p class="text-stone-800 font-medium">AIP는 인간을 중심에 둔 정당이 아니라,<br/>문제 해결을 중심에 둔 정당을 만듭니다.</p>
+				</div>
+			</div>
+		</section>
 
-				<!-- 04 -->
-				<section id="platform">
-					<h2 class="flex items-baseline"><span class="section-num">04</span><span>국가는 가장 크고, 가장 불친절한 플랫폼입니다</span></h2>
+		<!-- 국가는 가장 크고, 가장 불친절한 플랫폼입니다 -->
+		<section id="platform" class="mt-24">
+			<div class="max-w-4xl mx-auto px-6">
+				<h2 class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mb-7">국가는 가장 크고,<br/>가장 불친절한 플랫폼입니다</h2>
+				<div class="space-y-5 text-[15px] text-stone-600 leading-7 tracking-[-0.16px] max-w-xl">
 					<p>국가는 거대한 플랫폼 비즈니스입니다.</p>
 					<p>복지, 세금, 교육, 의료, 주거, 창업, 고용, 민원, 인허가, 지원금,<br/>시민의 삶은 거의 모든 순간 국가와 연결되어 있습니다.</p>
 					<p>그런데 문서는 어렵고, 절차는 복잡하고,<br/>자격은 불명확하고, 기한을 놓치면 끝입니다.<br/>이 플랫폼은 너무 불친절합니다.</p>
-					<div class="callout">
-						<p class="callout-kicker">AIP의 첫 번째 제품은 여기서 시작합니다.</p>
-						<p class="callout-title">시민을 대리하는 AI 에이전트</p>
-					</div>
+				</div>
+
+				<div class="mt-8 max-w-xl border-l-2 border-stone-800 pl-5">
+					<p class="text-[15px] text-stone-600 leading-7 tracking-[-0.16px]">AIP의 첫 번째 제품은 여기서 시작합니다.</p>
+					<p class="text-[17px] font-semibold text-stone-900 tracking-[-0.32px] mt-1">시민을 대리하는 AI 에이전트.</p>
+				</div>
+
+				<div class="mt-8 space-y-5 text-[15px] text-stone-600 leading-7 tracking-[-0.16px] max-w-xl">
 					<p>내가 받을 지원금을 찾아주고,<br/>복잡한 행정 문서를 해석해주고,<br/>민원과 이의제기 초안을 만들어주고,<br/>세금·환급·복지·인허가 절차를 안내하고,<br/>필요하면 전문가와 연결해주는 AI입니다.</p>
 					<p>이건 단순한 편의 기능이 아닙니다.<br/>이건 시민이 국가를 사용하는 UX를 바꾸는 일입니다.</p>
 					<p>회사가 SaaS를 쓰고,<br/>영업팀이 CRM을 쓰고,<br/>개발팀이 GitHub를 쓰듯이,</p>
-					<p class="lead">시민은 AIP를 매일 쓰게 될 겁니다.</p>
-				</section>
-				<hr/>
+					<p class="text-stone-800 font-medium">시민은 AIP를 매일 쓰게 될 겁니다.</p>
+				</div>
+			</div>
+		</section>
 
-				<!-- 05 -->
-				<section id="product">
-					<h2 class="flex items-baseline"><span class="section-num">05</span><span>정당도 제품입니다</span></h2>
+		<!-- 정당도 제품입니다 -->
+		<section id="product" class="mt-24 bg-stone-50 py-20">
+			<div class="max-w-4xl mx-auto px-6">
+				<h2 class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mb-7">정당도 제품입니다</h2>
+				<div class="space-y-5 text-[15px] text-stone-600 leading-7 tracking-[-0.16px] max-w-xl">
 					<p>기존 정당은 보통 사람을 먼저 세웁니다.</p>
-					<div class="creed dim">
-						“우리에게는 이 사람이 있습니다.”<br/>
-						“이 사람이 나라를 바꿀 겁니다.”<br/>
-						“이 사람을 믿어주세요.”
-					</div>
+					<p class="text-stone-500 italic">“우리에게는 이 사람이 있습니다.”<br/>“이 사람이 나라를 바꿀 겁니다.”<br/>“이 사람을 믿어주세요.”</p>
 					<p>AIP는 다르게 말합니다.</p>
-					<div class="creed">
-						“우리는 이런 문제를 풉니다.”<br/>
-						“이 기능을 이미 만들고 있습니다.”<br/>
-						“이 시스템을 쓰면 당신의 삶이 이렇게 바뀝니다.”<br/>
-						“이걸 더 크게, 잘 만들 수 있도록 도와주세요.”
-					</div>
+					<p class="text-stone-800 italic">“우리는 이런 문제를 풉니다.”<br/>“이 기능을 이미 만들고 있습니다.”<br/>“이 시스템을 쓰면 당신의 삶이 이렇게 바뀝니다.”<br/>“이걸 더 크게, 잘 만들 수 있도록 도와주세요.”</p>
 					<p>AIP도 결국 사람들의 신뢰를 받아야 합니다.<br/>하지만 그 신뢰는 그럴듯한 얼굴 하나가 아니라,<br/>실제로 작동하는 기능에서 나와야 합니다.</p>
-					<p class="lead">AIP는 시민을 위한 제품 조직입니다.</p>
-				</section>
-				<hr/>
+					<p class="text-stone-800 font-medium">AIP는 시민을 위한 제품 조직입니다.</p>
+				</div>
+			</div>
+		</section>
 
-				<!-- 06 -->
-				<section id="vision">
-					<h2 class="flex items-baseline"><span class="section-num">06</span><span>AI 시대 비전을 제시합니다</span></h2>
+		<!-- AI 시대 비전을 제시합니다 -->
+		<section id="vision" class="mt-24">
+			<div class="max-w-4xl mx-auto px-6">
+				<h2 class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mb-7">AI 시대 비전을 제시합니다</h2>
+				<div class="space-y-5 text-[15px] text-stone-600 leading-7 tracking-[-0.16px] max-w-xl">
 					<p>AIP는 AI 시대를 준비합니다.</p>
 					<p>대한민국이 AI 시대에 어떻게 살아남고, 어떻게 성장하고,<br/>어떻게 전환해야 하는지 국가전략을 제시합니다.</p>
 					<p>노동이 바뀝니다.<br/>교육이 바뀝니다.<br/>산업이 바뀝니다.<br/>복지가 바뀝니다.<br/>국방이 바뀝니다.<br/>미디어가 바뀝니다.<br/>그리고 정치가 바뀝니다.</p>
 					<p>그런데 지금의 정치는 이 변화를 너무 느리게 이해합니다.</p>
 					<p>100조 예산은 쓰지만 방향이 없습니다.<br/>AX를 말하지만 실무에 대해서는 아는 것이 없습니다.<br/>정부 지원사업은 넘치지만 좋은 기업은 탄생하지 못합니다.</p>
+				</div>
 
-					<h3>대한민국은 미국과 다릅니다</h3>
+				<h3 class="text-[17px] font-semibold text-stone-800 tracking-[-0.32px] mt-14 mb-6">대한민국은 미국과 다릅니다</h3>
+				<div class="space-y-5 text-[15px] text-stone-600 leading-7 tracking-[-0.16px] max-w-xl">
 					<p>미국에서는 빅테크가 직접 인프라와 모델과 서비스를 만듭니다.<br/>한국에서는 국가 예산, 공공 연구, 대기업, 스타트업, 대학, 규제가 모두 얽혀 있습니다.</p>
-					<p class="lead">그래서 한국에서는 정치가 더 중요합니다.</p>
-					<p>AI 시대의 산업정책, 데이터 인프라, 노동 전환, 교육 개혁,<br/>에너지 전략, 국방 기술, 스타트업 생태계는 결국 국가 의사결정과 연결됩니다.</p>
+					<p class="text-stone-800 font-medium">그래서 한국에서는 정치가 더 중요합니다.</p>
+					<p>AI 시대의 산업정책, 데이터 인프라, 노동 전환, 교육 개혁,<br/>에너지 전략, 국방 기술, 스타트업 생태계는<br/>결국 국가 의사결정과 연결됩니다.</p>
 					<p>이걸 아무것도 모르는 정치인과 관료에게만 맡길 수 없습니다.<br/>AIP는 AI 시대를 아는 사람들이 만드는 정당입니다.</p>
-				</section>
-				<hr/>
+				</div>
+			</div>
+		</section>
 
-				<!-- 07 -->
-				<section id="axis">
-					<h2 class="flex items-baseline"><span class="section-num">07</span><span>좌파냐 우파냐?</span></h2>
+		<!-- 좌파냐 우파냐? -->
+		<section id="axis" class="mt-24 bg-stone-50 py-20">
+			<div class="max-w-4xl mx-auto px-6">
+				<h2 class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mb-7">좌파냐 우파냐?</h2>
+				<div class="space-y-5 text-[15px] text-stone-600 leading-7 tracking-[-0.16px] max-w-xl">
 					<p>기존 정치는 물을 겁니다.</p>
 					<p>좌파냐, 우파냐?<br/>규제냐, 자유냐?<br/>복지냐, 성장이냐?</p>
-					<p class="lead">질문부터 틀렸습니다.</p>
+					<p class="text-stone-800 font-medium">질문부터 틀렸습니다.</p>
 					<p>노동의 기준이 인간에게서 AI와 로봇으로 이동하는 시대에,<br/>20세기 산업혁명의 낡은 좌우 구분으로는 답이 없습니다.</p>
 					<p>우리는 고용 유연화를 말하는 동시에, 기본소득을 말할 수 있어야 합니다.<br/>우리는 기업의 AX 전환을 밀어붙이는 동시에, 그 이익이 사회로 돌아와야 합니다.</p>
 					<p>이건 모순이 아닙니다.<br/>AI 시대에는 좌와 우의 정책이 한 번에 움직여야 합니다.</p>
 					<p>고용 유연화만 하면 사람은 버려집니다.<br/>기본소득만 하면 생산성이 무너집니다.<br/>기업 지원만 하면 특혜가 됩니다.<br/>규제만 하면 글로벌 시장에서 도태됩니다.</p>
-					<p class="lead">AIP의 기준은 하나입니다.<br/>이 선택이 AI 시대의 고통을 줄이고, 행복을 늘리는가?</p>
-				</section>
-				<hr/>
+					<p class="text-stone-800 font-medium">AIP의 기준은 하나입니다.<br/>이 선택이 AI 시대의 고통을 줄이고, 행복을 늘리는가?</p>
+				</div>
+			</div>
+		</section>
 
-				<!-- 08 -->
-				<section id="kpi">
-					<h2 class="flex items-baseline"><span class="section-num">08</span><span>국가 KPI를 정의합니다</span></h2>
+		<!-- 국가 KPI를 정의합니다 -->
+		<section id="kpi" class="mt-24">
+			<div class="max-w-4xl mx-auto px-6">
+				<h2 class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mb-7">국가 KPI를 정의합니다</h2>
+				<div class="space-y-5 text-[15px] text-stone-600 leading-7 tracking-[-0.16px] max-w-xl">
 					<p>정치는 늘 좋은 말을 합니다.<br/>국민 행복. 민생 회복. 경제 성장. 공정한 사회. 따뜻한 공동체…</p>
 					<p>하지만 좋은 말만으로는 아무것도 바뀌지 않습니다.<br/>측정되지 않는 것은 개선될 수 없습니다.</p>
-					<p class="lead">그렇기에 AIP는 국가의 KPI를 정의하려 합니다.</p>
+					<p class="text-stone-800 font-medium">그렇기에 AIP는 국가의 KPI를 정의하려 합니다.</p>
+				</div>
 
-					<div class="kpi-list">
-						<div class="kpi-row">
-							<p class="kpi-name">자유</p>
-							<p class="kpi-desc">내가 내 시간과 삶의 방향을 선택할 수 있는가.</p>
-						</div>
-						<div class="kpi-row">
-							<p class="kpi-name">번영</p>
-							<p class="kpi-desc">먹고살 수 있는 벌이와 자산 형성의 기회가 있는가.</p>
-						</div>
-						<div class="kpi-row">
-							<p class="kpi-name">연결</p>
-							<p class="kpi-desc">가족, 이웃, 지역, 사회와 연결되어 있는가. 제도와 공동체를 믿을 수 있는가.</p>
-						</div>
+				<div class="mt-8 max-w-xl divide-y divide-stone-200 border-y border-stone-200">
+					<div class="py-5">
+						<p class="text-[16px] font-semibold text-stone-900 tracking-[-0.16px] mb-1">자유</p>
+						<p class="text-[15px] text-stone-600 leading-7 tracking-[-0.16px]">내가 내 시간과 삶의 방향을 선택할 수 있는가.</p>
 					</div>
+					<div class="py-5">
+						<p class="text-[16px] font-semibold text-stone-900 tracking-[-0.16px] mb-1">번영</p>
+						<p class="text-[15px] text-stone-600 leading-7 tracking-[-0.16px]">먹고살 수 있는 벌이와 자산 형성의 기회가 있는가.</p>
+					</div>
+					<div class="py-5">
+						<p class="text-[16px] font-semibold text-stone-900 tracking-[-0.16px] mb-1">연결</p>
+						<p class="text-[15px] text-stone-600 leading-7 tracking-[-0.16px]">가족, 이웃, 지역, 사회와 연결되어 있는가.<br/>제도와 공동체를 믿을 수 있는가.</p>
+					</div>
+				</div>
 
+				<div class="mt-8 space-y-5 text-[15px] text-stone-600 leading-7 tracking-[-0.16px] max-w-xl">
 					<p>무엇을 중요하게 볼지 정하는 순간 이념이 들어갑니다.<br/>그렇지만 우리는 이것을 비겁하게 숨기지 않습니다.</p>
 					<p>AIP의 이념은 몇몇 정치인이 밀실에서 정하지 않습니다.<br/>초기 당원, 빌더, 연구자, 시민들이 함께 정의합니다.</p>
 					<p>그리고 한 번 정한 뒤에도 계속 업데이트합니다.<br/>정당은 지속적으로 개선되는 시스템이어야 합니다.</p>
-				</section>
-				<hr/>
+				</div>
+			</div>
+		</section>
 
-				<!-- 09 -->
-				<section id="operate">
-					<h2 class="flex items-baseline"><span class="section-num">09</span><span>AI가 정당을 운영합니다</span></h2>
+		<!-- AI가 정당을 운영합니다 -->
+		<section id="os" class="mt-24 bg-stone-50 py-20">
+			<div class="max-w-4xl mx-auto px-6">
+				<h2 class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mb-7">AI가 정당을 운영합니다</h2>
+				<div class="space-y-5 text-[15px] text-stone-600 leading-7 tracking-[-0.16px] max-w-xl">
 					<p>시민이 방향을 정합니다.<br/>정당이 기준을 세웁니다.<br/>선출된 사람이 책임집니다.</p>
 					<p>하지만 인간만으로 그 기준을 적용하고, 수많은 데이터를 읽고,<br/>정책의 효과를 검토하는 일은 불가능합니다.</p>
 					<p>인간은 피곤합니다.<br/>인간은 욕망합니다.<br/>인간은 자기합리화를 합니다.<br/>인간은 권력을 잡으면 달라집니다.</p>
 					<p>AI도 완벽하지 않습니다.<br/>하지만 AI는 기록될 수 있고, 검증될 수 있고,<br/>업데이트될 수 있고, 같은 기준을 반복 적용할 수 있습니다.</p>
-					<p>우리가 만들려는 것은 KPI를 기준으로, 정책을 검토하고,<br/>여론을 분석하고, 의사결정을 보조하는, <strong>AI 정치 운영체제</strong>입니다.</p>
-					<p class="lead">AIP는 자의적으로 움직이는 정당이 아니라,<br/>검증 가능한 시스템으로 움직이는 정당입니다.</p>
-				</section>
-				<hr/>
+					<p>우리가 만들려는 것은<br/>KPI를 기준으로, 정책을 검토하고,<br/>여론을 분석하고, 의사결정을 보조하는,<br/><span class="text-stone-900 font-semibold">AI 정치 운영체제</span>입니다.</p>
+					<p class="text-stone-800 font-medium">AIP는 자의적으로 움직이는 정당이 아니라,<br/>검증 가능한 시스템으로 움직이는 정당입니다.</p>
+				</div>
+			</div>
+		</section>
 
-				<!-- 10 -->
-				<section id="ux">
-					<h2 class="flex items-baseline"><span class="section-num">10</span><span>개인의 삶에 와닿는 UX</span></h2>
+		<!-- 개인의 삶에 와닿는 UX -->
+		<section id="ux" class="mt-24">
+			<div class="max-w-4xl mx-auto px-6">
+				<h2 class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mb-7">개인의 삶에 와닿는 UX</h2>
+				<div class="space-y-5 text-[15px] text-stone-600 leading-7 tracking-[-0.16px] max-w-xl">
 					<p>정책은 늘 불확실합니다.</p>
 					<p>어떤 법안이 어떤 사람에게 어떤 영향을 줄지,<br/>어떤 예산이 실제로 효과를 낼지,<br/>어떤 규제가 산업을 살릴지 죽일지,<br/>어떤 메시지가 시민에게 어떻게 받아들여질지</p>
 					<p>아무도 미래를 완벽하게 알 수 없습니다.</p>
 					<p>하지만 지금처럼 감으로 결정할 필요는 없습니다.</p>
-					<p class="lead">AIP는 정책도 하나의 가설로 봅니다.</p>
+					<p class="text-stone-800 font-medium">AIP는 정책도 하나의 가설로 봅니다.</p>
 					<p>가설을 세우고,<br/>데이터를 보고,<br/>시뮬레이션하고,<br/>작게 실험하고,<br/>결과를 측정하고,<br/>다시 개선합니다.</p>
 					<p>정책은 사람마다 다르게 체감됩니다.</p>
 					<p>어떤 사람은 개인의 이익을 봅니다.<br/>어떤 사람은 가족을 봅니다.<br/>어떤 사람은 동네를 봅니다.<br/>어떤 사람은 도시를 봅니다.<br/>어떤 사람은 국가를 봅니다.<br/>어떤 사람은 미래세대와 인류 전체를 봅니다.</p>
 					<p>시뮬레이션은 처음에는 더 작고 실용적인 것부터,<br/>점차 마을과 도시와 국가와 세계까지 뻗어나갑니다.</p>
-					<div class="callout">
-						이 정책이 내 삶에 어떤 영향을 주는가.<br/>
-						우리 동네에는 어떤 변화가 생기는가.<br/>
-						내 업종에는 어떤 비용과 기회가 생기는가.<br/>
-						내 가족에게는 어떤 혜택과 부담이 생기는가.<br/>
-						내가 중요하게 생각하는 가치와 이 정책은 얼마나 맞는가.
-					</div>
+				</div>
+
+				<div class="mt-8 max-w-xl border-l-2 border-stone-300 pl-5 space-y-2.5 text-[15px] text-stone-600 leading-7 tracking-[-0.16px]">
+					<p>이 정책이 내 삶에 어떤 영향을 주는가.</p>
+					<p>우리 동네에는 어떤 변화가 생기는가.</p>
+					<p>내 업종에는 어떤 비용과 기회가 생기는가.</p>
+					<p>내 가족에게는 어떤 혜택과 부담이 생기는가.</p>
+					<p>내가 중요하게 생각하는 가치와 이 정책은 얼마나 맞는가.</p>
+				</div>
+
+				<div class="mt-8 space-y-5 text-[15px] text-stone-600 leading-7 tracking-[-0.16px] max-w-xl">
 					<p>그래서 우리는 정책을 개인화해서 설명합니다.</p>
 					<p>“이 정책은 대한민국에 좋습니다”에서 끝나지 않습니다.<br/>“이 정책은 당신의 삶에 이런 변화를 만들 수 있습니다”까지 보여줍니다.</p>
 					<p>정치는 추상적 구호가 아니라,<br/>개인의 삶에 닿는 UX를 제공해야 합니다.</p>
-					<p class="lead">AIP는 경쟁 정당들의 10분의 1 규모로, 10배 빠르게 움직이고,<br/>AI-native한 조직과 제품으로 싸웁니다.</p>
-				</section>
-				<hr/>
+					<p class="text-stone-800 font-medium">AIP는 경쟁 정당들의 10분의 1 규모로, 10배 빠르게 움직이고,<br/>AI-native한 조직과 제품으로 싸웁니다.</p>
+				</div>
+			</div>
+		</section>
 
-				<!-- 11 -->
-				<section id="milestone">
-					<h2 class="flex items-baseline"><span class="section-num">11</span><span>마일스톤</span></h2>
-					<p>우리는 작게 시작하지만, 그 끝은 창대합니다.<br/>첫 목표는 명확합니다.</p>
-					<div class="phase-block">
-						<div class="phase-year">2026</div>
-						<div class="phase-headline">창당</div>
-						<ul>
-							<li>빌더 네트워크 구축</li>
-							<li>미디어 채널 설립, 성장</li>
-						</ul>
-					</div>
-					<div class="phase-block">
-						<div class="phase-year">2027</div>
-						<div class="phase-headline">성장</div>
-						<ul>
-							<li>시민 AI 에이전트 출시</li>
-							<li>100만 책임당원 모집</li>
-						</ul>
-					</div>
-					<div class="phase-block">
-						<div class="phase-year">2028</div>
-						<div class="phase-headline">총선</div>
-						<ul>
-							<li>비례정당으로 10%</li>
-							<li>원내 진입</li>
-						</ul>
-					</div>
-					<p class="mt-6">AIP는 꽉 막힌 한국 정치의 캐스팅보트가 될 수 있습니다.<br/>나아가, 세계 정치에 새로운 기준을 제안할 수 있습니다.</p>
-					<p class="lead">AIP는 민주주의 다음의 인류 OS를 제시합니다.</p>
-				</section>
-				<hr/>
+		<!-- 마일스톤 -->
+		<section id="milestone" class="mt-24 bg-stone-50 py-20">
+			<div class="max-w-4xl mx-auto px-6">
+				<h2 class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mb-7">마일스톤</h2>
+				<div class="space-y-5 text-[15px] text-stone-600 leading-7 tracking-[-0.16px] max-w-xl mb-8">
+					<p>우리는 작게 시작하지만,<br/>그 끝은 창대합니다.</p>
+					<p>첫 목표는 명확합니다.</p>
+				</div>
 
-				<!-- 12 -->
-				<section id="builders">
-					<h2 class="flex items-baseline"><span class="section-num">12</span><span>우리가 찾는 사람들</span></h2>
-					<p>우리는 정치인을 찾지 않습니다.<br/>우리는 <strong>빌더</strong>를 찾습니다.</p>
+				<div class="divide-y divide-stone-200 border-y border-stone-200 max-w-xl">
+					<div class="py-6 flex gap-6">
+						<span class="text-[15px] font-semibold text-stone-800 w-16 shrink-0 tracking-[-0.16px]">2026</span>
+						<div class="text-[15px] text-stone-600 leading-7 tracking-[-0.16px]">
+							<span class="text-stone-800 font-medium">창당.</span><br/>빌더 네트워크 구축.<br/>미디어 채널 설립, 성장.
+						</div>
+					</div>
+					<div class="py-6 flex gap-6">
+						<span class="text-[15px] font-semibold text-stone-800 w-16 shrink-0 tracking-[-0.16px]">2027</span>
+						<div class="text-[15px] text-stone-600 leading-7 tracking-[-0.16px]">
+							<span class="text-stone-800 font-medium">성장.</span><br/>시민 AI 에이전트 출시.<br/>100만 책임당원 모집.
+						</div>
+					</div>
+					<div class="py-6 flex gap-6">
+						<span class="text-[15px] font-semibold text-stone-800 w-16 shrink-0 tracking-[-0.16px]">2028</span>
+						<div class="text-[15px] text-stone-600 leading-7 tracking-[-0.16px]">
+							<span class="text-stone-800 font-medium">총선.</span><br/>비례정당으로 10%.<br/>원내 진입.
+						</div>
+					</div>
+				</div>
+
+				<div class="space-y-5 text-[15px] text-stone-600 leading-7 tracking-[-0.16px] max-w-xl mt-8">
+					<p>AIP는 꽉 막힌 한국 정치의 캐스팅보트가 될 수 있습니다.<br/>나아가, 세계 정치에 새로운 기준을 제안할 수 있습니다.</p>
+					<p class="text-stone-800 font-medium">AIP는 민주주의 다음의 인류 OS를 제시합니다.</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- 우리가 찾는 사람들 -->
+		<section id="join" class="mt-24 bg-[#1a1a1a] py-20">
+			<div class="max-w-4xl mx-auto px-6">
+				<h2 class="text-[22px] font-semibold text-white tracking-[-0.32px] mb-7">우리가 찾는 사람들</h2>
+				<div class="space-y-5 text-[15px] text-stone-300 leading-7 tracking-[-0.16px] max-w-xl">
+					<p>우리는 정치인을 찾지 않습니다.<br/>우리는 <span class="text-white font-semibold">빌더</span>를 찾습니다.</p>
 					<p>엔지니어, 디자이너, 마케터, 아티스트,<br/>커뮤니티 빌더, 스타트업 창업가, 연구자.</p>
 					<p>세상을 그냥 두고만 볼 수 없는 사람들.</p>
 					<p>AIP는 권력을 갖고 싶은 사람들이 아니라,<br/>시스템을 바꾸고 싶은 사람들이 만드는 정당입니다.</p>
 					<p>말만 하기보다 직접 만드는 사람.<br/>논평하기보다 직접 고치는 사람.</p>
 					<p>우리가 찾는 사람은 그런 사람입니다.</p>
 					<p>이 일은 어렵습니다.<br/>아마 당신이 해본 그 어떤 일보다 어려울 겁니다.</p>
-					<p>하지만 우리는 이 일이 그 어떤 사업보다도 가치 있다고 믿습니다.</p>
-					<p>이건 단순한 하나의 회사가 아니라,<br/>국가라는 가장 거대하고 오래된 시스템을 다시 설계하는 일이기 때문입니다.</p>
-					<blockquote>“Life was made up by people that are no smarter than you.”</blockquote>
-					<p>세상은 우리보다 똑똑한 사람들이 만든 게 아닙니다.</p>
-					<p class="lead">관심이 생긴다면 연락주세요. 커피 한잔합시다.</p>
-					<div class="mt-7 flex flex-wrap gap-3">
-						<a href="#founding-members" class="btn btn-primary">응원하기 →</a>
-						<a href="https://calendar.app.google/A6wYKXx7pB5wrigd8" target="_blank" class="btn btn-ghost">커피챗 하기 →</a>
-					</div>
-				</section>
-			</article>
+					<p>하지만 우리는 이 일이<br/>그 어떤 사업보다도 가치 있다고 믿습니다.</p>
+					<p>이건 단순한 하나의 회사가 아니라,<br/>국가라는 가장 거대하고 오래된 시스템을<br/>다시 설계하는 일이기 때문입니다.</p>
+				</div>
 
-			<!-- 발기인 동의서 -->
-			<section id="founding-members" class="border-t border-border bg-surface-2/40 pt-16 md:pt-24">
-				<div class="wp-prose px-6">
-					<h2 class="text-[24px] font-medium tracking-[-0.01em] text-fg mb-2">발기인 동의서</h2>
-					<p class="text-[15px] text-fg-sub leading-7 max-w-xl m-0">
-						에이아이당(가칭) 창당준비위원회 발기인에 동의합니다.<br/>
-						아래 양식을 작성하여 접수해 주세요.
+				<blockquote class="mt-10 border-l-2 border-stone-600 pl-5 max-w-xl">
+					<p class="text-[15px] text-stone-400 italic leading-7 tracking-[-0.16px]">“Life was made up by people that are no smarter than you.”</p>
+				</blockquote>
+				<p class="mt-5 text-[15px] text-stone-300 leading-7 tracking-[-0.16px] max-w-xl">세상은 우리보다 똑똑한 사람들이 만든 게 아닙니다.</p>
+
+				<p class="mt-8 text-[15px] text-white font-medium leading-7 tracking-[-0.16px] max-w-xl">관심이 생긴다면 연락주세요.<br/>커피 한잔합시다.</p>
+
+				<div class="mt-9 flex flex-wrap gap-3">
+					<a
+						href="#founding-members"
+						class="inline-flex items-center h-10 px-4 text-sm font-medium text-stone-900 bg-white rounded-full hover:bg-stone-200 transition-colors tracking-[-0.14px]"
+					>
+						응원하기 →
+					</a>
+					<a
+						href="https://calendar.app.google/A6wYKXx7pB5wrigd8"
+						target="_blank"
+						class="inline-flex items-center h-10 px-4 text-sm font-medium text-stone-200 border border-stone-600 rounded-full hover:bg-white/10 transition-colors tracking-[-0.14px]"
+					>
+						커피챗 하기 →
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<section id="founding-members" class="mt-24 pt-10">
+			<div class="max-w-4xl mx-auto px-6">
+				<h1 class="font-semibold mb-[10px] text-[32px] text-stone-800 leading-[40px] tracking-[-0.32px]">
+					발기인 동의서
+				</h1>
+				<p class="text-[15px] text-stone-500 leading-6 tracking-[-0.16px] max-w-xl">
+					에이아이당(가칭) 창당준비위원회 발기인에 동의합니다.<br/>
+					아래 양식을 작성하여 접수해 주세요.
+				</p>
+
+				<div class="mt-6 bg-stone-50 border border-stone-200 rounded-xl p-5 sm:p-6 space-y-2.5">
+					<p class="text-[14px] text-stone-700 tracking-[-0.14px]"><span class="font-semibold text-stone-800">발기인이란?</span> 새로운 정당의 시작을 응원해 주신다는 상징적인 의미입니다.</p>
+					<ul class="space-y-1.5 text-[13px] text-stone-600 leading-[20px] tracking-[-0.14px]">
+						<li><span class="font-medium text-stone-700">부담 ZERO :</span> 당비 납부, 행사 참석 의무가 전혀 없습니다.</li>
+						<li><span class="font-medium text-stone-700">정보 보호 :</span> 선관위 제출용으로만 쓰인 후 즉시 폐기됩니다.</li>
+						<li><span class="text-amber-700">⚠️</span> <span class="font-medium text-stone-700">가입 불가 :</span> 정당법에 따라 현직 공무원, 교원, 군인, 사회복무요원 등 <span class="text-[12px] text-stone-500">(산업기능요원·전문연구요원은 가능)</span></li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<section class="mt-12">
+			<div class="max-w-4xl mx-auto px-6">
+				<form id="founding-member-form" novalidate>
+					<div class="bg-stone-100 rounded-2xl p-6 sm:p-8 space-y-5">
+
+						<!-- 성명 + 생년월일 -->
+						<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+							<div>
+								<label for="name" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+									성명 <span class="text-red-500">*</span>
+								</label>
+								<input
+									type="text" id="name" name="name" required autocomplete="name"
+									class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+									placeholder="홍길동"
+								/>
+								<p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+							</div>
+							<div>
+								<label for="birth_date" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+									생년월일 <span class="text-red-500">*</span>
+								</label>
+								<input
+									type="text" id="birth_date" name="birth_date" required autocomplete="bday"
+									inputmode="numeric" maxlength="10"
+									class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+									placeholder="예: 1990-01-01"
+								/>
+								<p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+							</div>
+						</div>
+
+						<!-- 성별 + 직업 -->
+						<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+							<div>
+								<label class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+									성별 <span class="text-red-500">*</span>
+								</label>
+								<div class="flex gap-4 h-10 items-center" id="gender-group">
+									<label class="flex items-center gap-2 cursor-pointer">
+										<input type="radio" name="gender" value="남" required class="accent-[#222222] size-4" />
+										<span class="text-[15px] text-stone-700 tracking-[-0.14px]">남</span>
+									</label>
+									<label class="flex items-center gap-2 cursor-pointer">
+										<input type="radio" name="gender" value="여" required class="accent-[#222222] size-4" />
+										<span class="text-[15px] text-stone-700 tracking-[-0.14px]">여</span>
+									</label>
+								</div>
+								<p class="field-error hidden mt-1 text-[12px] text-red-500" id="gender-error"></p>
+							</div>
+							<div>
+								<label for="occupation" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1">
+									직업 <span class="text-red-500">*</span>
+								</label>
+								<p class="text-[11px] text-stone-400 tracking-[-0.14px] mb-1.5">반드시 기재해야 합니다</p>
+								<input
+									type="text" id="occupation" name="occupation" required
+									class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+									placeholder="직업을 입력해 주세요"
+								/>
+								<p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+							</div>
+						</div>
+
+						<!-- 주소 -->
+						<div>
+							<label class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1">
+								주소 <span class="text-red-500">*</span>
+							</label>
+							<p class="text-[11px] text-stone-400 tracking-[-0.14px] mb-1.5">상세주소까지 반드시 기재해야 합니다</p>
+							<div class="flex gap-2 mb-2">
+								<input
+									type="text" id="postcode" name="postcode" readonly
+									class="w-28 h-10 px-3 text-[15px] text-stone-900 bg-stone-50 border border-stone-200 rounded-xl focus:outline-none placeholder:text-stone-400 tracking-[-0.14px]"
+									placeholder="우편번호"
+								/>
+								<button
+									type="button" id="search-address"
+									class="h-10 px-4 text-[13px] font-medium text-white bg-[#222222] rounded-xl hover:bg-[#333333] transition-colors tracking-[-0.14px] shrink-0"
+								>
+									주소 검색
+								</button>
+							</div>
+							<input
+								type="text" id="address" name="address" readonly required
+								class="w-full h-10 px-3 mb-2 text-[15px] text-stone-900 bg-stone-50 border border-stone-200 rounded-xl focus:outline-none placeholder:text-stone-400 tracking-[-0.14px]"
+								placeholder="주소 검색 버튼을 눌러주세요"
+							/>
+							<input
+								type="text" id="address_detail" name="address_detail"
+								class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+								placeholder="상세주소를 입력해 주세요 (예: 4층 401호)"
+							/>
+							<div id="postcode-layer" class="hidden relative w-full mt-2 border border-stone-300 rounded-xl overflow-hidden" style="height:400px;">
+								<button type="button" id="close-postcode" class="absolute top-2 right-2 z-10 text-[12px] text-stone-500 hover:text-stone-800 bg-white/90 rounded-lg px-2 py-1">닫기</button>
+							</div>
+							<p class="field-error hidden mt-1 text-[12px] text-red-500" id="address-error"></p>
+						</div>
+
+						<!-- 전화번호 (자택) + 전화번호 (휴대폰) -->
+						<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+							<div>
+								<label for="phone_home" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+									전화번호 (자택)
+								</label>
+								<input
+									type="text" id="phone_home" name="phone_home" autocomplete="one-time-code"
+									class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+									placeholder="02-0000-0000"
+								/>
+								<p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+							</div>
+							<div>
+								<label for="phone_mobile" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+									전화번호 (휴대폰) <span class="text-red-500">*</span>
+								</label>
+								<input
+									type="tel" id="phone_mobile" name="phone_mobile" required autocomplete="tel"
+									class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+									placeholder="010-0000-0000"
+								/>
+								<p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+							</div>
+						</div>
+
+						<!-- 서명 -->
+						<div>
+							<label class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+								서명 <span class="text-red-500">*</span>
+							</label>
+							<p class="text-[11px] text-stone-400 tracking-[-0.14px] mb-2">본인의 성명을 제3자가 알아볼 수 있도록 기재해 주세요.</p>
+							<div class="relative">
+								<canvas
+									id="signature-canvas"
+									class="w-full h-[160px] bg-white border border-stone-200 rounded-xl cursor-crosshair touch-none"
+								></canvas>
+								<button
+									type="button"
+									id="clear-signature"
+									class="absolute top-2 right-2 text-[12px] text-stone-400 hover:text-stone-600 transition-colors bg-white/80 rounded-lg px-2 py-1"
+								>
+									지우기
+								</button>
+							</div>
+							<p class="field-error hidden mt-1 text-[12px] text-red-500" id="signature-error"></p>
+						</div>
+
+						<!-- 동의 날짜 -->
+						<div>
+							<label class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+								동의 날짜
+							</label>
+							<p id="agreed-date" class="text-[15px] text-stone-600 tracking-[-0.14px]"></p>
+						</div>
+
+						<!-- 개인정보 동의 -->
+						<div class="flex items-start gap-3 pt-2">
+							<input
+								type="checkbox" id="privacy_agreed" name="privacy_agreed" required
+								class="mt-0.5 size-4 rounded border-stone-300 accent-[#222222] shrink-0"
+							/>
+							<label for="privacy_agreed" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px]">
+								<span class="text-red-500">*</span>
+								본인은 에이아이당(가칭) 창당준비위원회 발기인에 동의하며, 개인정보 수집 및 이용에 동의합니다.
+								성명, 주소, 생년월일, 성별, 직업, 전화번호, 서명 정보를 창당 발기인 등록 목적으로 수집하며,
+								창당 절차 완료 후 관련 법령에 따라 보관 또는 파기합니다.
+							</label>
+						</div>
+					</div>
+
+					<!-- 접수하기 버튼 -->
+					<div class="mt-8">
+						<button
+							type="submit"
+							id="submit-btn"
+							class="inline-flex items-center justify-center h-10 px-6 text-sm font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px] disabled:opacity-40 disabled:cursor-not-allowed"
+						>
+							접수하기
+						</button>
+					</div>
+				</form>
+
+				<!-- 성공 메시지 -->
+				<div id="success-message" class="hidden mt-8 bg-stone-100 rounded-2xl p-8 text-center">
+					<p class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mb-2">
+						접수가 완료되었습니다
 					</p>
-
-					<div class="mt-6 bg-surface border border-border rounded-[3px] p-5 sm:p-6 space-y-2.5">
-						<p class="text-[14px] text-fg-sub tracking-[-0.01em] m-0"><span class="font-medium text-fg">발기인이란?</span> 새로운 정당의 시작을 응원해 주신다는 상징적인 의미입니다.</p>
-						<ul class="space-y-1.5 text-[13px] text-fg-sub leading-[20px] tracking-[-0.01em] m-0 list-none pl-0">
-							<li><span class="font-medium text-fg">부담 ZERO :</span> 당비 납부, 행사 참석 의무가 전혀 없습니다.</li>
-							<li><span class="font-medium text-fg">정보 보호 :</span> 선관위 제출용으로만 쓰인 후 즉시 폐기됩니다.</li>
-							<li><span class="text-fg-dim">※</span> <span class="font-medium text-fg">가입 불가 :</span> 정당법에 따라 현직 공무원, 교원, 군인, 사회복무요원 등 <span class="text-[12px] text-fg-dim">(산업기능요원·전문연구요원은 가능)</span></li>
-						</ul>
-					</div>
+					<p class="text-[15px] text-stone-500 leading-6 tracking-[-0.16px]">
+						창당발기인으로 등록해 주셔서 감사합니다.<br/>
+						추후 연락드리겠습니다.
+					</p>
 				</div>
-			</section>
 
-			<section class="bg-surface-2/40 pb-20 pt-8">
-				<div class="wp-prose px-6">
-					<form id="founding-member-form" novalidate>
-						<div class="bg-surface border border-border rounded-[4px] p-6 sm:p-8 space-y-5">
+				<!-- 에러 메시지 -->
+				<div id="error-message" class="hidden mt-4 p-4 bg-red-50 rounded-xl text-[14px] text-red-600 leading-5"></div>
+			</div>
+		</section>
 
-							<!-- 성명 + 생년월일 -->
-							<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-								<div>
-									<label for="name" class="block text-[14px] font-medium text-fg-sub tracking-[-0.01em] mb-1.5">
-										성명 <span class="text-fg-dim">*</span>
-									</label>
-									<input
-										type="text" id="name" name="name" required autocomplete="name"
-										class="w-full h-10 px-3 text-[15px] text-fg bg-bg border border-border rounded-[3px] focus:outline-none focus:ring-2 focus:ring-border-strong placeholder:text-fg-dim tracking-[-0.01em]"
-										placeholder="홍길동"
-									/>
-									<p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
-								</div>
-								<div>
-									<label for="birth_date" class="block text-[14px] font-medium text-fg-sub tracking-[-0.01em] mb-1.5">
-										생년월일 <span class="text-fg-dim">*</span>
-									</label>
-									<input
-										type="text" id="birth_date" name="birth_date" required autocomplete="bday"
-										inputmode="numeric" maxlength="10"
-										class="w-full h-10 px-3 text-[15px] text-fg bg-bg border border-border rounded-[3px] focus:outline-none focus:ring-2 focus:ring-border-strong placeholder:text-fg-dim tracking-[-0.01em]"
-										placeholder="예: 1990-01-01"
-									/>
-									<p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
-								</div>
-							</div>
-
-							<!-- 성별 + 직업 -->
-							<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-								<div>
-									<label class="block text-[14px] font-medium text-fg-sub tracking-[-0.01em] mb-1.5">
-										성별 <span class="text-fg-dim">*</span>
-									</label>
-									<div class="flex gap-4 h-10 items-center" id="gender-group">
-										<label class="flex items-center gap-2 cursor-pointer">
-											<input type="radio" name="gender" value="남" required class="accent-fg size-4" />
-											<span class="text-[15px] text-fg-sub tracking-[-0.01em]">남</span>
-										</label>
-										<label class="flex items-center gap-2 cursor-pointer">
-											<input type="radio" name="gender" value="여" required class="accent-fg size-4" />
-											<span class="text-[15px] text-fg-sub tracking-[-0.01em]">여</span>
-										</label>
-									</div>
-									<p class="field-error hidden mt-1 text-[12px] text-red-500" id="gender-error"></p>
-								</div>
-								<div>
-									<label for="occupation" class="block text-[14px] font-medium text-fg-sub tracking-[-0.01em] mb-1">
-										직업 <span class="text-fg-dim">*</span>
-									</label>
-									<p class="text-[11px] text-fg-dim tracking-[-0.01em] mb-1.5">반드시 기재해야 합니다</p>
-									<input
-										type="text" id="occupation" name="occupation" required
-										class="w-full h-10 px-3 text-[15px] text-fg bg-bg border border-border rounded-[3px] focus:outline-none focus:ring-2 focus:ring-border-strong placeholder:text-fg-dim tracking-[-0.01em]"
-										placeholder="직업을 입력해 주세요"
-									/>
-									<p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
-								</div>
-							</div>
-
-							<!-- 주소 -->
-							<div>
-								<label class="block text-[14px] font-medium text-fg-sub tracking-[-0.01em] mb-1">
-									주소 <span class="text-fg-dim">*</span>
-								</label>
-								<p class="text-[11px] text-fg-dim tracking-[-0.01em] mb-1.5">상세주소까지 반드시 기재해야 합니다</p>
-								<div class="flex gap-2 mb-2">
-									<input
-										type="text" id="postcode" name="postcode" readonly
-										class="w-28 h-10 px-3 text-[15px] text-fg bg-surface-2 border border-border rounded-[3px] focus:outline-none placeholder:text-fg-dim tracking-[-0.01em]"
-										placeholder="우편번호"
-									/>
-									<button
-										type="button" id="search-address"
-										class="h-10 px-4 text-[13px] font-medium text-bg bg-fg rounded-[3px] hover:bg-fg-sub transition-colors tracking-[-0.01em] shrink-0"
-									>
-										주소 검색
-									</button>
-								</div>
-								<input
-									type="text" id="address" name="address" readonly required
-									class="w-full h-10 px-3 mb-2 text-[15px] text-fg bg-surface-2 border border-border rounded-[3px] focus:outline-none placeholder:text-fg-dim tracking-[-0.01em]"
-									placeholder="주소 검색 버튼을 눌러주세요"
-								/>
-								<input
-									type="text" id="address_detail" name="address_detail"
-									class="w-full h-10 px-3 text-[15px] text-fg bg-bg border border-border rounded-[3px] focus:outline-none focus:ring-2 focus:ring-border-strong placeholder:text-fg-dim tracking-[-0.01em]"
-									placeholder="상세주소를 입력해 주세요 (예: 4층 401호)"
-								/>
-								<div id="postcode-layer" class="hidden relative w-full mt-2 border border-border rounded-[3px] overflow-hidden" style="height:400px;">
-									<button type="button" id="close-postcode" class="absolute top-2 right-2 z-10 text-[12px] text-fg-dim hover:text-fg bg-bg/90 rounded-[3px] px-2 py-1">닫기</button>
-								</div>
-								<p class="field-error hidden mt-1 text-[12px] text-red-500" id="address-error"></p>
-							</div>
-
-							<!-- 전화번호 (자택) + 전화번호 (휴대폰) -->
-							<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-								<div>
-									<label for="phone_home" class="block text-[14px] font-medium text-fg-sub tracking-[-0.01em] mb-1.5">
-										전화번호 (자택)
-									</label>
-									<input
-										type="text" id="phone_home" name="phone_home" autocomplete="one-time-code"
-										class="w-full h-10 px-3 text-[15px] text-fg bg-bg border border-border rounded-[3px] focus:outline-none focus:ring-2 focus:ring-border-strong placeholder:text-fg-dim tracking-[-0.01em]"
-										placeholder="02-0000-0000"
-									/>
-									<p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
-								</div>
-								<div>
-									<label for="phone_mobile" class="block text-[14px] font-medium text-fg-sub tracking-[-0.01em] mb-1.5">
-										전화번호 (휴대폰) <span class="text-fg-dim">*</span>
-									</label>
-									<input
-										type="tel" id="phone_mobile" name="phone_mobile" required autocomplete="tel"
-										class="w-full h-10 px-3 text-[15px] text-fg bg-bg border border-border rounded-[3px] focus:outline-none focus:ring-2 focus:ring-border-strong placeholder:text-fg-dim tracking-[-0.01em]"
-										placeholder="010-0000-0000"
-									/>
-									<p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
-								</div>
-							</div>
-
-							<!-- 서명 -->
-							<div>
-								<label class="block text-[14px] font-medium text-fg-sub tracking-[-0.01em] mb-1.5">
-									서명 <span class="text-fg-dim">*</span>
-								</label>
-								<p class="text-[11px] text-fg-dim tracking-[-0.01em] mb-2">본인의 성명을 제3자가 알아볼 수 있도록 기재해 주세요.</p>
-								<div class="relative">
-									<canvas
-										id="signature-canvas"
-										class="w-full h-[160px] bg-bg border border-border rounded-[3px] cursor-crosshair touch-none"
-									></canvas>
-									<button
-										type="button"
-										id="clear-signature"
-										class="absolute top-2 right-2 text-[12px] text-fg-dim hover:text-fg transition-colors bg-bg/80 rounded-[3px] px-2 py-1"
-									>
-										지우기
-									</button>
-								</div>
-								<p class="field-error hidden mt-1 text-[12px] text-red-500" id="signature-error"></p>
-							</div>
-
-							<!-- 동의 날짜 -->
-							<div>
-								<label class="block text-[14px] font-medium text-fg-sub tracking-[-0.01em] mb-1.5">
-									동의 날짜
-								</label>
-								<p id="agreed-date" class="text-[15px] text-fg-sub tracking-[-0.01em]"></p>
-							</div>
-
-							<!-- 개인정보 동의 -->
-							<div class="flex items-start gap-3 pt-2">
-								<input
-									type="checkbox" id="privacy_agreed" name="privacy_agreed" required
-									class="mt-0.5 size-4 rounded-[2px] border-border accent-fg shrink-0"
-								/>
-								<label for="privacy_agreed" class="text-[13px] text-fg-sub leading-5 tracking-[-0.01em]">
-									<span class="text-fg-dim">*</span>
-									본인은 에이아이당(가칭) 창당준비위원회 발기인에 동의하며, 개인정보 수집 및 이용에 동의합니다.
-									성명, 주소, 생년월일, 성별, 직업, 전화번호, 서명 정보를 창당 발기인 등록 목적으로 수집하며,
-									창당 절차 완료 후 관련 법령에 따라 보관 또는 파기합니다.
-								</label>
-							</div>
-						</div>
-
-						<!-- 접수하기 버튼 -->
-						<div class="mt-8">
-							<button
-								type="submit"
-								id="submit-btn"
-								class="inline-flex items-center justify-center h-[42px] px-6 text-sm font-medium text-bg bg-fg rounded-[3px] hover:bg-fg-sub transition-colors tracking-[-0.01em] disabled:opacity-40 disabled:cursor-not-allowed"
-							>
-								접수하기
-							</button>
-						</div>
-					</form>
-
-					<!-- 성공 메시지 -->
-					<div id="success-message" class="hidden mt-8 bg-surface border border-border rounded-[4px] p-8 text-center">
-						<p class="text-[22px] font-medium text-fg tracking-[-0.01em] mb-2">
-							접수가 완료되었습니다
-						</p>
-						<p class="text-[15px] text-fg-sub leading-6 tracking-[-0.01em] m-0">
-							창당발기인으로 등록해 주셔서 감사합니다.<br/>
-							추후 연락드리겠습니다.
-						</p>
-					</div>
-
-					<!-- 에러 메시지 -->
-					<div id="error-message" class="hidden mt-4 p-4 bg-red-50 rounded-[3px] text-[14px] text-red-600 leading-5"></div>
-				</div>
-			</section>
-
-			<footer class="py-8 px-6 border-t border-border">
-				<div class="max-w-[760px] mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-					<span class="text-fg font-medium text-[14px]">AIP · AI Party</span>
-					<span class="text-fg-dim text-[11px] font-mono">© 2026 AIP · aiparty.kr</span>
-				</div>
-			</footer>
+		<footer class="mt-40 max-w-6xl w-full mx-auto px-6 pb-24 flex flex-col items-center">
+			<p class="text-xs text-stone-400">&copy; 2026 AIP · AI Party</p>
+		</footer>
 		</main>
+
+		<script>
+			const tocIds = ['intro','system','function','platform','product','vision','axis','kpi','os','ux','milestone','join','founding-members'];
+			const tocLinks = Array.from(document.querySelectorAll('.toc-link'));
+			function setActiveToc(id) {
+				tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
+			}
+			function onTocScroll() {
+				let current = tocIds[0];
+				for (const id of tocIds) {
+					const el = document.getElementById(id);
+					if (el && el.getBoundingClientRect().top <= 100) current = id;
+				}
+				setActiveToc(current);
+			}
+			window.addEventListener('scroll', onTocScroll, { passive: true });
+			window.addEventListener('resize', onTocScroll);
+			onTocScroll();
+
+			const tocToggle = document.getElementById('toc-toggle');
+			const tocOverlay = document.getElementById('toc-overlay');
+			if (tocToggle && tocOverlay) {
+				tocToggle.addEventListener('click', () => tocOverlay.classList.toggle('hidden'));
+				tocOverlay.querySelectorAll('a').forEach(a => a.addEventListener('click', () => tocOverlay.classList.add('hidden')));
+			}
+		</script>
 
 		<script type="module">
 			import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
@@ -521,8 +647,8 @@ import "../styles/global.css";
 			canvas.getContext('2d').scale(ratio, ratio);
 
 			const signaturePad = new SignaturePad(canvas, {
-				backgroundColor: 'rgb(250, 249, 245)',
-				penColor: 'rgb(26, 26, 24)',
+				backgroundColor: 'rgb(255, 255, 255)',
+				penColor: 'rgb(0, 0, 0)',
 			});
 
 			document.getElementById('clear-signature').addEventListener('click', () => {
