@@ -7,6 +7,16 @@
 html { scroll-behavior: smooth; }
 section { scroll-margin-top: 80px; }
 
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 .toc-link { color: #a8a29e; transition: color 0.15s; }
 .toc-link:hover { color: #57534e; }
 .toc-link.active { color: #1c1917; font-weight: 500; }

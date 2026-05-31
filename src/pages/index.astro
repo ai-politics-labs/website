@@ -1,13 +1,27 @@
 ---
-import "../styles/global.css";
+import Layout from "../layouts/Layout.astro";
+
+const toc = [
+	{ id: "system", label: "01 문제는 시스템이야 바보야" },
+	{ id: "function", label: "02 인간 중심에서 기능 중심으로" },
+	{ id: "product", label: "03 정당도 서비스다" },
+	{ id: "platform", label: "04 가장 크고도 불친절한 플랫폼" },
+	{ id: "vision", label: "05 AI 시대의 국가 비전" },
+	{ id: "axis", label: "06 좌파냐 우파냐?" },
+	{ id: "kpi", label: "07 국가의 KPI 정의" },
+	{ id: "os", label: "08 AI가 운영합니다" },
+	{ id: "ux", label: "09 FUN, COOL, SEXY" },
+	{ id: "milestone", label: "10 미친 꿈을 꿉니다" },
+	{ id: "join", label: "11 동료를 찾습니다" },
+];
+const tocFooter = { id: "founding-members", label: "발기인 동의서" };
 ---
 
-<html lang="ko">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
+<Layout title="AIP · AI Party | AI 시대 인류의 새로운 OS">
+	<Fragment slot="head">
 		<meta name="description" content="AIP는 단순히 신생 정당이 아니라, AI 시대 인류의 새로운 OS입니다. 시민은 유저, 정당은 제품, 정책은 기능입니다." />
+		<link rel="canonical" href="https://aiparty.kr/" />
+		<link rel="dns-prefetch" href="https://t1.daumcdn.net" />
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content="https://aiparty.kr/" />
 		<meta property="og:title" content="AIP · AI Party | AI 시대 인류의 새로운 OS" />
@@ -20,64 +34,48 @@ import "../styles/global.css";
 		<meta name="twitter:title" content="AIP · AI Party | AI 시대 인류의 새로운 OS" />
 		<meta name="twitter:description" content="인간에게 의존하는 정치는 실패했습니다. AIP는 문제 해결을 중심에 둔 AI-native 정당입니다." />
 		<meta name="twitter:image" content="https://aiparty.kr/og-main.png" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-		<script is:inline src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-		<title>AIP · AI Party | AI 시대 인류의 새로운 OS</title>
-	</head>
-	<body class="bg-white text-stone-900 antialiased overflow-x-hidden">
-		<!-- 상단 바 -->
-		<header class="fixed top-0 left-0 right-0 z-50 h-[64px] bg-white/80 backdrop-blur-xl border-b border-stone-200">
-			<div class="h-full px-6 flex items-center justify-between">
-				<div class="flex items-center gap-3">
-					<button id="toc-toggle" type="button" class="lg:hidden -ml-2 p-2 text-stone-800" aria-label="목차 열기">
-						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-					</button>
-					<a href="#" class="font-semibold text-[15.84px] text-stone-900 tracking-[-0.32px]">AIP · AI Party</a>
-				</div>
-				<span class="hidden sm:inline text-[12px] text-stone-400 tracking-[0.05em]">AI 시대 인류의 새로운 OS</span>
-			</div>
-		</header>
+	</Fragment>
 
-		<!-- 좌측 네비게이션 -->
-		<aside class="hidden lg:block fixed top-[64px] left-0 w-[260px] h-[calc(100dvh-64px)] overflow-y-auto border-r border-stone-200 py-8 px-6">
+	<a href="#system" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:bg-stone-900 focus:text-white focus:px-4 focus:py-2 focus:rounded-full focus:text-sm">본문으로 건너뛰기</a>
+
+	<!-- 상단 바 -->
+	<header class="fixed top-0 left-0 right-0 z-50 h-[64px] bg-white/80 backdrop-blur-xl border-b border-stone-200">
+		<div class="h-full px-6 flex items-center justify-between">
+			<div class="flex items-center gap-3">
+				<button id="toc-toggle" type="button" class="lg:hidden -ml-2 p-2 text-stone-800" aria-label="목차 열기" aria-expanded="false" aria-controls="toc-overlay">
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+				</button>
+				<a href="#" class="font-semibold text-[15.84px] text-stone-900 tracking-[-0.32px]">AIP · AI Party</a>
+			</div>
+			<span class="hidden sm:inline text-[12px] text-stone-400 tracking-[0.05em]">인류 OS 업데이트 중...</span>
+		</div>
+	</header>
+
+	<!-- 좌측 네비게이션 -->
+	<aside class="hidden lg:block fixed top-[64px] left-0 w-[260px] h-[calc(100dvh-64px)] overflow-y-auto border-r border-stone-200 py-8 px-6">
+		<nav aria-label="목차">
 			<p class="mb-6 text-[11px] font-medium uppercase tracking-[0.15em] text-stone-400">목차</p>
 			<ul class="space-y-1">
-				<li><a href="#system" class="toc-link block py-1 text-[13px] leading-snug">01 문제는 시스템이야 바보야</a></li>
-				<li><a href="#function" class="toc-link block py-1 text-[13px] leading-snug">02 인간 중심에서 기능 중심으로</a></li>
-				<li><a href="#product" class="toc-link block py-1 text-[13px] leading-snug">03 정당도 서비스다</a></li>
-				<li><a href="#platform" class="toc-link block py-1 text-[13px] leading-snug">04 가장 크고도 불친절한 플랫폼</a></li>
-				<li><a href="#vision" class="toc-link block py-1 text-[13px] leading-snug">05 AI 시대의 국가 비전</a></li>
-				<li><a href="#axis" class="toc-link block py-1 text-[13px] leading-snug">06 좌파냐 우파냐?</a></li>
-				<li><a href="#kpi" class="toc-link block py-1 text-[13px] leading-snug">07 국가의 KPI 정의</a></li>
-				<li><a href="#os" class="toc-link block py-1 text-[13px] leading-snug">08 AI가 운영합니다</a></li>
-				<li><a href="#ux" class="toc-link block py-1 text-[13px] leading-snug">09 FUN, COOL, SEXY</a></li>
-				<li><a href="#milestone" class="toc-link block py-1 text-[13px] leading-snug">10 미친 꿈을 꿉니다</a></li>
-				<li><a href="#join" class="toc-link block py-1 text-[13px] leading-snug">11 동료를 찾습니다</a></li>
-				<li class="pt-2 mt-2 border-t border-stone-200"><a href="#founding-members" class="toc-link block py-1 text-[13px] leading-snug">발기인 동의서</a></li>
+				{toc.map((item) => (
+					<li><a href={`#${item.id}`} class="toc-link block py-1 text-[13px] leading-snug">{item.label}</a></li>
+				))}
+				<li class="pt-2 mt-2 border-t border-stone-200"><a href={`#${tocFooter.id}`} class="toc-link block py-1 text-[13px] leading-snug">{tocFooter.label}</a></li>
 			</ul>
-		</aside>
+		</nav>
+	</aside>
 
-		<!-- 모바일 목차 오버레이 -->
-		<div id="toc-overlay" class="hidden lg:hidden fixed inset-0 z-40 bg-white/95 backdrop-blur-xl pt-[64px] overflow-y-auto">
-			<div class="p-6">
-				<p class="mb-4 text-[11px] font-medium uppercase tracking-[0.15em] text-stone-400">목차</p>
-				<a href="#system" class="toc-link block border-b border-stone-200 py-3 text-[15px]">01 문제는 시스템이야 바보야</a>
-				<a href="#function" class="toc-link block border-b border-stone-200 py-3 text-[15px]">02 인간 중심에서 기능 중심으로</a>
-				<a href="#product" class="toc-link block border-b border-stone-200 py-3 text-[15px]">03 정당도 서비스다</a>
-				<a href="#platform" class="toc-link block border-b border-stone-200 py-3 text-[15px]">04 가장 크고도 불친절한 플랫폼</a>
-				<a href="#vision" class="toc-link block border-b border-stone-200 py-3 text-[15px]">05 AI 시대의 국가 비전</a>
-				<a href="#axis" class="toc-link block border-b border-stone-200 py-3 text-[15px]">06 좌파냐 우파냐?</a>
-				<a href="#kpi" class="toc-link block border-b border-stone-200 py-3 text-[15px]">07 국가의 KPI 정의</a>
-				<a href="#os" class="toc-link block border-b border-stone-200 py-3 text-[15px]">08 AI가 운영합니다</a>
-				<a href="#ux" class="toc-link block border-b border-stone-200 py-3 text-[15px]">09 FUN, COOL, SEXY</a>
-				<a href="#milestone" class="toc-link block border-b border-stone-200 py-3 text-[15px]">10 미친 꿈을 꿉니다</a>
-				<a href="#join" class="toc-link block border-b border-stone-200 py-3 text-[15px]">11 동료를 찾습니다</a>
-				<a href="#founding-members" class="toc-link block py-3 text-[15px]">발기인 동의서</a>
-			</div>
+	<!-- 모바일 목차 오버레이 -->
+	<nav id="toc-overlay" aria-label="목차" class="hidden lg:hidden fixed inset-0 z-40 bg-white/95 backdrop-blur-xl pt-[64px] overflow-y-auto">
+		<div class="p-6">
+			<p class="mb-4 text-[11px] font-medium uppercase tracking-[0.15em] text-stone-400">목차</p>
+			{toc.map((item) => (
+				<a href={`#${item.id}`} class="toc-link block border-b border-stone-200 py-3 text-[15px]">{item.label}</a>
+			))}
+			<a href={`#${tocFooter.id}`} class="toc-link block py-3 text-[15px]">{tocFooter.label}</a>
 		</div>
+	</nav>
 
-		<main class="lg:ml-[260px] pt-[64px]">
+	<main class="lg:ml-[260px] pt-[64px]">
 
 		<!-- 문제는 시스템입니다 -->
 		<section id="system" class="pt-[60px]">
@@ -383,7 +381,7 @@ import "../styles/global.css";
 						<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 							<div>
 								<label for="name" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
-									성명 <span class="text-red-500">*</span>
+									성명 <span class="text-red-500" aria-hidden="true">*</span>
 								</label>
 								<input
 									type="text" id="name" name="name" required autocomplete="name"
@@ -394,7 +392,7 @@ import "../styles/global.css";
 							</div>
 							<div>
 								<label for="birth_date" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
-									생년월일 <span class="text-red-500">*</span>
+									생년월일 <span class="text-red-500" aria-hidden="true">*</span>
 								</label>
 								<input
 									type="text" id="birth_date" name="birth_date" required autocomplete="bday"
@@ -408,11 +406,11 @@ import "../styles/global.css";
 
 						<!-- 성별 + 직업 -->
 						<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-							<div>
-								<label class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
-									성별 <span class="text-red-500">*</span>
-								</label>
-								<div class="flex gap-4 h-10 items-center" id="gender-group">
+							<fieldset id="gender-group" aria-describedby="gender-error">
+								<legend class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+									성별 <span class="text-red-500" aria-hidden="true">*</span><span class="sr-only">(필수)</span>
+								</legend>
+								<div class="flex gap-4 h-10 items-center">
 									<label class="flex items-center gap-2 cursor-pointer">
 										<input type="radio" name="gender" value="남" required class="accent-[#222222] size-4" />
 										<span class="text-[15px] text-stone-700 tracking-[-0.14px]">남</span>
@@ -422,11 +420,11 @@ import "../styles/global.css";
 										<span class="text-[15px] text-stone-700 tracking-[-0.14px]">여</span>
 									</label>
 								</div>
-								<p class="field-error hidden mt-1 text-[12px] text-red-500" id="gender-error"></p>
-							</div>
+								<p class="field-error hidden mt-1 text-[12px] text-red-500" id="gender-error" role="alert"></p>
+							</fieldset>
 							<div>
 								<label for="occupation" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1">
-									직업 <span class="text-red-500">*</span>
+									직업 <span class="text-red-500" aria-hidden="true">*</span>
 								</label>
 								<p class="text-[11px] text-stone-400 tracking-[-0.14px] mb-1.5">반드시 기재해야 합니다</p>
 								<input
@@ -441,7 +439,7 @@ import "../styles/global.css";
 						<!-- 주소 -->
 						<div>
 							<label class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1">
-								주소 <span class="text-red-500">*</span>
+								주소 <span class="text-red-500" aria-hidden="true">*</span>
 							</label>
 							<p class="text-[11px] text-stone-400 tracking-[-0.14px] mb-1.5">상세주소까지 반드시 기재해야 합니다</p>
 							<div class="flex gap-2 mb-2">
@@ -470,7 +468,7 @@ import "../styles/global.css";
 							<div id="postcode-layer" class="hidden relative w-full mt-2 border border-stone-300 rounded-xl overflow-hidden" style="height:400px;">
 								<button type="button" id="close-postcode" class="absolute top-2 right-2 z-10 text-[12px] text-stone-500 hover:text-stone-800 bg-white/90 rounded-lg px-2 py-1">닫기</button>
 							</div>
-							<p class="field-error hidden mt-1 text-[12px] text-red-500" id="address-error"></p>
+							<p class="field-error hidden mt-1 text-[12px] text-red-500" id="address-error" role="alert"></p>
 						</div>
 
 						<!-- 전화번호 (자택) + 전화번호 (휴대폰) -->
@@ -488,7 +486,7 @@ import "../styles/global.css";
 							</div>
 							<div>
 								<label for="phone_mobile" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
-									전화번호 (휴대폰) <span class="text-red-500">*</span>
+									전화번호 (휴대폰) <span class="text-red-500" aria-hidden="true">*</span>
 								</label>
 								<input
 									type="tel" id="phone_mobile" name="phone_mobile" required autocomplete="tel"
@@ -502,12 +500,15 @@ import "../styles/global.css";
 						<!-- 서명 -->
 						<div>
 							<label class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
-								서명 <span class="text-red-500">*</span>
+								서명 <span class="text-red-500" aria-hidden="true">*</span>
 							</label>
 							<p class="text-[11px] text-stone-400 tracking-[-0.14px] mb-2">본인의 성명을 제3자가 알아볼 수 있도록 기재해 주세요.</p>
 							<div class="relative">
 								<canvas
 									id="signature-canvas"
+									role="img"
+									aria-label="서명 입력란"
+									aria-describedby="signature-error"
 									class="w-full h-[160px] bg-white border border-stone-200 rounded-xl cursor-crosshair touch-none"
 								></canvas>
 								<button
@@ -518,7 +519,7 @@ import "../styles/global.css";
 									지우기
 								</button>
 							</div>
-							<p class="field-error hidden mt-1 text-[12px] text-red-500" id="signature-error"></p>
+							<p class="field-error hidden mt-1 text-[12px] text-red-500" id="signature-error" role="alert"></p>
 						</div>
 
 						<!-- 동의 날짜 -->
@@ -536,7 +537,7 @@ import "../styles/global.css";
 								class="mt-0.5 size-4 rounded border-stone-300 accent-[#222222] shrink-0"
 							/>
 							<label for="privacy_agreed" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px]">
-								<span class="text-red-500">*</span>
+								<span class="text-red-500" aria-hidden="true">*</span>
 								본인은 에이아이당(가칭) 창당준비위원회 발기인에 동의하며, 개인정보 수집 및 이용에 동의합니다.
 								성명, 주소, 생년월일, 성별, 직업, 전화번호, 서명 정보를 창당 발기인 등록 목적으로 수집하며,
 								창당 절차 완료 후 관련 법령에 따라 보관 또는 파기합니다.
@@ -557,7 +558,7 @@ import "../styles/global.css";
 				</form>
 
 				<!-- 성공 메시지 -->
-				<div id="success-message" class="hidden mt-8 bg-stone-100 rounded-2xl p-8 text-center">
+				<div id="success-message" role="status" class="hidden mt-8 bg-stone-100 rounded-2xl p-8 text-center">
 					<p class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mb-2">
 						접수가 완료되었습니다
 					</p>
@@ -568,7 +569,7 @@ import "../styles/global.css";
 				</div>
 
 				<!-- 에러 메시지 -->
-				<div id="error-message" class="hidden mt-4 p-4 bg-red-50 rounded-xl text-[14px] text-red-600 leading-5"></div>
+				<div id="error-message" role="alert" class="hidden mt-4 p-4 bg-red-50 rounded-xl text-[14px] text-red-600 leading-5"></div>
 			</div>
 		</section>
 
@@ -598,8 +599,19 @@ import "../styles/global.css";
 			const tocToggle = document.getElementById('toc-toggle');
 			const tocOverlay = document.getElementById('toc-overlay');
 			if (tocToggle && tocOverlay) {
-				tocToggle.addEventListener('click', () => tocOverlay.classList.toggle('hidden'));
-				tocOverlay.querySelectorAll('a').forEach(a => a.addEventListener('click', () => tocOverlay.classList.add('hidden')));
+				const setTocOpen = (open) => {
+					tocOverlay.classList.toggle('hidden', !open);
+					tocToggle.setAttribute('aria-expanded', String(open));
+					tocToggle.setAttribute('aria-label', open ? '목차 닫기' : '목차 열기');
+				};
+				tocToggle.addEventListener('click', () => setTocOpen(tocOverlay.classList.contains('hidden')));
+				tocOverlay.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setTocOpen(false)));
+				document.addEventListener('keydown', (e) => {
+					if (e.key === 'Escape' && !tocOverlay.classList.contains('hidden')) {
+						setTocOpen(false);
+						tocToggle.focus();
+					}
+				});
 			}
 		</script>
 
@@ -641,10 +653,35 @@ import "../styles/global.css";
 			phoneHome.addEventListener('animationstart', clearAutofill);
 			phoneHome.addEventListener('keydown', () => { phoneHome.dataset.userTyped = '1'; });
 
-			// 다음 주소 검색 API
+			// 다음 주소 검색 API (클릭 시점에 스크립트 지연 로드)
 			const postcodeLayer = document.getElementById('postcode-layer');
+			let daumLoader = null;
+			function loadDaumPostcode() {
+				if (window.daum && window.daum.Postcode) return Promise.resolve();
+				if (daumLoader) return daumLoader;
+				daumLoader = new Promise((resolve, reject) => {
+					const s = document.createElement('script');
+					s.src = 'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+					s.onload = () => resolve();
+					s.onerror = () => { daumLoader = null; reject(new Error('주소 검색 모듈을 불러오지 못했습니다.')); };
+					document.head.appendChild(s);
+				});
+				return daumLoader;
+			}
 
-			document.getElementById('search-address').addEventListener('click', () => {
+			const searchAddressBtn = document.getElementById('search-address');
+			searchAddressBtn.addEventListener('click', async () => {
+				searchAddressBtn.disabled = true;
+				try {
+					await loadDaumPostcode();
+				} catch (err) {
+					searchAddressBtn.disabled = false;
+					const ae = document.getElementById('address-error');
+					ae.textContent = '주소 검색을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.';
+					ae.classList.remove('hidden');
+					return;
+				}
+				searchAddressBtn.disabled = false;
 				postcodeLayer.classList.remove('hidden');
 				new daum.Postcode({
 					oncomplete(data) {
@@ -715,13 +752,16 @@ import "../styles/global.css";
 				if (!birthRaw || !/^\d{4}-\d{2}-\d{2}$/.test(birthRaw)) {
 					errors.push({ field: 'birth_date', message: '생년월일을 YYYY-MM-DD 형식으로 입력해 주세요.' });
 				} else {
-					const birth = new Date(birthRaw);
-					if (isNaN(birth.getTime())) {
+					const [by, bm, bd] = birthRaw.split('-').map(Number);
+					const birth = new Date(by, bm - 1, bd);
+					const now = new Date();
+					const validDate = birth.getFullYear() === by && birth.getMonth() === bm - 1 && birth.getDate() === bd;
+					if (!validDate || birth > now) {
 						errors.push({ field: 'birth_date', message: '올바른 날짜를 입력해 주세요.' });
 					} else {
-						const ageDiff = today.getFullYear() - birth.getFullYear();
-						const monthDiff = today.getMonth() - birth.getMonth();
-						const age = monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate()) ? ageDiff - 1 : ageDiff;
+						const ageDiff = now.getFullYear() - birth.getFullYear();
+						const monthDiff = now.getMonth() - birth.getMonth();
+						const age = monthDiff < 0 || (monthDiff === 0 && now.getDate() < birth.getDate()) ? ageDiff - 1 : ageDiff;
 						if (age < 18) {
 							errors.push({ field: 'birth_date', message: '만 18세 이상만 참여할 수 있습니다.' });
 						}
@@ -845,6 +885,9 @@ import "../styles/global.css";
 
 					const fullAddress = [fd.get('address').trim(), fd.get('address_detail')?.trim()].filter(Boolean).join(' ');
 
+					const now = new Date();
+					const agreedAt = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+
 					const { error } = await supabase.from('founding_members').insert({
 						name: fd.get('name').trim(),
 						address: fullAddress,
@@ -854,7 +897,7 @@ import "../styles/global.css";
 						phone_home: fd.get('phone_home')?.trim() || null,
 						phone_mobile: fd.get('phone_mobile').trim(),
 						signature_data: signatureData,
-						agreed_at: `${yyyy}-${mm}-${dd}`,
+						agreed_at: agreedAt,
 						privacy_agreed: true,
 					});
 
@@ -873,5 +916,4 @@ import "../styles/global.css";
 				}
 			});
 		</script>
-	</body>
-</html>
+</Layout>

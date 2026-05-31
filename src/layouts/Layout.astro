@@ -1,0 +1,31 @@
+---
+interface Props {
+	title: string;
+	bodyClass?: string;
+}
+const { title, bodyClass = "bg-white text-stone-900 antialiased overflow-x-hidden" } = Astro.props;
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="theme-color" content="#ffffff" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+		<link
+			rel="stylesheet"
+			as="style"
+			crossorigin
+			href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+		/>
+		<title>{title}</title>
+		<slot name="head" />
+	</head>
+	<body class={bodyClass}>
+		<slot />
+	</body>
+</html>

@@ -1,16 +1,9 @@
 ---
-import "../styles/global.css";
+import Layout from "../layouts/Layout.astro";
 ---
 
-<html lang="ko">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-		<title>관리자 | ai politics labs</title>
-	</head>
-	<body class="bg-white text-stone-900 antialiased overflow-x-hidden">
+<Layout title="관리자 | ai politics labs">
+	<meta slot="head" name="robots" content="noindex,nofollow" />
 		<nav class="pt-10">
 			<div class="max-w-[1146px] mx-auto px-6 flex items-center justify-between">
 				<a href="/" class="font-medium text-[15.84px] text-stone-900 tracking-[-0.32px]">
@@ -64,7 +57,7 @@ import "../styles/global.css";
 		</section>
 
 		<!-- 서명 확대 모달 -->
-		<div id="signature-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-6">
+		<div id="signature-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-6" role="dialog" aria-modal="true" aria-labelledby="modal-name">
 			<div class="bg-white rounded-2xl p-6 max-w-lg w-full">
 				<div class="flex items-center justify-between mb-4">
 					<p id="modal-name" class="text-[15px] font-semibold text-stone-800 tracking-[-0.14px]"></p>
@@ -133,7 +126,8 @@ import "../styles/global.css";
 				loading.classList.add('hidden');
 
 				if (error) {
-					membersList.innerHTML = `<p class="text-red-500 text-[14px]">데이터 로드 실패: ${error.message}</p>`;
+					membersList.textContent = '';
+					membersList.appendChild(el('p', 'text-red-500 text-[14px]', '데이터 로드 실패: ' + error.message));
 					return;
 				}
 
@@ -144,57 +138,71 @@ import "../styles/global.css";
 					return;
 				}
 
-				data.forEach((m, i) => {
-					const card = document.createElement('div');
-					card.className = 'bg-stone-100 rounded-2xl p-6';
-					card.innerHTML = `
-						<div class="flex items-start justify-between gap-4">
-							<div class="flex-1 min-w-0">
-								<div class="flex items-center gap-3 mb-3">
-									<span class="text-[15px] font-semibold text-stone-900 tracking-[-0.14px]">${esc(m.name)}</span>
-									<span class="text-[13px] text-stone-400 tracking-[-0.14px]">${m.gender} · ${m.birth_date}</span>
-									<span class="text-[12px] text-stone-300 tracking-[-0.14px]">${new Date(m.created_at).toLocaleString('ko-KR')}</span>
-								</div>
-								<div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 text-[13px] tracking-[-0.14px]">
-									<p><span class="text-stone-400">주소</span> <span class="text-stone-700 ml-2">${esc(m.address)}</span></p>
-									<p><span class="text-stone-400">직업</span> <span class="text-stone-700 ml-2">${esc(m.occupation)}</span></p>
-									<p><span class="text-stone-400">휴대폰</span> <span class="text-stone-700 ml-2">${esc(m.phone_mobile)}</span></p>
-									<p><span class="text-stone-400">자택</span> <span class="text-stone-700 ml-2">${esc(m.phone_home || '-')}</span></p>
-								</div>
-							</div>
-							<button class="sig-btn shrink-0 border border-stone-200 rounded-xl overflow-hidden hover:border-stone-400 transition-colors" data-name="${esc(m.name)}" data-sig="${m.signature_data}">
-								<img src="${m.signature_data}" alt="서명" class="w-[120px] h-[60px] object-contain bg-white" />
-							</button>
-						</div>
-					`;
-					membersList.appendChild(card);
-				});
+				const frag = document.createDocumentFragment();
+				data.forEach((m) => {
+					const card = el('div', 'bg-stone-100 rounded-2xl p-6');
+					const row = el('div', 'flex items-start justify-between gap-4');
 
-				// Signature click → modal
-				document.querySelectorAll('.sig-btn').forEach(btn => {
+					const info = el('div', 'flex-1 min-w-0');
+					const head = el('div', 'flex items-center gap-3 mb-3');
+					head.append(
+						el('span', 'text-[15px] font-semibold text-stone-900 tracking-[-0.14px]', m.name),
+						el('span', 'text-[13px] text-stone-400 tracking-[-0.14px]', `${m.gender ?? ''} · ${m.birth_date ?? ''}`),
+						el('span', 'text-[12px] text-stone-300 tracking-[-0.14px]', m.created_at ? new Date(m.created_at).toLocaleString('ko-KR') : ''),
+					);
+					const grid = el('div', 'grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 text-[13px] tracking-[-0.14px]');
+					grid.append(
+						field('주소', m.address),
+						field('직업', m.occupation),
+						field('휴대폰', m.phone_mobile),
+						field('자택', m.phone_home || '-'),
+					);
+					info.append(head, grid);
+
+					const btn = el('button', 'sig-btn shrink-0 border border-stone-200 rounded-xl overflow-hidden hover:border-stone-400 transition-colors');
+					const img = el('img', 'w-[120px] h-[60px] object-contain bg-white');
+					if (isDataUrl(m.signature_data)) img.src = m.signature_data;
+					img.alt = '서명';
+					btn.appendChild(img);
 					btn.addEventListener('click', () => {
-						document.getElementById('modal-name').textContent = btn.dataset.name + ' 서명';
-						document.getElementById('modal-signature').src = btn.dataset.sig;
+						document.getElementById('modal-name').textContent = (m.name ?? '') + ' 서명';
+						const ms = document.getElementById('modal-signature');
+						if (isDataUrl(m.signature_data)) ms.src = m.signature_data; else ms.removeAttribute('src');
 						document.getElementById('signature-modal').classList.remove('hidden');
 					});
+
+					row.append(info, btn);
+					card.appendChild(row);
+					frag.appendChild(card);
 				});
+				membersList.appendChild(frag);
 			}
 
 			// Modal close
-			document.getElementById('close-modal').addEventListener('click', () => {
-				document.getElementById('signature-modal').classList.add('hidden');
+			const modal = document.getElementById('signature-modal');
+			function closeModal() { modal.classList.add('hidden'); }
+			document.getElementById('close-modal').addEventListener('click', closeModal);
+			modal.addEventListener('click', (e) => {
+				if (e.target === e.currentTarget) closeModal();
 			});
-			document.getElementById('signature-modal').addEventListener('click', (e) => {
-				if (e.target === e.currentTarget) {
-					e.currentTarget.classList.add('hidden');
-				}
+			document.addEventListener('keydown', (e) => {
+				if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
 			});
 
-			function esc(str) {
-				const d = document.createElement('div');
-				d.textContent = str;
-				return d.innerHTML;
+			// DOM helpers (XSS-safe: text via textContent, never innerHTML)
+			function el(tag, className, text) {
+				const node = document.createElement(tag);
+				if (className) node.className = className;
+				if (text != null) node.textContent = text;
+				return node;
+			}
+			function field(label, value) {
+				const p = document.createElement('p');
+				p.append(el('span', 'text-stone-400', label), ' ', el('span', 'text-stone-700 ml-2', value ?? '-'));
+				return p;
+			}
+			function isDataUrl(s) {
+				return typeof s === 'string' && /^data:image\//.test(s);
 			}
 		</script>
-	</body>
-</html>
+</Layout>
