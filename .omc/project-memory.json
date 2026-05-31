@@ -110,14 +110,20 @@
   "hotPaths": [
     {
       "path": "src/pages/index.astro",
-      "accessCount": 26,
-      "lastAccessed": 1780254737491,
+      "accessCount": 27,
+      "lastAccessed": 1780255552051,
       "type": "file"
     },
     {
       "path": "public/og-main.png",
-      "accessCount": 2,
-      "lastAccessed": 1780251175478,
+      "accessCount": 4,
+      "lastAccessed": 1780255758319,
+      "type": "file"
+    },
+    {
+      "path": "scripts/og-card.html",
+      "accessCount": 1,
+      "lastAccessed": 1780255745433,
       "type": "file"
     }
   ],

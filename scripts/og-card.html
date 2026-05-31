@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<style>
+  @font-face {
+    font-family: "Pretendard";
+    src: url("file:///Users/cdiseetheeye/Library/Fonts/PretendardVariable.ttf");
+    font-weight: 45 920;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; }
+  body {
+    font-family: "Pretendard", sans-serif;
+    background: #0e0e0d;
+    color: #fafaf9;
+    width: 1200px;
+    height: 630px;
+    padding: 72px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    -webkit-font-smoothing: antialiased;
+  }
+  .top {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .top svg { display: block; }
+  .brand {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    color: #fafaf9;
+  }
+  .headline {
+    font-size: 88px;
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -3px;
+  }
+  .headline .dim { color: #57534e; }
+  .bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+  .sub {
+    font-size: 23px;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: -0.6px;
+    color: #a8a29e;
+  }
+  .url {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: #78716c;
+  }
+</style>
+</head>
+<body>
+  <div class="top">
+    <svg width="44" height="44" viewBox="0 0 64 64">
+      <g fill="none" stroke="#fafaf9" stroke-width="2.8" stroke-linecap="square" stroke-linejoin="miter">
+        <path d="M30 13 V31" />
+        <path d="M30 13 L42 19 L30 25" />
+        <path d="M20 34 H44" />
+        <path d="M24 53 L32 38 L40 53" />
+      </g>
+    </svg>
+    <span class="brand">AIP · AI Party</span>
+  </div>
+
+  <div class="headline">AI 시대<br/><span class="dim">인류의 새로운 OS</span></div>
+
+  <div class="bottom">
+    <div class="sub">정당은 제품. 정책은 기능.<br/>시민은 유저.</div>
+    <div class="url">aiparty.kr</div>
+  </div>
+</body>
+</html>
