@@ -110,8 +110,8 @@
   "hotPaths": [
     {
       "path": "src/pages/index.astro",
-      "accessCount": 14,
-      "lastAccessed": 1780253875164,
+      "accessCount": 16,
+      "lastAccessed": 1780253969550,
       "type": "file"
     },
     {
