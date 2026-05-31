@@ -1,0 +1,125 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1780247066907,
+  "projectRoot": "/Users/cdiseetheeye/Desktop/AIParty/sites/ai-politics-labs-website",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "tsconfig.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "astro",
+        "version": "6.3.1",
+        "category": "fullstack"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "npm run build",
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": "npm run dev",
+    "scripts": {
+      "dev": "astro dev",
+      "build": "astro build",
+      "preview": "astro preview",
+      "astro": "astro"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "public",
+      "src"
+    ],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "dist": {
+      "path": "dist",
+      "purpose": "Distribution/build output",
+      "fileCount": 6,
+      "lastAccessed": 1780247066889,
+      "keyFiles": [
+        "CNAME",
+        "favicon.svg",
+        "index.html",
+        "og-founding.png",
+        "og-main.png"
+      ]
+    },
+    "public": {
+      "path": "public",
+      "purpose": "Public files",
+      "fileCount": 6,
+      "lastAccessed": 1780247066890,
+      "keyFiles": [
+        "CNAME",
+        "favicon.svg",
+        "globe.avif",
+        "og-founding.png",
+        "og-main.png"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 0,
+      "lastAccessed": 1780247066890,
+      "keyFiles": []
+    },
+    "src/pages": {
+      "path": "src/pages",
+      "purpose": "Page components",
+      "fileCount": 2,
+      "lastAccessed": 1780247066894,
+      "keyFiles": [
+        "admin.astro",
+        "index.astro"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "src/pages/index.astro",
+      "accessCount": 12,
+      "lastAccessed": 1780253311768,
+      "type": "file"
+    },
+    {
+      "path": "public/og-main.png",
+      "accessCount": 2,
+      "lastAccessed": 1780251175478,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

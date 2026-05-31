@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"magick -size 1200x630 xc:white \\\\\\n  -stroke '#1A1A18' -strokewidth 11 -fill none -strokelinecap square -strokelinejoin miter \\\\\\n  -draw \\\"line 591,154.5 591,235.5\\\" \\\\\\n  -draw \\\"polylin...",
+  "error": "Exit code 11\nmagick: unrecognized option `-strokelinecap' at CLI arg 10 @ fatal/magick-cli.c/ProcessCommandOptions/657.",
+  "timestamp": "2026-05-31T18:12:39.435Z",
+  "retry_count": 2
+}
