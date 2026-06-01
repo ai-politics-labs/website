@@ -149,6 +149,10 @@ import Layout from "../layouts/Layout.astro";
 						el('span', 'text-[15px] font-semibold text-stone-900 tracking-[-0.14px]', m.name),
 						el('span', 'text-[13px] text-stone-400 tracking-[-0.14px]', `${m.gender ?? ''} · ${m.birth_date ?? ''}`),
 						el('span', 'text-[12px] text-stone-300 tracking-[-0.14px]', m.created_at ? new Date(m.created_at).toLocaleString('ko-KR') : ''),
+						el('span', m.public_consent
+							? 'text-[11px] font-medium text-stone-700 bg-stone-200 rounded-full px-2 py-0.5'
+							: 'text-[11px] font-medium text-stone-400 border border-stone-300 rounded-full px-2 py-0.5',
+							m.public_consent ? '공개 동의' : '비공개'),
 					);
 					const grid = el('div', 'grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 text-[13px] tracking-[-0.14px]');
 					grid.append(
@@ -156,6 +160,7 @@ import Layout from "../layouts/Layout.astro";
 						field('직업', m.occupation),
 						field('휴대폰', m.phone_mobile),
 						field('자택', m.phone_home || '-'),
+						field('추천인', m.referrer || '-'),
 					);
 					info.append(head, grid);
 

@@ -497,6 +497,20 @@ const tocFooter = { id: "founding-members", label: "발기인 동의서" };
 							</div>
 						</div>
 
+						<!-- 추천인 (선택) -->
+						<div>
+							<label for="referrer" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1">
+								추천인 <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
+							</label>
+							<p class="text-[11px] text-stone-400 tracking-[-0.14px] mb-1.5">추천해 주신 분이 있다면 이름을 적어주세요.</p>
+							<input
+								type="text" id="referrer" name="referrer"
+								class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+								placeholder="추천인 이름 (선택)"
+							/>
+							<p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+						</div>
+
 						<!-- 서명 -->
 						<div>
 							<label class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
@@ -541,6 +555,18 @@ const tocFooter = { id: "founding-members", label: "발기인 동의서" };
 								본인은 에이아이당(가칭) 창당준비위원회 발기인에 동의하며, 개인정보 수집 및 이용에 동의합니다.
 								성명, 주소, 생년월일, 성별, 직업, 전화번호, 서명 정보를 창당 발기인 등록 목적으로 수집하며,
 								창당 절차 완료 후 관련 법령에 따라 보관 또는 파기합니다.
+							</label>
+						</div>
+
+						<!-- 발기인 공개 동의 (선택) -->
+						<div class="flex items-start gap-3">
+							<input
+								type="checkbox" id="public_consent" name="public_consent"
+								class="mt-0.5 size-4 rounded border-stone-300 accent-[#222222] shrink-0"
+							/>
+							<label for="public_consent" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px]">
+								<span class="text-[11px] text-stone-400">(선택)</span>
+								본인이 에이아이당(가칭) 발기인으로 참여했다는 사실을 외부에 공개하는 것에 동의합니다.
 							</label>
 						</div>
 					</div>
@@ -896,9 +922,11 @@ const tocFooter = { id: "founding-members", label: "발기인 동의서" };
 						occupation: fd.get('occupation').trim(),
 						phone_home: fd.get('phone_home')?.trim() || null,
 						phone_mobile: fd.get('phone_mobile').trim(),
+						referrer: fd.get('referrer')?.trim() || null,
 						signature_data: signatureData,
 						agreed_at: agreedAt,
 						privacy_agreed: true,
+						public_consent: form.querySelector('#public_consent').checked,
 					});
 
 					if (error) throw error;
