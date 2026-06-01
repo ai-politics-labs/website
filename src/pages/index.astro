@@ -11,8 +11,8 @@ const toc = [
 	{ id: "ux", label: "07 FUN, COOL, SEXY" },
 	{ id: "milestone", label: "08 미친 꿈을 꿉니다" },
 	{ id: "join", label: "09 동료를 찾습니다" },
+	{ id: "founding-members", label: "10 발기인 동의서" },
 ];
-const tocFooter = { id: "founding-members", label: "발기인 동의서" };
 ---
 
 <Layout title="AIP · AI Party | AI 시대 인류의 새로운 OS">
@@ -57,7 +57,6 @@ const tocFooter = { id: "founding-members", label: "발기인 동의서" };
 				{toc.map((item) => (
 					<li><a href={`#${item.id}`} class="toc-link block py-1 text-[13px] leading-snug">{item.label}</a></li>
 				))}
-				<li class="pt-2 mt-2 border-t border-white/10"><a href={`#${tocFooter.id}`} class="toc-link block py-1 text-[13px] leading-snug">{tocFooter.label}</a></li>
 			</ul>
 		</nav>
 	</aside>
@@ -69,7 +68,6 @@ const tocFooter = { id: "founding-members", label: "발기인 동의서" };
 			{toc.map((item) => (
 				<a href={`#${item.id}`} class="toc-link block border-b border-white/10 py-3 text-[15px]">{item.label}</a>
 			))}
-			<a href={`#${tocFooter.id}`} class="toc-link block py-3 text-[15px]">{tocFooter.label}</a>
 		</div>
 	</nav>
 
