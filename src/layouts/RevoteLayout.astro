@@ -41,10 +41,10 @@ const nav = [
 
   <!-- 상단 바 -->
   <header
-    class="sticky top-0 left-0 right-0 z-50 h-[60px] bg-white/90 backdrop-blur-xl border-b border-stone-200"
+    class="sticky top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-stone-200"
   >
-    <div class="max-w-[1146px] mx-auto h-full px-6 flex items-center justify-between">
-      <a href="/revote" class="font-semibold text-[15.84px] text-stone-900 tracking-[-0.32px]">
+    <div class="max-w-[1146px] mx-auto px-6 flex flex-col items-center gap-1.5 py-2.5 sm:flex-row sm:justify-between sm:gap-2 sm:py-0 sm:h-[60px]">
+      <a href="/revote" class="font-semibold text-[15px] sm:text-[15.84px] text-stone-900 tracking-[-0.32px] whitespace-nowrap">
         선거권 회복 <span class="text-stone-400 font-normal">100만 서명운동</span>
       </a>
       <nav class="flex items-center gap-1 sm:gap-2" aria-label="주요 메뉴">
@@ -52,7 +52,7 @@ const nav = [
           nav.map((item) => (
             <a
               href={item.href}
-              class={`px-2.5 sm:px-3 py-1.5 text-[13px] sm:text-[14px] rounded-full transition-colors tracking-[-0.14px] ${
+              class={`px-2.5 sm:px-3 py-1.5 text-[13px] sm:text-[14px] rounded-full transition-colors tracking-[-0.14px] whitespace-nowrap ${
                 active === item.key
                   ? "text-stone-900 font-medium bg-stone-100"
                   : "text-stone-500 hover:text-stone-900"
