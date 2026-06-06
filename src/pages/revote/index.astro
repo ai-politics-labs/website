@@ -119,16 +119,27 @@ import { DEMANDS, HERO_LINES } from "../../lib/revote/constants";
         우리의 요구사항
       </h2>
       <div class="divide-y divide-stone-200 border-t-2 border-b-2 border-stone-900">
-        {DEMANDS.map((demand, i) => (
-          <div class="py-5 sm:py-8 flex items-baseline gap-2.5 sm:gap-7">
-            <span class="text-[16px] sm:text-[32px] font-bold text-stone-900 w-5 sm:w-11 shrink-0 tracking-[-0.5px] tabular-nums leading-none">
-              {i + 1}
-            </span>
-            <p class="text-[15px] sm:text-[22px] font-semibold text-stone-800 leading-[1.55] sm:leading-snug tracking-[-0.5px] sm:tracking-[-0.4px]">
-              {demand}
-            </p>
-          </div>
-        ))}
+        {DEMANDS.map((demand, i) => {
+          const idx = demand.text.indexOf(demand.mark);
+          const before = idx >= 0 ? demand.text.slice(0, idx) : demand.text;
+          const after = idx >= 0 ? demand.text.slice(idx + demand.mark.length) : "";
+          return (
+            <div class="py-5 sm:py-8 flex items-baseline gap-2.5 sm:gap-7">
+              <span class="text-[16px] sm:text-[32px] font-bold text-stone-900 w-5 sm:w-11 shrink-0 tracking-[-0.5px] tabular-nums leading-none">
+                {i + 1}
+              </span>
+              <p class="text-[15px] sm:text-[22px] font-semibold text-stone-800 leading-[1.55] sm:leading-snug tracking-[-0.5px] sm:tracking-[-0.4px]">
+                {before}
+                {idx >= 0 && (
+                  <mark class="bg-[#FDE047] text-stone-900 font-bold px-1 py-0.5 rounded-[3px] box-decoration-clone">
+                    {demand.mark}
+                  </mark>
+                )}
+                {after}
+              </p>
+            </div>
+          );
+        })}
       </div>
     </div>
   </section>

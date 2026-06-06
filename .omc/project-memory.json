@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1780247066907,
-  "projectRoot": "/Users/cdiseetheeye/Desktop/AIParty/sites/ai-politics-labs-website",
+  "lastScanned": 1780730302716,
+  "projectRoot": "/Users/cdiseetheeye/Desktop/선관위_서명운동",
   "techStack": {
     "languages": [
       {
@@ -47,60 +47,91 @@
     "namingStyle": null,
     "importStyle": null,
     "testPattern": null,
-    "fileOrganization": null
+    "fileOrganization": "type-based"
   },
   "structure": {
     "isMonorepo": false,
     "workspaces": [],
     "mainDirectories": [
       "public",
+      "scripts",
       "src"
     ],
-    "gitBranches": {
-      "defaultBranch": "main",
-      "branchingStrategy": null
-    }
+    "gitBranches": null
   },
   "customNotes": [],
   "directoryMap": {
+    "db": {
+      "path": "db",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1780730302691,
+      "keyFiles": [
+        "2026-06-02_add_referrer_public_consent.sql",
+        "2026-06-06_revote_schema.sql"
+      ]
+    },
     "dist": {
       "path": "dist",
       "purpose": "Distribution/build output",
-      "fileCount": 6,
-      "lastAccessed": 1780247066889,
+      "fileCount": 8,
+      "lastAccessed": 1780730302694,
       "keyFiles": [
         "CNAME",
         "favicon.svg",
+        "globe.avif",
         "index.html",
-        "og-founding.png",
-        "og-main.png"
+        "og-founding.png"
       ]
     },
     "public": {
       "path": "public",
       "purpose": "Public files",
-      "fileCount": 6,
-      "lastAccessed": 1780247066890,
+      "fileCount": 7,
+      "lastAccessed": 1780730302695,
       "keyFiles": [
         "CNAME",
         "favicon.svg",
         "globe.avif",
         "og-founding.png",
-        "og-main.png"
+        "og-main-v2.png"
+      ]
+    },
+    "scripts": {
+      "path": "scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 1,
+      "lastAccessed": 1780730302695,
+      "keyFiles": [
+        "og-card.html"
       ]
     },
     "src": {
       "path": "src",
       "purpose": "Source code",
       "fileCount": 0,
-      "lastAccessed": 1780247066890,
+      "lastAccessed": 1780730302695,
+      "keyFiles": []
+    },
+    "src/components": {
+      "path": "src/components",
+      "purpose": "UI components",
+      "fileCount": 0,
+      "lastAccessed": 1780730302696,
+      "keyFiles": []
+    },
+    "src/lib": {
+      "path": "src/lib",
+      "purpose": "Library code",
+      "fileCount": 0,
+      "lastAccessed": 1780730302696,
       "keyFiles": []
     },
     "src/pages": {
       "path": "src/pages",
       "purpose": "Page components",
       "fileCount": 2,
-      "lastAccessed": 1780247066894,
+      "lastAccessed": 1780730302697,
       "keyFiles": [
         "admin.astro",
         "index.astro"
@@ -109,21 +140,75 @@
   },
   "hotPaths": [
     {
-      "path": "src/pages/index.astro",
-      "accessCount": 27,
-      "lastAccessed": 1780255552051,
+      "path": "src/pages/revote/sign.astro",
+      "accessCount": 17,
+      "lastAccessed": 1780735197025,
       "type": "file"
     },
     {
-      "path": "public/og-main.png",
+      "path": "src/pages/revote/index.astro",
+      "accessCount": 11,
+      "lastAccessed": 1780735572068,
+      "type": "file"
+    },
+    {
+      "path": "src/components/revote/ShareBar.astro",
+      "accessCount": 8,
+      "lastAccessed": 1780732172761,
+      "type": "file"
+    },
+    {
+      "path": "public/revote/revote-client.js",
+      "accessCount": 7,
+      "lastAccessed": 1780735041345,
+      "type": "directory"
+    },
+    {
+      "path": "src/layouts/RevoteLayout.astro",
       "accessCount": 4,
-      "lastAccessed": 1780255758319,
+      "lastAccessed": 1780734468189,
       "type": "file"
     },
     {
-      "path": "scripts/og-card.html",
+      "path": "src/lib/revote/constants.ts",
+      "accessCount": 4,
+      "lastAccessed": 1780735563028,
+      "type": "file"
+    },
+    {
+      "path": "src/components/revote/LiveCounter.astro",
       "accessCount": 1,
-      "lastAccessed": 1780255745433,
+      "lastAccessed": 1780731298399,
+      "type": "file"
+    },
+    {
+      "path": "public/revote/kakao.js",
+      "accessCount": 1,
+      "lastAccessed": 1780732059244,
+      "type": "file"
+    },
+    {
+      "path": "src/components/revote/FloatingShare.astro",
+      "accessCount": 1,
+      "lastAccessed": 1780734456618,
+      "type": "file"
+    },
+    {
+      "path": "db/2026-06-06_revote_schema.sql",
+      "accessCount": 1,
+      "lastAccessed": 1780734991761,
+      "type": "file"
+    },
+    {
+      "path": "db/2026-06-06_revote_comments.sql",
+      "accessCount": 1,
+      "lastAccessed": 1780735033820,
+      "type": "file"
+    },
+    {
+      "path": "README.md",
+      "accessCount": 1,
+      "lastAccessed": 1780735161947,
       "type": "file"
     }
   ],
