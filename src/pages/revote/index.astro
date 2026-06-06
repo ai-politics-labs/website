@@ -42,9 +42,9 @@ import { DEMANDS, HERO_LINES } from "../../lib/revote/constants";
         <p>우리는 30일 안에 100만 명의 서명을 모아<br />정부, 국회, 법원, 정당, 선관위에 전달하겠습니다.</p>
         <p class="text-white font-medium">우리의 요구는 분명합니다.</p>
         <ol class="list-decimal list-inside space-y-2 text-stone-300">
-          <li>선관위 유책 공무원 전원 해임 및 채용비리 없는 재선발</li>
+          <li>유책 선관위직원 전원 해임 및 채용비리 없는 재선발</li>
           <li>서울·인천·부산 등 피해 확인 지역 재선거</li>
-          <li>독립적 진상조사 및 재발방지 시스템 마련</li>
+          <li>독립적인 진상조사 및 재발방지</li>
         </ol>
         <p class="text-stone-400">당신의 서명은 잃어버린 주권을 회복하기 위한 첫 번째 행동입니다.</p>
       </div>
@@ -73,7 +73,42 @@ import { DEMANDS, HERO_LINES } from "../../lib/revote/constants";
     </div>
   </section>
 
-  <!-- 3. 문제 설명 -->
+  <!-- 3. 요구사항 3개 -->
+  <section class="bg-white pb-16 sm:pb-24">
+    <div class="max-w-5xl mx-auto px-6">
+      <p class="text-[11px] sm:text-[12px] font-medium text-stone-400 tracking-[0.14em] uppercase mb-3 sm:mb-4">
+        우리의 요구
+      </p>
+      <h2 class="text-[25px] sm:text-[40px] font-semibold text-stone-900 leading-[1.15] tracking-[-0.4px] mb-8 sm:mb-12">
+        우리의 요구사항
+      </h2>
+      <div class="divide-y divide-stone-200 border-t-2 border-b-2 border-stone-900">
+        {DEMANDS.map((demand, i) => {
+          const idx = demand.text.indexOf(demand.mark);
+          const before = idx >= 0 ? demand.text.slice(0, idx) : demand.text;
+          const after = idx >= 0 ? demand.text.slice(idx + demand.mark.length) : "";
+          return (
+            <div class="py-5 sm:py-8 flex items-baseline gap-2.5 sm:gap-7">
+              <span class="text-[16px] sm:text-[32px] font-bold text-stone-900 w-5 sm:w-11 shrink-0 tracking-[-0.5px] tabular-nums leading-none">
+                {i + 1}
+              </span>
+              <p class="text-[15px] sm:text-[22px] font-semibold text-stone-800 leading-[1.55] sm:leading-snug tracking-[-0.5px] sm:tracking-[-0.4px]">
+                {before}
+                {idx >= 0 && (
+                  <mark class="bg-[#FDE047] text-stone-900 font-bold px-1 py-0.5 box-decoration-clone">
+                    {demand.mark}
+                  </mark>
+                )}
+                {after}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 문제 설명 -->
   <section class="bg-stone-100 py-20">
     <div class="max-w-4xl mx-auto px-6">
       <h2 class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mb-7">
@@ -105,41 +140,6 @@ import { DEMANDS, HERO_LINES } from "../../lib/revote/constants";
         >
           30초 만에 서명하기 →
         </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- 4. 요구사항 3개 -->
-  <section class="bg-white py-16 sm:py-24">
-    <div class="max-w-5xl mx-auto px-6">
-      <p class="text-[11px] sm:text-[12px] font-medium text-stone-400 tracking-[0.14em] uppercase mb-3 sm:mb-4">
-        우리의 요구
-      </p>
-      <h2 class="text-[25px] sm:text-[40px] font-semibold text-stone-900 leading-[1.15] tracking-[-0.4px] mb-8 sm:mb-12">
-        우리의 요구사항
-      </h2>
-      <div class="divide-y divide-stone-200 border-t-2 border-b-2 border-stone-900">
-        {DEMANDS.map((demand, i) => {
-          const idx = demand.text.indexOf(demand.mark);
-          const before = idx >= 0 ? demand.text.slice(0, idx) : demand.text;
-          const after = idx >= 0 ? demand.text.slice(idx + demand.mark.length) : "";
-          return (
-            <div class="py-5 sm:py-8 flex items-baseline gap-2.5 sm:gap-7">
-              <span class="text-[16px] sm:text-[32px] font-bold text-stone-900 w-5 sm:w-11 shrink-0 tracking-[-0.5px] tabular-nums leading-none">
-                {i + 1}
-              </span>
-              <p class="text-[15px] sm:text-[22px] font-semibold text-stone-800 leading-[1.55] sm:leading-snug tracking-[-0.5px] sm:tracking-[-0.4px]">
-                {before}
-                {idx >= 0 && (
-                  <mark class="bg-[#FDE047] text-stone-900 font-bold px-1 py-0.5 rounded-[3px] box-decoration-clone">
-                    {demand.mark}
-                  </mark>
-                )}
-                {after}
-              </p>
-            </div>
-          );
-        })}
       </div>
     </div>
   </section>
