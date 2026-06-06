@@ -2,6 +2,15 @@
 import RevoteLayout from "../../layouts/RevoteLayout.astro";
 import LiveCounter from "../../components/revote/LiveCounter.astro";
 import { DEMANDS, HERO_LINES } from "../../lib/revote/constants";
+
+const NEWS_VIDEOS = [
+  "9jKRDm2_MFA",
+  "hFkWKVZu_iQ",
+  "eLDUd9n7Lxc",
+  "IA67BcYbl1E",
+  "hSt1nQ39YN0",
+  "y_M1uF-baYI",
+];
 ---
 
 <RevoteLayout title="선거권 회복 100만 서명운동" active="home">
@@ -133,6 +142,36 @@ import { DEMANDS, HERO_LINES } from "../../lib/revote/constants";
           선거관리 부실로 인한 선거권 침해입니다.
         </p>
       </div>
+
+      <p class="mt-12 mb-4 text-[13px] font-medium text-stone-500 tracking-[-0.16px]">
+        관련 보도 영상
+      </p>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+        {NEWS_VIDEOS.map((id) => (
+          <a
+            href={`https://www.youtube.com/watch?v=${id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group relative block aspect-video overflow-hidden rounded-lg bg-stone-200 ring-1 ring-stone-300 hover:ring-stone-400 transition"
+          >
+            <img
+              src={`https://img.youtube.com/vi/${id}/hqdefault.jpg`}
+              alt="관련 보도 영상 썸네일"
+              loading="lazy"
+              class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+            <span class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors"></span>
+            <span class="absolute inset-0 flex items-center justify-center">
+              <span class="flex items-center justify-center w-12 h-12 rounded-full bg-black/60 group-hover:bg-red-600 transition-colors">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </span>
+            </span>
+          </a>
+        ))}
+      </div>
+
       <div class="mt-9 flex flex-wrap gap-3">
         <a
           href="/revote/sign"
