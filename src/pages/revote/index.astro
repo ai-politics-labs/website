@@ -8,9 +8,28 @@ import { DEMANDS, HERO_LINES } from "../../lib/revote/constants";
 <RevoteLayout title="선거권 회복 100만 서명운동" active="home">
 
   <!-- 1. Hero -->
-  <section class="bg-[#0e0e0d] pt-[72px] pb-24 border-b border-stone-800">
-    <div class="max-w-4xl mx-auto px-6">
-      <p class="text-[12px] font-medium text-stone-500 tracking-[0.14em] uppercase mb-7">
+  <section class="relative overflow-hidden bg-[#0e0e0d] pt-[72px] pb-24 border-b border-stone-800">
+    <!-- 배경 이미지 + 자연스러운 페이드 (글씨 쪽은 검정 유지) -->
+    <div class="absolute inset-0 z-0" aria-hidden="true">
+      <img
+        src="/revote/voting-shortage.jpg"
+        alt=""
+        loading="eager"
+        class="w-full h-full object-cover object-[78%_center]"
+      />
+      <!-- 가로 페이드: 왼쪽(글씨) 검정 → 오른쪽(사진) 노출 -->
+      <div
+        class="absolute inset-0"
+        style="background:linear-gradient(to right,#0e0e0d 0%,#0e0e0d 40%,rgba(14,14,13,0.7) 66%,rgba(14,14,13,0.2) 100%)"
+      ></div>
+      <!-- 세로 페이드: 모바일 가독성 보강 -->
+      <div
+        class="absolute inset-0 sm:hidden"
+        style="background:linear-gradient(to bottom,rgba(14,14,13,0.55) 0%,rgba(14,14,13,0.35) 45%,rgba(14,14,13,0.8) 100%)"
+      ></div>
+    </div>
+    <div class="relative z-10 max-w-4xl mx-auto px-6">
+      <p class="text-[12px] font-medium text-stone-400 tracking-[0.14em] uppercase mb-7">
         선거권 회복 · 시민행동
       </p>
       <h1 class="font-semibold text-[32px] sm:text-[40px] text-white leading-[1.25] tracking-[-0.32px] mb-8">
