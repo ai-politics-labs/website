@@ -1,0 +1,663 @@
+---
+import RevoteLayout from "../../layouts/RevoteLayout.astro";
+import { INCIDENT_TYPES } from "../../lib/revote/incident-types";
+import { SIDO_LIST, SIGUNGU } from "../../lib/revote/regions";
+---
+
+<RevoteLayout title="피해 제보 · 선거권 회복 100만 서명운동" active="report">
+  <section class="max-w-2xl mx-auto px-4 sm:px-6 pt-10 pb-24">
+    <h1 class="font-semibold text-[28px] sm:text-[32px] text-stone-900 leading-[1.3] tracking-[-0.32px] mb-2">
+      피해 제보
+    </h1>
+    <p class="text-[15px] text-stone-500 leading-6 tracking-[-0.14px] mb-8">
+      투표소에서 겪은 일을 제보해 주세요. 제보 내용은 검토 후 법률 대응과 피해지역 분석에 활용됩니다.<br />
+      <strong class="text-stone-700">제보는 자동으로 외부에 공개되지 않습니다.</strong>
+    </p>
+
+    <form id="report-form" novalidate>
+      <div class="bg-stone-100 rounded-2xl p-6 sm:p-8 space-y-5">
+
+        <!-- 피해 유형 (상단 강조) -->
+        <fieldset>
+          <legend class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            피해 유형 <span class="text-red-500" aria-hidden="true">*</span>
+            <span class="text-[12px] font-normal text-stone-400 ml-1">(해당하는 항목 모두 선택)</span>
+          </legend>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {INCIDENT_TYPES.map((t) => (
+              <label class="flex items-start gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  name="incident_types"
+                  value={t.code}
+                  class="mt-0.5 accent-[#222222] size-4 shrink-0"
+                />
+                <span class="text-[14px] text-stone-700 tracking-[-0.14px] leading-5">{t.label}</span>
+              </label>
+            ))}
+          </div>
+          <p class="field-error hidden mt-1 text-[12px] text-red-500" id="incident-types-error" role="alert"></p>
+        </fieldset>
+
+        <!-- 제보자 정보 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="reporter_name" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+              이름 <span class="text-red-500" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="text" id="reporter_name" name="reporter_name" required autocomplete="name"
+              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+              placeholder="홍길동"
+            />
+            <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+          </div>
+          <div>
+            <label for="phone" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+              연락처 <span class="text-red-500" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="tel" id="phone" name="phone" required autocomplete="tel"
+              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+              placeholder="010-0000-0000"
+            />
+            <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+          </div>
+        </div>
+
+        <!-- 이메일 -->
+        <div>
+          <label for="email" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            이메일 <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
+          </label>
+          <input
+            type="email" id="email" name="email" autocomplete="email"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            placeholder="example@email.com"
+          />
+          <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+        </div>
+
+        <!-- 피해 발생일 -->
+        <div>
+          <label for="incident_date" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            피해 발생일 <span class="text-red-500" aria-hidden="true">*</span>
+          </label>
+          <input
+            type="date" id="incident_date" name="incident_date" required
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px]"
+          />
+          <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+        </div>
+
+        <!-- 지역 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="sido" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+              시/도 <span class="text-red-500" aria-hidden="true">*</span>
+            </label>
+            <select
+              id="sido" name="sido" required
+              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px]"
+            >
+              <option value="">시/도 선택</option>
+              {SIDO_LIST.map((sido) => (
+                <option value={sido}>{sido}</option>
+              ))}
+            </select>
+            <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+          </div>
+          <div>
+            <label for="sigungu" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+              시/군/구 <span class="text-red-500" aria-hidden="true">*</span>
+            </label>
+            <select
+              id="sigungu" name="sigungu" required disabled
+              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px] disabled:bg-stone-50 disabled:text-stone-400"
+            >
+              <option value="">먼저 시/도를 선택해주세요</option>
+            </select>
+            <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+          </div>
+        </div>
+
+        <!-- 투표소명 -->
+        <div>
+          <label for="polling_station_name" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            투표소명 <span class="text-red-500" aria-hidden="true">*</span>
+          </label>
+          <input
+            type="text" id="polling_station_name" name="polling_station_name" required
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            placeholder="예: 송파구청 제1투표소"
+          />
+          <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+        </div>
+
+        <!-- 도착 시간 + 대기 시간 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="arrival_time" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+              투표소 도착 시간 <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
+            </label>
+            <input
+              type="time" id="arrival_time" name="arrival_time"
+              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px]"
+            />
+          </div>
+          <div>
+            <label for="wait_time_minutes" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+              대기 시간 (분) <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
+            </label>
+            <input
+              type="number" id="wait_time_minutes" name="wait_time_minutes" min="0" max="600"
+              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+              placeholder="예: 30"
+            />
+          </div>
+        </div>
+
+        <!-- 투표 완료 여부 -->
+        <fieldset id="was-able-group" aria-describedby="was-able-error">
+          <legend class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            투표를 완료하셨나요? <span class="text-red-500" aria-hidden="true">*</span>
+          </legend>
+          <div class="flex gap-5 h-10 items-center">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="was_able_to_vote" value="true" required class="accent-[#222222] size-4" />
+              <span class="text-[15px] text-stone-700 tracking-[-0.14px]">예</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="was_able_to_vote" value="false" required class="accent-[#222222] size-4" />
+              <span class="text-[15px] text-stone-700 tracking-[-0.14px]">아니오</span>
+            </label>
+          </div>
+          <p class="field-error hidden mt-1 text-[12px] text-red-500" id="was-able-error" role="alert"></p>
+        </fieldset>
+
+        <!-- 투표 포기 여부 -->
+        <fieldset id="gave-up-group" aria-describedby="gave-up-error">
+          <legend class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            투표를 포기하셨나요? <span class="text-red-500" aria-hidden="true">*</span>
+          </legend>
+          <div class="flex gap-5 h-10 items-center">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="gave_up_voting" value="true" required class="accent-[#222222] size-4" />
+              <span class="text-[15px] text-stone-700 tracking-[-0.14px]">예</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="gave_up_voting" value="false" required class="accent-[#222222] size-4" />
+              <span class="text-[15px] text-stone-700 tracking-[-0.14px]">아니오</span>
+            </label>
+          </div>
+          <p class="field-error hidden mt-1 text-[12px] text-red-500" id="gave-up-error" role="alert"></p>
+        </fieldset>
+
+        <!-- 현장 안내 내용 -->
+        <div>
+          <label for="official_guidance" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            현장 안내 내용 <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
+          </label>
+          <textarea
+            id="official_guidance" name="official_guidance" rows="3"
+            class="w-full px-3 py-2.5 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] resize-none"
+            style="min-height: 80px;"
+            placeholder="현장 관계자에게 들은 안내 내용을 입력해 주세요"
+          ></textarea>
+        </div>
+
+        <!-- 상세 진술 -->
+        <div>
+          <label for="description" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            상세 진술 <span class="text-red-500" aria-hidden="true">*</span>
+          </label>
+          <textarea
+            id="description" name="description" required rows="6"
+            class="w-full px-3 py-2.5 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] resize-none"
+            style="min-height: 140px;"
+            placeholder="투표소에서 겪은 일을 구체적으로 적어주세요. 예) 몇 시에 도착했는데 투표용지가 부족하다는 안내를 받았고, 약 XX분을 기다린 후 투표하지 못하고 귀가했습니다."
+          ></textarea>
+          <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+        </div>
+
+        <!-- 증인 유무 -->
+        <fieldset id="witnesses-group">
+          <legend class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            같이 있었던 증인이 있나요? <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
+          </legend>
+          <div class="flex gap-5 h-10 items-center">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="witnesses" value="true" class="accent-[#222222] size-4" />
+              <span class="text-[15px] text-stone-700 tracking-[-0.14px]">예</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="witnesses" value="false" class="accent-[#222222] size-4" />
+              <span class="text-[15px] text-stone-700 tracking-[-0.14px]">아니오</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- 증인 연락 가능 여부 -->
+        <fieldset id="witness-contact-group">
+          <legend class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            증인 연락이 가능한가요? <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
+          </legend>
+          <div class="flex gap-5 h-10 items-center">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="witness_contact_available" value="true" class="accent-[#222222] size-4" />
+              <span class="text-[15px] text-stone-700 tracking-[-0.14px]">예</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="witness_contact_available" value="false" class="accent-[#222222] size-4" />
+              <span class="text-[15px] text-stone-700 tracking-[-0.14px]">아니오</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- 파일 첨부 -->
+        <div>
+          <label for="files" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            증거 파일 첨부 <span class="text-[11px] text-stone-400 font-normal">(선택, 최대 10개 · 각 100MB)</span>
+          </label>
+          <p class="text-[12px] text-stone-400 tracking-[-0.14px] mb-2">허용 형식: JPG, PNG, HEIC, PDF, MP4, MOV, TXT</p>
+          <label
+            class="flex items-center justify-center w-full h-14 border-2 border-dashed border-stone-300 rounded-xl bg-white cursor-pointer hover:border-stone-400 transition-colors"
+            for="files"
+          >
+            <span class="text-[14px] text-stone-500 tracking-[-0.14px]">파일 선택 또는 촬영</span>
+          </label>
+          <input
+            type="file" id="files" name="files" multiple
+            accept=".jpg,.jpeg,.png,.heic,.pdf,.mp4,.mov,.txt,image/*,video/*"
+            capture="environment"
+            class="sr-only"
+          />
+          <div id="file-list" class="mt-2 space-y-1"></div>
+          <p class="field-error hidden mt-1 text-[12px] text-red-500" id="files-error" role="alert"></p>
+        </div>
+
+        <!-- 구분선 -->
+        <div class="h-px bg-stone-200"></div>
+
+        <!-- 비공개 안내 반복 -->
+        <div class="bg-stone-200/60 rounded-xl px-4 py-3">
+          <p class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px]">
+            <strong class="text-stone-800">제보는 자동으로 외부에 공개되지 않습니다.</strong><br />
+            제보 내용은 검토 후 피해지역 분석과 법률 대응 준비에만 활용되며, 확인 전까지 외부에 공개되지 않습니다.
+          </p>
+        </div>
+
+        <!-- 동의 항목 -->
+        <div class="space-y-3 pt-1">
+          <!-- 필수 동의 1: 개인정보 -->
+          <div class="flex items-start gap-3">
+            <input
+              type="checkbox" id="privacy_consent" name="privacy_consent" required
+              class="mt-0.5 size-4 rounded border-stone-300 accent-[#222222] shrink-0"
+            />
+            <label for="privacy_consent" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px]">
+              <span class="text-red-500" aria-hidden="true">*</span>
+              <strong class="text-stone-700">[필수] 개인정보 수집·이용 동의</strong><br />
+              수집 항목: 이름, 연락처, 투표소 정보, 피해 진술, 첨부파일.
+              수집 목적: 피해 사실 확인, 법률 검토, 통계 분석, 공익적 문제 제기.
+              보유 기간: 법률 대응 종료 후 1년 또는 삭제 요청 시까지.
+            </label>
+          </div>
+          <p class="field-error hidden ml-7 text-[12px] text-red-500" id="privacy-consent-error" role="alert"></p>
+
+          <!-- 필수 동의 2: 증거 검토 활용 -->
+          <div class="flex items-start gap-3">
+            <input
+              type="checkbox" id="evidence_use_consent" name="evidence_use_consent" required
+              class="mt-0.5 size-4 rounded border-stone-300 accent-[#222222] shrink-0"
+            />
+            <label for="evidence_use_consent" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px]">
+              <span class="text-red-500" aria-hidden="true">*</span>
+              <strong class="text-stone-700">[필수] 증거 검토 활용 동의</strong><br />
+              제출한 제보 내용과 첨부 파일을 피해 분석 및 법률 검토 목적으로 활용하는 데 동의합니다.
+            </label>
+          </div>
+          <p class="field-error hidden ml-7 text-[12px] text-red-500" id="evidence-consent-error" role="alert"></p>
+
+          <!-- 선택 동의: 법률대리인 연락 -->
+          <div class="flex items-start gap-3">
+            <input
+              type="checkbox" id="legal_contact_consent" name="legal_contact_consent"
+              class="mt-0.5 size-4 rounded border-stone-300 accent-[#222222] shrink-0"
+            />
+            <label for="legal_contact_consent" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px]">
+              <span class="text-[11px] text-stone-400">(선택)</span>
+              <strong class="text-stone-700">[선택] 법률대리인·공익단체 제3자 제공 동의</strong><br />
+              이름, 연락처, 피해 제보 내용, 첨부자료를 법률 검토 및 소송 참여 안내 목적으로 제공하는 데 동의합니다.
+            </label>
+          </div>
+        </div>
+
+        <!-- 제출 -->
+        <div class="pt-2">
+          <button
+            type="submit"
+            id="submit-btn"
+            class="inline-flex items-center justify-center h-11 px-8 text-[15px] font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px] disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            제보 접수하기
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- 완료 화면 -->
+    <div id="success-screen" class="hidden bg-stone-100 rounded-2xl p-8 text-center" role="status">
+      <p class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mb-3">제보가 접수되었습니다</p>
+      <p class="text-[15px] text-stone-500 tracking-[-0.16px] mb-1">
+        접수번호: <strong id="receipt-no" class="text-stone-800 font-mono"></strong>
+      </p>
+      <div class="mt-4 text-[14px] text-stone-600 leading-6 tracking-[-0.14px] space-y-1">
+        <p>제보 내용은 검토 후 피해지역 분석과 법률 대응 준비에 활용됩니다.</p>
+        <p><strong class="text-stone-800">확인 전까지는 외부에 공개되지 않습니다.</strong></p>
+        <p>필요한 경우 담당자가 연락드릴 수 있습니다.</p>
+      </div>
+      <div id="file-warning" class="hidden mt-4 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-[13px] text-amber-700 leading-5 text-left">
+        <strong>일부 파일 업로드에 실패했습니다.</strong><br />
+        제보 자체는 정상 접수되었습니다. 파일은 접수번호를 통해 다시 제출하실 수 있습니다. 문의: revote@aiparty.kr
+      </div>
+      <a href="/revote" class="mt-6 inline-flex items-center h-10 px-5 text-[14px] font-medium text-stone-700 border border-stone-300 rounded-full hover:bg-stone-100 transition-colors tracking-[-0.14px]">
+        캠페인 홈으로
+      </a>
+    </div>
+
+    <!-- 전역 에러 -->
+    <div id="error-message" role="alert" class="hidden mt-4 p-4 bg-red-50 rounded-xl text-[14px] text-red-600 leading-5"></div>
+  </section>
+</RevoteLayout>
+
+<script type="module">
+  import { supabase, phoneHash, formatMobile, isValidMobile, logConsents, track, getVisitorId } from '/revote/revote-client.js';
+
+  const ALLOWED_FILE_EXT = ['jpg','jpeg','png','heic','pdf','mp4','mov','txt'];
+  const MAX_FILE_SIZE = 100 * 1024 * 1024;
+  const MAX_FILES_PER_REPORT = 10;
+  const EVIDENCE_BUCKET = 'revote-evidence';
+
+  const SIGUNGU_DATA = /** @type {Record<string,string[]>} */ (
+    JSON.parse(document.getElementById('sigungu-data').textContent)
+  );
+
+  // --- phone auto-format ---
+  const phoneInput = document.getElementById('phone');
+  phoneInput.addEventListener('input', (e) => {
+    e.target.value = formatMobile(e.target.value);
+  });
+
+  // --- dependent 시/군/구 ---
+  const sidoSelect = document.getElementById('sido');
+  const sigunguSelect = document.getElementById('sigungu');
+  sidoSelect.addEventListener('change', () => {
+    const sido = sidoSelect.value;
+    sigunguSelect.innerHTML = '';
+    if (!sido) {
+      sigunguSelect.disabled = true;
+      sigunguSelect.innerHTML = '<option value="">먼저 시/도를 선택해주세요</option>';
+      return;
+    }
+    const list = SIGUNGU_DATA[sido] || [];
+    sigunguSelect.innerHTML = '<option value="">시/군/구 선택</option>';
+    list.forEach((s) => {
+      const opt = document.createElement('option');
+      opt.value = s;
+      opt.textContent = s;
+      sigunguSelect.appendChild(opt);
+    });
+    sigunguSelect.disabled = false;
+    sigunguSelect.classList.remove('bg-stone-50', 'text-stone-400');
+  });
+
+  // --- track first focus ---
+  let trackedStart = false;
+  document.getElementById('report-form').addEventListener('focusin', () => {
+    if (!trackedStart) {
+      trackedStart = true;
+      track('start_report');
+    }
+  }, { once: false });
+
+  // --- file validation & list ---
+  const fileInput = document.getElementById('files');
+  const fileListEl = document.getElementById('file-list');
+  const filesError = document.getElementById('files-error');
+  let validFiles = [];
+
+  fileInput.addEventListener('change', () => {
+    filesError.textContent = '';
+    filesError.classList.add('hidden');
+    const selected = Array.from(fileInput.files || []);
+    const errors = [];
+    const accepted = [];
+
+    if (selected.length > MAX_FILES_PER_REPORT) {
+      errors.push(`파일은 최대 ${MAX_FILES_PER_REPORT}개까지 첨부할 수 있습니다.`);
+    } else {
+      for (const f of selected) {
+        const ext = f.name.split('.').pop()?.toLowerCase() || '';
+        if (!ALLOWED_FILE_EXT.includes(ext)) {
+          errors.push(`${f.name}: 허용되지 않는 파일 형식입니다.`);
+        } else if (f.size > MAX_FILE_SIZE) {
+          errors.push(`${f.name}: 파일 크기가 100MB를 초과합니다.`);
+        } else {
+          accepted.push(f);
+        }
+      }
+    }
+
+    if (errors.length) {
+      filesError.textContent = errors.join(' / ');
+      filesError.classList.remove('hidden');
+      validFiles = [];
+      fileListEl.innerHTML = '';
+      return;
+    }
+
+    validFiles = accepted;
+    fileListEl.textContent = '';
+    validFiles.forEach((f) => {
+      const row = document.createElement('div');
+      row.className = 'flex items-center gap-2 text-[13px] text-stone-600 tracking-[-0.14px]';
+      const icon = document.createElement('span');
+      icon.className = 'text-stone-400';
+      icon.textContent = '📎';
+      const name = document.createElement('span');
+      name.className = 'truncate';
+      name.textContent = f.name;
+      const size = document.createElement('span');
+      size.className = 'text-stone-400 shrink-0';
+      size.textContent = `(${(f.size / 1024 / 1024).toFixed(1)}MB)`;
+      row.append(icon, name, size);
+      fileListEl.appendChild(row);
+    });
+  });
+
+  // --- validation ---
+  function clearErrors() {
+    document.querySelectorAll('.field-error').forEach(el => { el.textContent = ''; el.classList.add('hidden'); });
+    document.querySelectorAll('.border-red-400').forEach(el => el.classList.remove('border-red-400'));
+    document.getElementById('error-message').classList.add('hidden');
+  }
+
+  function showFieldError(elOrId, msg) {
+    const el = typeof elOrId === 'string' ? document.getElementById(elOrId) : elOrId;
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.remove('hidden');
+  }
+
+  function markInputError(inputEl) {
+    if (!inputEl) return;
+    inputEl.classList.add('border-red-400');
+    inputEl.addEventListener('input', () => {
+      inputEl.classList.remove('border-red-400');
+      const fe = inputEl.closest('div')?.querySelector('.field-error');
+      if (fe) fe.classList.add('hidden');
+    }, { once: true });
+  }
+
+  function validateForm() {
+    const errors = [];
+    const fd = new FormData(document.getElementById('report-form'));
+
+    const name = fd.get('reporter_name')?.trim();
+    if (!name || name.length < 2) errors.push({ id: null, input: 'reporter_name', msg: '이름을 2자 이상 입력해 주세요.' });
+
+    const phone = fd.get('phone')?.trim();
+    if (!isValidMobile(phone)) errors.push({ id: null, input: 'phone', msg: '올바른 휴대폰 번호를 입력해 주세요.' });
+
+    const date = fd.get('incident_date');
+    if (!date) errors.push({ id: null, input: 'incident_date', msg: '피해 발생일을 선택해 주세요.' });
+
+    const sido = fd.get('sido');
+    if (!sido) errors.push({ id: null, input: 'sido', msg: '시/도를 선택해 주세요.' });
+
+    const sigungu = fd.get('sigungu');
+    if (!sigungu) errors.push({ id: null, input: 'sigungu', msg: '시/군/구를 선택해 주세요.' });
+
+    const station = fd.get('polling_station_name')?.trim();
+    if (!station) errors.push({ id: null, input: 'polling_station_name', msg: '투표소명을 입력해 주세요.' });
+
+    const wasAble = fd.get('was_able_to_vote');
+    if (!wasAble) errors.push({ id: 'was-able-error', input: null, msg: '투표 완료 여부를 선택해 주세요.' });
+
+    const gaveUp = fd.get('gave_up_voting');
+    if (!gaveUp) errors.push({ id: 'gave-up-error', input: null, msg: '투표 포기 여부를 선택해 주세요.' });
+
+    const incidentTypes = fd.getAll('incident_types');
+    if (incidentTypes.length === 0) errors.push({ id: 'incident-types-error', input: null, msg: '피해 유형을 하나 이상 선택해 주세요.' });
+
+    const desc = fd.get('description')?.trim();
+    if (!desc || desc.length < 10) errors.push({ id: null, input: 'description', msg: '상세 진술을 10자 이상 입력해 주세요.' });
+
+    const evidenceConsent = document.getElementById('evidence_use_consent').checked;
+    if (!evidenceConsent) errors.push({ id: 'evidence-consent-error', input: null, msg: '증거 검토 활용 동의가 필요합니다.' });
+
+    const privacyConsent = document.getElementById('privacy_consent').checked;
+    if (!privacyConsent) errors.push({ id: 'privacy-consent-error', input: null, msg: '개인정보 수집·이용 동의가 필요합니다.' });
+
+    return errors;
+  }
+
+  // --- submit ---
+  const form = document.getElementById('report-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const successScreen = document.getElementById('success-screen');
+  const errorDiv = document.getElementById('error-message');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearErrors();
+
+    const errors = validateForm();
+    if (errors.length > 0) {
+      errors.forEach(({ id, input, msg }) => {
+        if (id) {
+          showFieldError(id, msg);
+        } else if (input) {
+          const inputEl = document.getElementById(input);
+          const fe = inputEl?.closest('div')?.querySelector('.field-error');
+          if (fe) showFieldError(fe, msg);
+          markInputError(inputEl);
+        }
+      });
+      const first = errors[0];
+      const target = first.id ? document.getElementById(first.id) : document.getElementById(first.input);
+      if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'center' }); if (target.focus) target.focus(); }
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = '접수 중...';
+
+    const fd = new FormData(form);
+    const phone = fd.get('phone').trim();
+    const waitRaw = fd.get('wait_time_minutes');
+    const legalChecked = document.getElementById('legal_contact_consent').checked;
+
+    try {
+      // Step 1: insert report
+      const { data, error: insertError } = await supabase
+        .from('revote_reports')
+        .insert({
+          reporter_name: fd.get('reporter_name').trim(),
+          phone: phone,
+          phone_hash: await phoneHash(phone),
+          email: fd.get('email')?.trim() || null,
+          incident_date: fd.get('incident_date'),
+          sido: fd.get('sido'),
+          sigungu: fd.get('sigungu'),
+          polling_station_name: fd.get('polling_station_name').trim(),
+          arrival_time: fd.get('arrival_time') || null,
+          wait_time_minutes: waitRaw ? Number(waitRaw) : null,
+          was_able_to_vote: fd.get('was_able_to_vote') === 'true',
+          gave_up_voting: fd.get('gave_up_voting') === 'true',
+          incident_types: fd.getAll('incident_types'),
+          official_guidance: fd.get('official_guidance')?.trim() || null,
+          description: fd.get('description').trim(),
+          witnesses: fd.get('witnesses') ? fd.get('witnesses') === 'true' : null,
+          witness_contact_available: fd.get('witness_contact_available') ? fd.get('witness_contact_available') === 'true' : null,
+          legal_contact_consent: legalChecked,
+          evidence_use_consent: true,
+          user_agent: navigator.userAgent,
+        })
+        .select('id, receipt_no')
+        .single();
+
+      if (insertError) throw insertError;
+
+      // Step 2: upload files (failures do not fail submission)
+      let fileFailCount = 0;
+      for (const file of validFiles) {
+        try {
+          const ext = file.name.split('.').pop().toLowerCase();
+          const path = `${data.id}/${crypto.randomUUID()}.${ext}`;
+          const { error: uploadError } = await supabase.storage
+            .from(EVIDENCE_BUCKET)
+            .upload(path, file, { contentType: file.type });
+          if (uploadError) { fileFailCount++; continue; }
+          await supabase.from('revote_report_files').insert({
+            report_id: data.id,
+            storage_path: path,
+            file_name_original: file.name,
+            file_type: file.type,
+            file_size: file.size,
+          });
+          track('upload_file_success', { report_id: data.id });
+        } catch (_) {
+          fileFailCount++;
+        }
+      }
+
+      // Step 3: log consents
+      await logConsents('REPORT', data.id, [
+        { type: 'PRIVACY', consented: true },
+        { type: 'EVIDENCE_USE', consented: true },
+        { type: 'LEGAL_CONTACT', consented: legalChecked },
+      ]);
+      track('submit_report_success', { report_id: data.id });
+
+      // Show completion screen
+      form.classList.add('hidden');
+      document.getElementById('receipt-no').textContent = data.receipt_no || data.id;
+      if (fileFailCount > 0) {
+        document.getElementById('file-warning').classList.remove('hidden');
+      }
+      successScreen.classList.remove('hidden');
+      successScreen.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    } catch (err) {
+      console.error('Report submission error:', err);
+      errorDiv.textContent = '접수 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.';
+      errorDiv.classList.remove('hidden');
+      submitBtn.disabled = false;
+      submitBtn.textContent = '제보 접수하기';
+    }
+  });
+</script>
+
+<script id="sigungu-data" type="application/json" set:html={JSON.stringify(SIGUNGU)}></script>

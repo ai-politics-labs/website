@@ -1,0 +1,776 @@
+---
+import RevoteLayout from "../../layouts/RevoteLayout.astro";
+import {
+  REPORT_STATUSES,
+  REPORT_STATUS_LABEL,
+  INCIDENT_TYPES,
+  INCIDENT_LABEL,
+  LEGAL_PRIORITIES,
+} from "../../lib/revote/incident-types";
+
+const reportStatusesJson = JSON.stringify(REPORT_STATUSES);
+const incidentTypesJson = JSON.stringify(INCIDENT_TYPES);
+const legalPrioritiesJson = JSON.stringify(LEGAL_PRIORITIES);
+---
+
+<RevoteLayout title="관리자 · 선거권 회복 100만 서명운동" active="">
+  <meta slot="head" name="robots" content="noindex,nofollow" />
+
+  <!-- 로그인 섹션 -->
+  <section id="login-section" class="pt-[60px] pb-24">
+    <div class="max-w-sm mx-auto px-6">
+      <h1 class="font-semibold mb-6 text-[22px] text-stone-800 tracking-[-0.32px]">관리자 로그인</h1>
+      <form id="login-form" class="space-y-4">
+        <div>
+          <label for="email" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">이메일</label>
+          <input type="email" id="email" required
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            placeholder="admin@example.com" />
+        </div>
+        <div>
+          <label for="password" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">비밀번호</label>
+          <input type="password" id="password" required
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]" />
+        </div>
+        <div id="login-error" class="hidden p-3 bg-red-50 rounded-xl text-[13px] text-red-600"></div>
+        <button type="submit"
+          class="inline-flex items-center justify-center h-10 px-6 text-sm font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px] w-full">
+          로그인
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- 대시보드 -->
+  <section id="data-section" class="hidden pt-[40px] pb-24">
+    <div class="max-w-[1146px] mx-auto px-6">
+      <!-- 헤더 -->
+      <div class="flex items-center justify-between mb-8">
+        <h1 class="font-semibold text-[22px] text-stone-800 tracking-[-0.32px]">관리자 대시보드</h1>
+        <button id="logout-btn"
+          class="text-[13px] text-stone-400 hover:text-stone-600 transition-colors tracking-[-0.14px]">
+          로그아웃
+        </button>
+      </div>
+
+      <!-- 통계 카드 -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-10">
+        <div class="bg-stone-100 rounded-2xl p-4">
+          <p class="text-[12px] text-stone-400 tracking-[-0.14px] mb-1">누적 서명</p>
+          <p id="stat-sig-total" class="text-[22px] font-semibold text-stone-900 tracking-[-0.32px]">-</p>
+        </div>
+        <div class="bg-stone-100 rounded-2xl p-4">
+          <p class="text-[12px] text-stone-400 tracking-[-0.14px] mb-1">오늘 서명</p>
+          <p id="stat-sig-today" class="text-[22px] font-semibold text-stone-900 tracking-[-0.32px]">-</p>
+        </div>
+        <div class="bg-stone-100 rounded-2xl p-4">
+          <p class="text-[12px] text-stone-400 tracking-[-0.14px] mb-1">누적 제보</p>
+          <p id="stat-rep-total" class="text-[22px] font-semibold text-stone-900 tracking-[-0.32px]">-</p>
+        </div>
+        <div class="bg-stone-100 rounded-2xl p-4">
+          <p class="text-[12px] text-stone-400 tracking-[-0.14px] mb-1">검토 대기</p>
+          <p id="stat-rep-submitted" class="text-[22px] font-semibold text-stone-900 tracking-[-0.32px]">-</p>
+        </div>
+        <div class="bg-stone-100 rounded-2xl p-4">
+          <p class="text-[12px] text-stone-400 tracking-[-0.14px] mb-1">확인된 제보</p>
+          <p id="stat-rep-verified" class="text-[22px] font-semibold text-stone-900 tracking-[-0.32px]">-</p>
+        </div>
+        <div class="bg-stone-100 rounded-2xl p-4">
+          <p class="text-[12px] text-stone-400 tracking-[-0.14px] mb-1">파일 첨부</p>
+          <p id="stat-rep-files" class="text-[22px] font-semibold text-stone-900 tracking-[-0.32px]">-</p>
+        </div>
+      </div>
+
+      <!-- 탭 -->
+      <div class="flex gap-2 mb-6 border-b border-stone-200">
+        <button id="tab-sig" class="tab-btn px-4 py-2.5 text-[14px] font-medium text-stone-900 border-b-2 border-stone-900 tracking-[-0.14px] -mb-px">서명 목록</button>
+        <button id="tab-rep" class="tab-btn px-4 py-2.5 text-[14px] font-medium text-stone-400 border-b-2 border-transparent tracking-[-0.14px] -mb-px hover:text-stone-700">제보 목록</button>
+      </div>
+
+      <!-- 서명 목록 뷰 -->
+      <div id="view-sig">
+        <!-- 필터 -->
+        <div class="flex flex-wrap gap-3 mb-5">
+          <input id="sig-search" type="text" placeholder="이름 검색..."
+            class="h-9 px-3 text-[14px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] w-40" />
+          <select id="sig-sido"
+            class="h-9 px-3 text-[14px] text-stone-700 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px]">
+            <option value="">전체 시도</option>
+          </select>
+          <input id="sig-date-from" type="date"
+            class="h-9 px-3 text-[14px] text-stone-700 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px]" />
+          <input id="sig-date-to" type="date"
+            class="h-9 px-3 text-[14px] text-stone-700 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px]" />
+          <button id="sig-search-btn"
+            class="h-9 px-4 text-[13px] font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px]">
+            검색
+          </button>
+          <button id="sig-csv-btn"
+            class="h-9 px-4 text-[13px] font-medium text-stone-700 bg-stone-100 rounded-full hover:bg-stone-200 transition-colors tracking-[-0.14px] ml-auto">
+            CSV 다운로드
+          </button>
+        </div>
+        <div id="sig-loading" class="text-[15px] text-stone-400 tracking-[-0.14px]">불러오는 중...</div>
+        <p id="sig-count" class="hidden text-[13px] text-stone-400 tracking-[-0.14px] mb-3"></p>
+        <div id="sig-list" class="space-y-3"></div>
+      </div>
+
+      <!-- 제보 목록 뷰 -->
+      <div id="view-rep" class="hidden">
+        <!-- 필터 -->
+        <div class="flex flex-wrap gap-3 mb-5">
+          <input id="rep-search" type="text" placeholder="투표소 검색..."
+            class="h-9 px-3 text-[14px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] w-44" />
+          <select id="rep-sido"
+            class="h-9 px-3 text-[14px] text-stone-700 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px]">
+            <option value="">전체 시도</option>
+          </select>
+          <select id="rep-status"
+            class="h-9 px-3 text-[14px] text-stone-700 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px]">
+            <option value="">전체 상태</option>
+          </select>
+          <select id="rep-incident"
+            class="h-9 px-3 text-[14px] text-stone-700 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px]">
+            <option value="">전체 유형</option>
+          </select>
+          <label class="flex items-center gap-1.5 h-9 px-3 text-[14px] text-stone-700 bg-white border border-stone-200 rounded-xl cursor-pointer tracking-[-0.14px]">
+            <input type="checkbox" id="rep-has-file" class="accent-[#222222]" />
+            파일 있음
+          </label>
+          <button id="rep-search-btn"
+            class="h-9 px-4 text-[13px] font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px]">
+            검색
+          </button>
+          <button id="rep-csv-btn"
+            class="h-9 px-4 text-[13px] font-medium text-stone-700 bg-stone-100 rounded-full hover:bg-stone-200 transition-colors tracking-[-0.14px] ml-auto">
+            CSV 다운로드
+          </button>
+        </div>
+        <div id="rep-loading" class="text-[15px] text-stone-400 tracking-[-0.14px]">불러오는 중...</div>
+        <p id="rep-count" class="hidden text-[13px] text-stone-400 tracking-[-0.14px] mb-3"></p>
+        <div id="rep-list" class="space-y-3"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 제보 상세 모달 -->
+  <div id="report-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-start justify-center p-4 sm:p-6 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="modal-receipt">
+    <div class="bg-white rounded-2xl p-6 max-w-2xl w-full my-6">
+      <div class="flex items-center justify-between mb-5">
+        <p id="modal-receipt" class="text-[15px] font-semibold text-stone-800 tracking-[-0.14px]"></p>
+        <button id="close-modal" class="text-stone-400 hover:text-stone-600 transition-colors text-[22px] leading-none">&times;</button>
+      </div>
+      <div id="modal-body" class="space-y-5"></div>
+      <!-- 관리 영역 -->
+      <div class="mt-6 pt-5 border-t border-stone-200 space-y-4">
+        <div>
+          <label class="block text-[13px] font-medium text-stone-600 tracking-[-0.14px] mb-1.5">관리 메모</label>
+          <textarea id="modal-note" rows="3"
+            class="w-full px-3 py-2 text-[14px] text-stone-900 bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px] resize-none"></textarea>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <div class="flex-1 min-w-[140px]">
+            <label class="block text-[13px] font-medium text-stone-600 tracking-[-0.14px] mb-1.5">상태</label>
+            <select id="modal-status"
+              class="w-full h-9 px-3 text-[14px] text-stone-700 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px]">
+            </select>
+          </div>
+          <div class="flex-1 min-w-[140px]">
+            <label class="block text-[13px] font-medium text-stone-600 tracking-[-0.14px] mb-1.5">법률검토 우선순위</label>
+            <select id="modal-legal"
+              class="w-full h-9 px-3 text-[14px] text-stone-700 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px]">
+              <option value="">-</option>
+            </select>
+          </div>
+        </div>
+        <div id="modal-save-error" class="hidden p-3 bg-red-50 rounded-xl text-[13px] text-red-600"></div>
+        <button id="modal-save-btn"
+          class="inline-flex items-center justify-center h-10 px-6 text-sm font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px]">
+          저장
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" define:vars={{ reportStatusesJson, incidentTypesJson, legalPrioritiesJson }}>
+    import { supabase, formatNumber } from "/revote/revote-client.js";
+
+    const REPORT_STATUSES = JSON.parse(reportStatusesJson);
+    const INCIDENT_TYPES = JSON.parse(incidentTypesJson);
+    const LEGAL_PRIORITIES = JSON.parse(legalPrioritiesJson);
+
+    const REPORT_STATUS_LABEL = Object.fromEntries(REPORT_STATUSES.map(s => [s.code, s.label]));
+    const INCIDENT_LABEL = Object.fromEntries(INCIDENT_TYPES.map(t => [t.code, t.label]));
+
+    // ── DOM refs ──────────────────────────────────────────────────────────────
+    const loginSection = document.getElementById('login-section');
+    const dataSection = document.getElementById('data-section');
+    const loginForm = document.getElementById('login-form');
+    const loginError = document.getElementById('login-error');
+    const reportModal = document.getElementById('report-modal');
+
+    let currentSession = null;
+    let currentReportId = null;
+    let currentReportStatus = null;
+    let currentSigData = [];
+    let currentRepData = [];
+
+    // ── Auth check ────────────────────────────────────────────────────────────
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      currentSession = session;
+      showDashboard();
+    }
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      loginError.classList.add('hidden');
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        loginError.textContent = '로그인 실패: ' + error.message;
+        loginError.classList.remove('hidden');
+        return;
+      }
+      currentSession = data.session;
+      showDashboard();
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      currentSession = null;
+      loginSection.classList.remove('hidden');
+      dataSection.classList.add('hidden');
+    });
+
+    // ── Dashboard ─────────────────────────────────────────────────────────────
+    async function showDashboard() {
+      loginSection.classList.add('hidden');
+      dataSection.classList.remove('hidden');
+      await Promise.all([loadStats(), populateRepFilters(), loadSignatures(), loadSidoFilter()]);
+    }
+
+    async function loadStats() {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const todayIso = today.toISOString();
+
+      const [
+        { count: sigTotal },
+        { count: sigToday },
+        { count: repTotal },
+        { count: repSubmitted },
+        { count: repVerified },
+        { data: repFiles },
+      ] = await Promise.all([
+        supabase.from('revote_signatures').select('*', { count: 'exact', head: true }).eq('status', 'ACTIVE'),
+        supabase.from('revote_signatures').select('*', { count: 'exact', head: true }).eq('status', 'ACTIVE').gte('created_at', todayIso),
+        supabase.from('revote_reports').select('*', { count: 'exact', head: true }),
+        supabase.from('revote_reports').select('*', { count: 'exact', head: true }).eq('status', 'SUBMITTED'),
+        supabase.from('revote_reports').select('*', { count: 'exact', head: true }).eq('status', 'VERIFIED'),
+        supabase.from('revote_report_files').select('report_id'),
+      ]);
+
+      const uniqueFileReports = repFiles ? new Set(repFiles.map(r => r.report_id)).size : 0;
+
+      setText('stat-sig-total', formatNumber(sigTotal ?? 0));
+      setText('stat-sig-today', formatNumber(sigToday ?? 0));
+      setText('stat-rep-total', formatNumber(repTotal ?? 0));
+      setText('stat-rep-submitted', formatNumber(repSubmitted ?? 0));
+      setText('stat-rep-verified', formatNumber(repVerified ?? 0));
+      setText('stat-rep-files', formatNumber(uniqueFileReports));
+    }
+
+    // ── Tabs ──────────────────────────────────────────────────────────────────
+    document.getElementById('tab-sig').addEventListener('click', () => switchTab('sig'));
+    document.getElementById('tab-rep').addEventListener('click', () => switchTab('rep'));
+
+    function switchTab(which) {
+      const isSig = which === 'sig';
+      document.getElementById('view-sig').classList.toggle('hidden', !isSig);
+      document.getElementById('view-rep').classList.toggle('hidden', isSig);
+      const tabSig = document.getElementById('tab-sig');
+      const tabRep = document.getElementById('tab-rep');
+      tabSig.className = isSig
+        ? 'tab-btn px-4 py-2.5 text-[14px] font-medium text-stone-900 border-b-2 border-stone-900 tracking-[-0.14px] -mb-px'
+        : 'tab-btn px-4 py-2.5 text-[14px] font-medium text-stone-400 border-b-2 border-transparent tracking-[-0.14px] -mb-px hover:text-stone-700';
+      tabRep.className = isSig
+        ? 'tab-btn px-4 py-2.5 text-[14px] font-medium text-stone-400 border-b-2 border-transparent tracking-[-0.14px] -mb-px hover:text-stone-700'
+        : 'tab-btn px-4 py-2.5 text-[14px] font-medium text-stone-900 border-b-2 border-stone-900 tracking-[-0.14px] -mb-px';
+    }
+
+    // ── Signatures ────────────────────────────────────────────────────────────
+    async function loadSidoFilter() {
+      const { data } = await supabase.from('revote_signatures').select('region_sido').eq('status', 'ACTIVE');
+      if (!data) return;
+      const sidos = [...new Set(data.map(r => r.region_sido).filter(Boolean))].sort();
+      const sel = document.getElementById('sig-sido');
+      sidos.forEach(s => {
+        const o = document.createElement('option');
+        o.value = s;
+        o.textContent = s;
+        sel.appendChild(o);
+      });
+    }
+
+    async function loadSignatures() {
+      const loading = document.getElementById('sig-loading');
+      const list = document.getElementById('sig-list');
+      const countEl = document.getElementById('sig-count');
+      loading.classList.remove('hidden');
+      list.textContent = '';
+      countEl.classList.add('hidden');
+
+      const nameQ = document.getElementById('sig-search').value.trim();
+      const sido = document.getElementById('sig-sido').value;
+      const dateFrom = document.getElementById('sig-date-from').value;
+      const dateTo = document.getElementById('sig-date-to').value;
+
+      let q = supabase.from('revote_signatures').select('*').eq('status', 'ACTIVE').order('created_at', { ascending: false });
+      if (nameQ) q = q.ilike('name', `%${nameQ}%`);
+      if (sido) q = q.eq('region_sido', sido);
+      if (dateFrom) q = q.gte('created_at', dateFrom);
+      if (dateTo) q = q.lte('created_at', dateTo + 'T23:59:59');
+
+      const { data, error } = await q;
+      loading.classList.add('hidden');
+
+      if (error) {
+        list.appendChild(el('p', 'text-red-500 text-[14px]', '데이터 로드 실패: ' + error.message));
+        return;
+      }
+
+      currentSigData = data || [];
+      countEl.textContent = `총 ${formatNumber(currentSigData.length)}건`;
+      countEl.classList.remove('hidden');
+
+      if (currentSigData.length === 0) {
+        list.appendChild(el('p', 'text-stone-400 text-[15px]', '검색 결과가 없습니다.'));
+        return;
+      }
+
+      const frag = document.createDocumentFragment();
+      currentSigData.forEach(s => {
+        const card = el('div', 'bg-stone-100 rounded-2xl p-5');
+        const row = el('div', 'flex flex-wrap items-start gap-3');
+        const info = el('div', 'flex-1 min-w-0');
+        const head = el('div', 'flex flex-wrap items-center gap-2 mb-2');
+        head.append(
+          el('span', 'text-[15px] font-semibold text-stone-900 tracking-[-0.14px]', s.name),
+          el('span', 'text-[13px] text-stone-500 tracking-[-0.14px]', s.region_sido + (s.region_sigungu ? ' ' + s.region_sigungu : '')),
+          el('span', 'text-[12px] text-stone-400 tracking-[-0.14px]', s.age_range ? s.age_range + '대' : ''),
+          el('span', 'text-[12px] text-stone-300 tracking-[-0.14px]', fmtDate(s.created_at)),
+        );
+        const grid = el('div', 'flex flex-wrap gap-x-5 gap-y-1 text-[13px] tracking-[-0.14px]');
+        if (s.referred_by) grid.appendChild(field('추천코드', s.referred_by));
+        grid.appendChild(field('본인코드', s.referral_code));
+        info.append(head, grid);
+        row.appendChild(info);
+        card.appendChild(row);
+        frag.appendChild(card);
+      });
+      list.appendChild(frag);
+    }
+
+    document.getElementById('sig-search-btn').addEventListener('click', loadSignatures);
+    document.getElementById('sig-search').addEventListener('keydown', e => { if (e.key === 'Enter') loadSignatures(); });
+
+    document.getElementById('sig-csv-btn').addEventListener('click', async () => {
+      if (currentSigData.length === 0) return;
+      const cols = ['name', 'phone_masked', 'region_sido', 'region_sigungu', 'age_range', 'created_at', 'referral_code', 'referred_by'];
+      const rows = currentSigData.map(s => [
+        s.name,
+        maskPhone(s.phone),
+        s.region_sido,
+        s.region_sigungu ?? '',
+        s.age_range ?? '',
+        s.created_at,
+        s.referral_code,
+        s.referred_by ?? '',
+      ]);
+      downloadCsv('signatures.csv', cols, rows);
+      await auditLog('EXPORT', 'SIGNATURE', null, null, null);
+    });
+
+    // ── Reports ───────────────────────────────────────────────────────────────
+    function populateRepFilters() {
+      const statusSel = document.getElementById('rep-status');
+      REPORT_STATUSES.forEach(s => {
+        const o = document.createElement('option');
+        o.value = s.code;
+        o.textContent = s.label;
+        statusSel.appendChild(o);
+      });
+
+      const incidentSel = document.getElementById('rep-incident');
+      INCIDENT_TYPES.forEach(t => {
+        const o = document.createElement('option');
+        o.value = t.code;
+        o.textContent = t.label;
+        incidentSel.appendChild(o);
+      });
+    }
+
+    async function loadReports() {
+      const loading = document.getElementById('rep-loading');
+      const list = document.getElementById('rep-list');
+      const countEl = document.getElementById('rep-count');
+      loading.classList.remove('hidden');
+      list.textContent = '';
+      countEl.classList.add('hidden');
+
+      const searchQ = document.getElementById('rep-search').value.trim();
+      const sido = document.getElementById('rep-sido').value;
+      const status = document.getElementById('rep-status').value;
+      const incident = document.getElementById('rep-incident').value;
+      const hasFile = document.getElementById('rep-has-file').checked;
+
+      let q = supabase.from('revote_reports').select('*, revote_report_files(id, report_id)').order('created_at', { ascending: false });
+      if (searchQ) q = q.ilike('polling_station_name', `%${searchQ}%`);
+      if (sido) q = q.eq('sido', sido);
+      if (status) q = q.eq('status', status);
+      if (incident) q = q.contains('incident_types', JSON.stringify([incident]));
+
+      const { data, error } = await q;
+      loading.classList.add('hidden');
+
+      if (error) {
+        list.appendChild(el('p', 'text-red-500 text-[14px]', '데이터 로드 실패: ' + error.message));
+        return;
+      }
+
+      let rows = data || [];
+      if (hasFile) rows = rows.filter(r => r.revote_report_files && r.revote_report_files.length > 0);
+      currentRepData = rows;
+
+      countEl.textContent = `총 ${formatNumber(rows.length)}건`;
+      countEl.classList.remove('hidden');
+
+      if (rows.length === 0) {
+        list.appendChild(el('p', 'text-stone-400 text-[15px]', '검색 결과가 없습니다.'));
+        return;
+      }
+
+      const frag = document.createDocumentFragment();
+      rows.forEach(r => {
+        const incTypes = Array.isArray(r.incident_types) ? r.incident_types : (typeof r.incident_types === 'string' ? JSON.parse(r.incident_types) : []);
+        const firstInc = incTypes[0] ? (INCIDENT_LABEL[incTypes[0]] ?? incTypes[0]) : '-';
+        const incLabel = incTypes.length > 1 ? firstInc + ` 외 ${incTypes.length - 1}` : firstInc;
+        const hasFiles = r.revote_report_files && r.revote_report_files.length > 0;
+
+        const card = el('div', 'bg-stone-100 rounded-2xl p-5 cursor-pointer hover:bg-stone-200 transition-colors');
+        const row1 = el('div', 'flex flex-wrap items-center gap-3 mb-2');
+        row1.append(
+          el('span', 'text-[13px] font-semibold text-stone-800 tracking-[-0.14px]', r.receipt_no ?? r.id.slice(0, 8)),
+          el('span', 'text-[12px] text-stone-400 tracking-[-0.14px]', fmtDate(r.created_at)),
+          el('span', 'text-[13px] text-stone-600 tracking-[-0.14px]', r.sido + ' ' + r.sigungu),
+          el('span', 'text-[13px] text-stone-600 tracking-[-0.14px]', r.polling_station_name),
+        );
+        const row2 = el('div', 'flex flex-wrap items-center gap-2');
+        row2.append(
+          el('span', 'text-[12px] text-stone-600 tracking-[-0.14px]', incLabel),
+          el('span', 'text-[12px] px-2 py-0.5 rounded-full bg-stone-200 text-stone-700 font-medium tracking-[-0.14px]', r.was_able_to_vote ? '투표 완료' : '투표 못함'),
+          hasFiles ? el('span', 'text-[12px] px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 font-medium tracking-[-0.14px]', '파일 있음') : el('span', '', ''),
+          el('span', statusPill(r.status), REPORT_STATUS_LABEL[r.status] ?? r.status),
+          r.legal_priority ? el('span', 'text-[12px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 font-medium tracking-[-0.14px]', '법률:' + legalLabel(r.legal_priority)) : el('span', '', ''),
+        );
+        card.append(row1, row2);
+        card.addEventListener('click', () => openReportModal(r));
+        frag.appendChild(card);
+      });
+      list.appendChild(frag);
+    }
+
+    document.getElementById('rep-search-btn').addEventListener('click', loadReports);
+    document.getElementById('rep-search').addEventListener('keydown', e => { if (e.key === 'Enter') loadReports(); });
+    document.getElementById('tab-rep').addEventListener('click', () => {
+      if (currentRepData.length === 0 && document.getElementById('rep-loading').classList.contains('hidden') === false) {
+        loadReports();
+      } else if (currentRepData.length === 0) {
+        loadReports();
+      }
+    });
+
+    document.getElementById('rep-csv-btn').addEventListener('click', async () => {
+      if (currentRepData.length === 0) return;
+      const cols = ['receipt_no', 'created_at', 'sido', 'sigungu', 'polling_station_name', 'incident_types', 'was_able_to_vote', 'has_file', 'status', 'legal_priority'];
+      const rows = currentRepData.map(r => {
+        const incTypes = Array.isArray(r.incident_types) ? r.incident_types : [];
+        return [
+          r.receipt_no ?? '',
+          r.created_at,
+          r.sido,
+          r.sigungu,
+          r.polling_station_name,
+          incTypes.map(c => INCIDENT_LABEL[c] ?? c).join('|'),
+          r.was_able_to_vote ? '예' : '아니오',
+          (r.revote_report_files && r.revote_report_files.length > 0) ? '예' : '아니오',
+          REPORT_STATUS_LABEL[r.status] ?? r.status,
+          r.legal_priority ? legalLabel(r.legal_priority) : '',
+        ];
+      });
+      downloadCsv('reports.csv', cols, rows);
+      await auditLog('EXPORT', 'REPORT', null, null, null);
+    });
+
+    // ── Report Modal ──────────────────────────────────────────────────────────
+    async function openReportModal(r) {
+      currentReportId = r.id;
+      currentReportStatus = r.status;
+
+      setText('modal-receipt', (r.receipt_no ?? r.id.slice(0, 8)) + ' 상세');
+
+      const body = document.getElementById('modal-body');
+      body.textContent = '';
+
+      const incTypes = Array.isArray(r.incident_types) ? r.incident_types : (typeof r.incident_types === 'string' ? JSON.parse(r.incident_types) : []);
+
+      // Reporter info
+      body.appendChild(section('제보자 정보', [
+        field2('이름', r.reporter_name),
+        field2('전화', maskPhone(r.phone)),
+        field2('이메일', r.email ?? '-'),
+      ]));
+
+      // Incident info
+      body.appendChild(section('사건 정보', [
+        field2('투표소', r.polling_station_name),
+        field2('지역', r.sido + ' ' + r.sigungu),
+        field2('사건일', r.incident_date),
+        field2('도착시간', r.arrival_time ?? '-'),
+        field2('대기시간', r.wait_time_minutes != null ? r.wait_time_minutes + '분' : '-'),
+        field2('투표 여부', r.was_able_to_vote ? '투표 완료' : '투표 못함'),
+        field2('귀가 여부', r.gave_up_voting ? '귀가함' : '끝까지 대기'),
+      ]));
+
+      // Incident types
+      const incDiv = el('div', '');
+      const incTitle = el('p', 'text-[13px] font-medium text-stone-500 tracking-[-0.14px] mb-1.5', '피해 유형');
+      const incList = el('div', 'flex flex-wrap gap-1.5');
+      incTypes.forEach(code => {
+        incList.appendChild(el('span', 'text-[12px] px-2.5 py-1 bg-stone-100 rounded-full text-stone-700 tracking-[-0.14px]', INCIDENT_LABEL[code] ?? code));
+      });
+      incDiv.append(incTitle, incList);
+      body.appendChild(incDiv);
+
+      // Description
+      const descDiv = el('div', '');
+      descDiv.appendChild(el('p', 'text-[13px] font-medium text-stone-500 tracking-[-0.14px] mb-1.5', '상세 내용'));
+      const descText = el('p', 'text-[14px] text-stone-800 leading-6 tracking-[-0.14px] bg-stone-50 rounded-xl p-3 whitespace-pre-wrap');
+      descText.textContent = r.description;
+      descDiv.appendChild(descText);
+      body.appendChild(descDiv);
+
+      // Consents
+      body.appendChild(section('동의 현황', [
+        field2('법적 연락 동의', r.legal_contact_consent ? '동의' : '미동의'),
+        field2('증거 활용 동의', r.evidence_use_consent ? '동의' : '미동의'),
+        field2('목격자 유무', r.witnesses ? '있음' : '없음'),
+        field2('목격자 연락처', r.witness_contact_available ? '제공 가능' : '-'),
+      ]));
+
+      // Files
+      const fileDiv = el('div', '');
+      fileDiv.appendChild(el('p', 'text-[13px] font-medium text-stone-500 tracking-[-0.14px] mb-1.5', '첨부 파일'));
+      const fileList = el('div', 'space-y-2');
+      fileDiv.appendChild(fileList);
+      body.appendChild(fileDiv);
+
+      // Load files async
+      const { data: files } = await supabase.from('revote_report_files').select('*').eq('report_id', r.id);
+      if (files && files.length > 0) {
+        for (const f of files) {
+          const row = el('div', 'flex items-center gap-2');
+          const nameSpan = el('span', 'text-[13px] text-stone-700 tracking-[-0.14px] flex-1 truncate', f.file_name_original ?? f.storage_path);
+          const linkEl = el('a', 'text-[12px] px-3 py-1 bg-stone-100 hover:bg-stone-200 rounded-full text-stone-700 transition-colors tracking-[-0.14px]', '다운로드');
+          linkEl.setAttribute('target', '_blank');
+          linkEl.setAttribute('rel', 'noopener noreferrer');
+          // Get signed URL
+          const { data: signed } = await supabase.storage.from('revote-evidence').createSignedUrl(f.storage_path, 600);
+          if (signed?.signedUrl) {
+            linkEl.href = signed.signedUrl;
+            linkEl.addEventListener('click', () => auditLog('DOWNLOAD', 'FILE', f.id, null, null));
+          } else {
+            linkEl.textContent = '링크 오류';
+          }
+          row.append(nameSpan, linkEl);
+          fileList.appendChild(row);
+        }
+      } else {
+        fileList.appendChild(el('p', 'text-[13px] text-stone-400 tracking-[-0.14px]', '첨부 파일 없음'));
+      }
+
+      // Populate modal controls
+      document.getElementById('modal-note').value = r.admin_note ?? '';
+
+      const statusSel = document.getElementById('modal-status');
+      statusSel.textContent = '';
+      REPORT_STATUSES.forEach(s => {
+        const o = document.createElement('option');
+        o.value = s.code;
+        o.textContent = s.label;
+        if (s.code === r.status) o.selected = true;
+        statusSel.appendChild(o);
+      });
+
+      const legalSel = document.getElementById('modal-legal');
+      legalSel.textContent = '';
+      const emptyOpt = document.createElement('option');
+      emptyOpt.value = '';
+      emptyOpt.textContent = '-';
+      legalSel.appendChild(emptyOpt);
+      LEGAL_PRIORITIES.forEach(p => {
+        const o = document.createElement('option');
+        o.value = p.code;
+        o.textContent = p.label;
+        if (p.code === r.legal_priority) o.selected = true;
+        legalSel.appendChild(o);
+      });
+
+      document.getElementById('modal-save-error').classList.add('hidden');
+      reportModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+
+      // Audit: VIEW
+      await auditLog('VIEW', 'REPORT', r.id, null, null);
+    }
+
+    // Save button
+    document.getElementById('modal-save-btn').addEventListener('click', async () => {
+      if (!currentReportId) return;
+      const newStatus = document.getElementById('modal-status').value;
+      const newLegal = document.getElementById('modal-legal').value || null;
+      const newNote = document.getElementById('modal-note').value;
+      const errEl = document.getElementById('modal-save-error');
+      errEl.classList.add('hidden');
+
+      const { error } = await supabase.from('revote_reports').update({
+        status: newStatus,
+        legal_priority: newLegal,
+        admin_note: newNote,
+        updated_at: new Date().toISOString(),
+      }).eq('id', currentReportId);
+
+      if (error) {
+        errEl.textContent = '저장 실패: ' + error.message;
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      await auditLog('STATUS_CHANGE', 'REPORT', currentReportId, { status: currentReportStatus }, { status: newStatus });
+      currentReportStatus = newStatus;
+
+      // Refresh report list row
+      const idx = currentRepData.findIndex(r => r.id === currentReportId);
+      if (idx !== -1) {
+        currentRepData[idx].status = newStatus;
+        currentRepData[idx].legal_priority = newLegal;
+        currentRepData[idx].admin_note = newNote;
+      }
+
+      closeModal();
+      loadReports();
+    });
+
+    // Modal close
+    function closeModal() {
+      reportModal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('close-modal').addEventListener('click', closeModal);
+    reportModal.addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !reportModal.classList.contains('hidden')) closeModal(); });
+
+    // ── Audit Log ─────────────────────────────────────────────────────────────
+    async function auditLog(action, targetType, targetId, beforeValue, afterValue) {
+      if (!currentSession) return;
+      try {
+        await supabase.from('revote_audit_logs').insert({
+          admin_email: currentSession.user.email,
+          action,
+          target_type: targetType,
+          target_id: targetId || undefined,
+          before_value: beforeValue || undefined,
+          after_value: afterValue || undefined,
+        });
+      } catch (_) {}
+    }
+
+    // ── Utils ─────────────────────────────────────────────────────────────────
+    function el(tag, className, text) {
+      const node = document.createElement(tag);
+      if (className) node.className = className;
+      if (text != null) node.textContent = text;
+      return node;
+    }
+
+    function setText(id, text) {
+      const node = document.getElementById(id);
+      if (node) node.textContent = text;
+    }
+
+    function field(label, value) {
+      const p = document.createElement('p');
+      p.append(el('span', 'text-stone-400 text-[13px] tracking-[-0.14px]', label), ' ', el('span', 'text-stone-700 text-[13px] ml-2 tracking-[-0.14px]', value ?? '-'));
+      return p;
+    }
+
+    function field2(label, value) {
+      const p = el('div', 'flex gap-3');
+      p.append(
+        el('span', 'text-[13px] text-stone-400 tracking-[-0.14px] w-28 shrink-0', label),
+        el('span', 'text-[13px] text-stone-800 tracking-[-0.14px]', value ?? '-'),
+      );
+      return p;
+    }
+
+    function section(title, children) {
+      const div = el('div', 'space-y-1.5');
+      div.appendChild(el('p', 'text-[13px] font-medium text-stone-500 tracking-[-0.14px] mb-1', title));
+      children.forEach(c => div.appendChild(c));
+      return div;
+    }
+
+    function fmtDate(iso) {
+      if (!iso) return '';
+      return new Date(iso).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    }
+
+    function maskPhone(phone) {
+      if (!phone) return '-';
+      const digits = String(phone).replace(/[^0-9]/g, '');
+      if (digits.length < 4) return '****';
+      return digits.slice(0, -4).replace(/./g, '*') + digits.slice(-4);
+    }
+
+    function legalLabel(code) {
+      const p = LEGAL_PRIORITIES.find(p => p.code === code);
+      return p ? p.label : code;
+    }
+
+    function statusPill(status) {
+      const map = {
+        SUBMITTED: 'text-[12px] px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 font-medium tracking-[-0.14px]',
+        UNDER_REVIEW: 'text-[12px] px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-700 font-medium tracking-[-0.14px]',
+        VERIFIED: 'text-[12px] px-2 py-0.5 rounded-full bg-green-100 text-green-700 font-medium tracking-[-0.14px]',
+        REJECTED: 'text-[12px] px-2 py-0.5 rounded-full bg-red-100 text-red-700 font-medium tracking-[-0.14px]',
+        LEGAL_REVIEW: 'text-[12px] px-2 py-0.5 rounded-full bg-purple-100 text-purple-700 font-medium tracking-[-0.14px]',
+      };
+      return map[status] ?? 'text-[12px] px-2 py-0.5 rounded-full bg-stone-200 text-stone-600 font-medium tracking-[-0.14px]';
+    }
+
+    function downloadCsv(filename, cols, rows) {
+      const escape = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+      const lines = [cols.map(escape).join(','), ...rows.map(r => r.map(escape).join(','))];
+      const bom = '\uFEFF';
+      const blob = new Blob([bom + lines.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</RevoteLayout>

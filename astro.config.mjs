@@ -9,5 +9,20 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    build: {
+      rollupOptions: {
+        external: [/^\/revote\//],
+        onwarn(warning, warn) {
+          // /revote/* modules are served as public static files at runtime;
+          // suppress Rollup's unresolved-import warning for them.
+          if (
+            warning.code === "UNRESOLVED_IMPORT" &&
+            warning.exporter &&
+            warning.exporter.startsWith("/revote/")
+          ) return;
+          warn(warning);
+        },
+      },
+    },
   },
 });

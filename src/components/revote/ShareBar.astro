@@ -1,0 +1,108 @@
+---
+// 공유 버튼 묶음 (카카오 공유 + 링크 복사). 카카오 키 미설정 시 링크복사로 폴백.
+interface Props {
+  class?: string;
+  compact?: boolean;
+}
+const { class: cls = "", compact = false } = Astro.props;
+---
+
+<div class={`revote-sharebar flex flex-wrap gap-2.5 ${cls}`}>
+  <button
+    type="button"
+    data-share="kakao"
+    class="inline-flex items-center gap-2 h-10 px-4 text-sm font-medium text-stone-900 bg-[#FEE500] rounded-full hover:brightness-95 transition tracking-[-0.14px]"
+  >
+    카카오톡으로 공유하기
+  </button>
+  <button
+    type="button"
+    data-share="copy"
+    class="inline-flex items-center gap-2 h-10 px-4 text-sm font-medium text-stone-700 border border-stone-300 rounded-full hover:bg-stone-100 transition tracking-[-0.14px]"
+  >
+    <span class="js-copy-label">링크 복사하기</span>
+  </button>
+  {
+    !compact && (
+      <a
+        href="https://twitter.com/intent/tweet"
+        data-share="x"
+        target="_blank"
+        rel="noopener"
+        class="inline-flex items-center gap-2 h-10 px-4 text-sm font-medium text-stone-700 border border-stone-300 rounded-full hover:bg-stone-100 transition tracking-[-0.14px]"
+      >
+        X(트위터) 공유
+      </a>
+    )
+  }
+</div>
+
+<script>
+  import {
+    copyShareLink,
+    getStoredRef,
+    track,
+    SITE_URL,
+  } from "/revote/revote-client.js";
+
+  const SHARE_DESC =
+    "투표용지가 부족했고, 일부 시민은 투표를 포기했습니다. 선거권 회복을 위한 100만 서명에 함께해주세요.";
+
+  // referral code: 완료 화면에서 window.__revoteRef 로 주입되거나, 저장된 유입 ref 사용
+  function currentRef() {
+    return (window as any).__revoteRef || getStoredRef() || "";
+  }
+  function shareUrl() {
+    const ref = currentRef();
+    return SITE_URL + (ref ? `/?ref=${ref}&ch=` : "/?ch=");
+  }
+
+  // 카카오 SDK 동적 로드 (public/revote/kakao.js 에서 init 처리)
+  async function kakaoShare() {
+    const ref = currentRef();
+    try {
+      const mod = await import("/revote/kakao.js");
+      if (mod && mod.shareKakao) {
+        const ok = await mod.shareKakao({
+          url: SITE_URL + (ref ? `/?ref=${ref}&ch=kakao` : "/?ch=kakao"),
+          title: "선거권 회복 100만 서명운동",
+          description: SHARE_DESC,
+        });
+        if (ok) {
+          track("share_kakao_click", { ref });
+          return;
+        }
+      }
+    } catch (_) {}
+    // 폴백: 링크 복사
+    await doCopy("kakao");
+  }
+
+  async function doCopy(channel: string) {
+    const ok = await copyShareLink(currentRef());
+    track("copy_link_click", { channel, ref: currentRef() });
+    document.querySelectorAll(".js-copy-label").forEach((el) => {
+      const prev = el.textContent;
+      el.textContent = ok ? "복사됨!" : "복사 실패";
+      setTimeout(() => (el.textContent = prev || "링크 복사하기"), 1500);
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>(".revote-sharebar [data-share]").forEach((btn) => {
+    const kind = btn.dataset.share;
+    if (kind === "x") {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const u = shareUrl() + "x";
+        const text = encodeURIComponent(SHARE_DESC + "\n" + u);
+        window.open(`https://twitter.com/intent/tweet?text=${text}`, "_blank", "noopener");
+        track("share_x_click", { ref: currentRef() });
+      });
+      return;
+    }
+    btn.addEventListener("click", () => {
+      if (kind === "kakao") kakaoShare();
+      else doCopy("link");
+    });
+  });
+</script>
