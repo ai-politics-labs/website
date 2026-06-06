@@ -1,5 +1,6 @@
 ---
 import Layout from "./Layout.astro";
+import FloatingShare from "../components/revote/FloatingShare.astro";
 
 interface Props {
   title: string;
@@ -69,6 +70,8 @@ const nav = [
   <main id="main">
     <slot />
   </main>
+
+  <FloatingShare />
 
   <!-- 푸터 -->
   <footer class="mt-24 border-t border-stone-200 bg-stone-50">
