@@ -9,6 +9,8 @@ export const SUPABASE_ANON_KEY =
 
 export const EVIDENCE_BUCKET = "revote-evidence";
 export const SIGNATURE_GOAL = 1_000_000;
+// 표시용 기준 카운트 (오프라인/사전 모집분 등 실집계에 더해 노출)
+export const BASE_COUNT = 1534;
 export const CONSENT_VERSION = "2026-06-06";
 export const SITE_URL = "https://aiparty.kr/revote";
 
@@ -54,8 +56,8 @@ export function formatNumber(n) {
 // ── 카운터 조회 (집계 RPC) ────────────────────────────────────────────────
 export async function fetchSignatureCount() {
   const { data, error } = await supabase.rpc("revote_signature_count");
-  if (error || !data) return { total: 0, today: 0, goal: SIGNATURE_GOAL };
-  return data;
+  if (error || !data) return { total: BASE_COUNT, today: 0, goal: SIGNATURE_GOAL };
+  return { ...data, total: (data.total || 0) + BASE_COUNT };
 }
 
 // ── 추천(referral) 처리 ───────────────────────────────────────────────────
