@@ -110,17 +110,19 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
           </select>
         </div>
 
-        <!-- 투표 지역 (선택) -->
-        <div>
-          <label for="voted_region" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
-            투표한 지역 <span class="text-[11px] text-stone-400 font-normal">(선택 — 거주지와 다를 경우)</span>
-          </label>
+        <!-- 전체 동의 -->
+        <div class="flex items-start gap-3 pt-1">
           <input
-            type="text" id="voted_region" name="voted_region"
-            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
-            placeholder="예: 서울 종로구"
+            type="checkbox" id="consent_all"
+            class="mt-0.5 accent-[#222222] size-4 shrink-0"
           />
+          <label for="consent_all" class="text-[14px] font-medium text-stone-800 leading-5 tracking-[-0.14px] cursor-pointer">
+            아래 내용에 전체 동의합니다. <span class="text-[11px] text-stone-400 font-normal">(선택 항목 포함)</span>
+          </label>
         </div>
+
+        <!-- 구분선 -->
+        <div class="h-px bg-stone-200"></div>
 
         <!-- 소식 수신 동의 -->
         <div class="space-y-3 pt-1">
@@ -303,6 +305,32 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
     (e.target as HTMLInputElement).value = formatMobile((e.target as HTMLInputElement).value);
   });
 
+  // ── 전체 동의 ─────────────────────────────────────────────────────────────
+  const consentAll = document.getElementById("consent_all") as HTMLInputElement;
+  const consentBoxes = [
+    "wants_legal_updates",
+    "wants_campaign_updates",
+    "third_party_consent",
+    "privacy_consent",
+    "sensitive_info_notice",
+  ].map((id) => document.getElementById(id) as HTMLInputElement);
+
+  consentAll?.addEventListener("change", () => {
+    consentBoxes.forEach((cb) => {
+      cb.checked = consentAll.checked;
+    });
+    if (consentAll.checked) {
+      document.getElementById("privacy-consent-error")?.classList.add("hidden");
+      document.getElementById("sensitive-notice-error")?.classList.add("hidden");
+    }
+  });
+
+  consentBoxes.forEach((cb) =>
+    cb?.addEventListener("change", () => {
+      consentAll.checked = consentBoxes.every((c) => c.checked);
+    })
+  );
+
   // ── track start_signature on first focus ─────────────────────────────────
   let startTracked = false;
   document.getElementById("sign-form")?.querySelectorAll("input, select").forEach((el) => {
@@ -427,7 +455,6 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
       const email = (fd.get("email") as string)?.trim() || null;
       const region_sido = fd.get("region_sido") as string;
       const region_sigungu = (fd.get("region_sigungu") as string) || null;
-      const voted_region = (fd.get("voted_region") as string)?.trim() || null;
       const age_range = (fd.get("age_range") as string) || null;
       const wants_legal_updates = (form.querySelector("#wants_legal_updates") as HTMLInputElement).checked;
       const wants_campaign_updates = (form.querySelector("#wants_campaign_updates") as HTMLInputElement).checked;
@@ -442,7 +469,6 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
           email,
           region_sido,
           region_sigungu,
-          voted_region,
           age_range,
           referred_by: getStoredRef() || null,
           wants_legal_updates,
