@@ -60,6 +60,13 @@ export async function fetchSignatureCount() {
   return { ...data, total: (data.total || 0) + BASE_COUNT };
 }
 
+// ── 공개 의견 목록 (마스킹된 이름 + 멘트) ─────────────────────────────────
+export async function fetchRecentComments(limit = 20) {
+  const { data, error } = await supabase.rpc("revote_recent_comments", { p_limit: limit });
+  if (error || !data) return { total: 0, items: [] };
+  return { total: data.total || 0, items: data.items || [] };
+}
+
 // ── 추천(referral) 처리 ───────────────────────────────────────────────────
 export function getRefFromUrl() {
   const p = new URLSearchParams(location.search);

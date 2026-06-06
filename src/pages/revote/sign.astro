@@ -110,6 +110,22 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
           </select>
         </div>
 
+        <!-- 의견 한마디 -->
+        <div>
+          <label for="comment" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            의견 한마디 <span class="text-[11px] text-stone-400 font-normal">(선택 · 공개)</span>
+          </label>
+          <textarea
+            id="comment" name="comment" rows="3" maxlength="300"
+            class="w-full px-3 py-2.5 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] resize-none"
+            placeholder="동의합니다"
+          >동의합니다</textarea>
+          <div class="mt-1 flex justify-between text-[11px] text-stone-400 tracking-[-0.14px]">
+            <span>마스킹된 이름과 함께 의견 목록에 공개됩니다.</span>
+            <span><span id="comment-count">5</span>/300</span>
+          </div>
+        </div>
+
         <!-- 전체 동의 -->
         <div class="flex items-start gap-3 pt-1">
           <input
@@ -251,6 +267,20 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
     <!-- 에러 메시지 -->
     <div id="error-message" role="alert" class="hidden mt-4 p-4 bg-red-50 rounded-xl text-[14px] text-red-600 leading-5"></div>
   </section>
+
+  <!-- 의견 목록 -->
+  <section class="max-w-[640px] mx-auto px-4 sm:px-6 pb-20">
+    <div class="rounded-2xl border border-stone-200 overflow-hidden">
+      <div class="px-5 sm:px-6 py-4 border-b border-stone-200 bg-stone-50">
+        <p class="text-[15px] font-semibold text-stone-800 tracking-[-0.16px]">
+          의견이 총 <span id="comments-total" class="text-stone-900">0</span>건 있습니다.
+        </p>
+      </div>
+      <ul id="comments-list" class="divide-y divide-stone-100">
+        <li class="px-5 sm:px-6 py-8 text-center text-[14px] text-stone-400">불러오는 중...</li>
+      </ul>
+    </div>
+  </section>
 </RevoteLayout>
 
 <script>
@@ -260,6 +290,7 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
     formatMobile,
     isValidMobile,
     fetchSignatureCount,
+    fetchRecentComments,
     formatNumber,
     logConsents,
     getStoredRef,
@@ -304,6 +335,17 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
   phoneInput.addEventListener("input", (e) => {
     (e.target as HTMLInputElement).value = formatMobile((e.target as HTMLInputElement).value);
   });
+
+  // ── 의견 글자수 카운터 ────────────────────────────────────────────────────
+  const commentEl = document.getElementById("comment") as HTMLTextAreaElement | null;
+  const commentCount = document.getElementById("comment-count");
+  if (commentEl && commentCount) {
+    const updateCount = () => {
+      commentCount.textContent = String(commentEl.value.length);
+    };
+    commentEl.addEventListener("input", updateCount);
+    updateCount();
+  }
 
   // ── 전체 동의 ─────────────────────────────────────────────────────────────
   const consentAll = document.getElementById("consent_all") as HTMLInputElement;
@@ -456,28 +498,44 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
       const region_sido = fd.get("region_sido") as string;
       const region_sigungu = (fd.get("region_sigungu") as string) || null;
       const age_range = (fd.get("age_range") as string) || null;
+      const comment = ((fd.get("comment") as string) || "").trim().slice(0, 300) || null;
       const wants_legal_updates = (form.querySelector("#wants_legal_updates") as HTMLInputElement).checked;
       const wants_campaign_updates = (form.querySelector("#wants_campaign_updates") as HTMLInputElement).checked;
       const third_party_consent = (form.querySelector("#third_party_consent") as HTMLInputElement).checked;
 
-      const { data, error } = await (supabase as any)
-        .from("revote_signatures")
-        .insert({
-          name: (fd.get("name") as string).trim(),
-          phone: rawPhone,
-          phone_hash: hash,
-          email,
-          region_sido,
-          region_sigungu,
-          age_range,
-          referred_by: getStoredRef() || null,
-          wants_legal_updates,
-          wants_campaign_updates,
-          third_party_consent,
-          user_agent: navigator.userAgent,
-        })
-        .select("id, referral_code")
-        .single();
+      const basePayload: Record<string, any> = {
+        name: (fd.get("name") as string).trim(),
+        phone: rawPhone,
+        phone_hash: hash,
+        email,
+        region_sido,
+        region_sigungu,
+        age_range,
+        comment,
+        referred_by: getStoredRef() || null,
+        wants_legal_updates,
+        wants_campaign_updates,
+        third_party_consent,
+        user_agent: navigator.userAgent,
+      };
+
+      const insertSignature = (payload: Record<string, any>) =>
+        (supabase as any)
+          .from("revote_signatures")
+          .insert(payload)
+          .select("id, referral_code")
+          .single();
+
+      let { data, error } = await insertSignature(basePayload);
+
+      // comment 컬럼 마이그레이션 미적용 시: comment 제외하고 재시도 (서명 자체는 보존)
+      if (
+        error &&
+        (error.code === "PGRST204" || /comment/i.test(error.message || ""))
+      ) {
+        const { comment: _omit, ...withoutComment } = basePayload;
+        ({ data, error } = await insertSignature(withoutComment));
+      }
 
       // 중복 처리 (unique phone_hash constraint)
       if (error?.code === "23505") {
@@ -530,6 +588,8 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
           setTimeout(() => { btn.textContent = prev; }, 1500);
         });
       }
+      // 의견 목록 갱신
+      loadComments();
     } catch (err) {
       console.error("Submission error:", err);
       errorDiv.textContent = "서명 제출 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.";
@@ -538,4 +598,71 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
       submitBtn.textContent = "서명하기";
     }
   });
+
+  // ── 의견 목록 렌더 ────────────────────────────────────────────────────────
+  function formatCommentDate(iso: string) {
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return "";
+    const p = (n: number) => String(n).padStart(2, "0");
+    return `${d.getFullYear()}.${p(d.getMonth() + 1)}.${p(d.getDate())}. ${p(d.getHours())}:${p(d.getMinutes())}`;
+  }
+
+  async function loadComments() {
+    const listEl = document.getElementById("comments-list");
+    const totalEl = document.getElementById("comments-total");
+    if (!listEl) return;
+    let data;
+    try {
+      data = await fetchRecentComments(30);
+    } catch (_) {
+      data = { total: 0, items: [] };
+    }
+    if (totalEl) totalEl.textContent = formatNumber(data.total);
+    listEl.replaceChildren();
+
+    if (!data.items.length) {
+      const li = document.createElement("li");
+      li.className = "px-5 sm:px-6 py-8 text-center text-[14px] text-stone-400";
+      li.textContent = "첫 번째 의견을 남겨주세요.";
+      listEl.appendChild(li);
+      return;
+    }
+
+    data.items.forEach((item: any, i: number) => {
+      const num = Math.max(1, data.total - i);
+      const li = document.createElement("li");
+      li.className = "px-5 sm:px-6 py-5 flex gap-3.5";
+
+      const badge = document.createElement("span");
+      badge.className =
+        "shrink-0 mt-0.5 inline-flex items-center justify-center size-7 rounded-full bg-stone-800 text-white text-[12px] font-semibold tabular-nums";
+      badge.textContent = formatNumber(num);
+
+      const body = document.createElement("div");
+      body.className = "min-w-0 flex-1";
+
+      const head = document.createElement("div");
+      head.className = "flex items-center gap-2 mb-1";
+      const nameEl = document.createElement("span");
+      nameEl.className = "text-[14px] font-semibold text-stone-800 tracking-[-0.14px]";
+      nameEl.textContent = item.name || "익명";
+      const dateEl = document.createElement("span");
+      dateEl.className = "text-[12px] text-stone-400 tracking-[-0.14px]";
+      dateEl.textContent = formatCommentDate(item.created_at);
+      head.appendChild(nameEl);
+      head.appendChild(dateEl);
+
+      const msgEl = document.createElement("p");
+      msgEl.className = "text-[14px] text-stone-600 leading-6 tracking-[-0.14px] break-words whitespace-pre-wrap";
+      msgEl.textContent = item.comment || "";
+
+      body.appendChild(head);
+      body.appendChild(msgEl);
+      li.appendChild(badge);
+      li.appendChild(body);
+      listEl.appendChild(li);
+    });
+  }
+
+  loadComments();
 </script>
