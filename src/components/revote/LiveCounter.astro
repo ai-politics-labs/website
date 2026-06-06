@@ -1,0 +1,76 @@
+---
+// 실시간 서명 카운터. 집계 RPC(revote_signature_count) 사용, 20초 폴링.
+interface Props {
+  variant?: "hero" | "compact";
+  class?: string;
+}
+const { variant = "hero", class: cls = "" } = Astro.props;
+const isHero = variant === "hero";
+---
+
+<div
+  class={`revote-counter ${cls}`}
+  data-variant={variant}
+  role="status"
+  aria-live="polite"
+>
+  {
+    isHero ? (
+      <div class="rounded-2xl border border-stone-200 bg-stone-50 p-6 sm:p-8">
+        <p class="text-[13px] font-medium text-stone-500 tracking-[0.05em] uppercase mb-2">
+          현재까지 함께한 시민
+        </p>
+        <p class="flex items-baseline gap-2">
+          <span
+            class="js-count text-[40px] sm:text-[56px] font-semibold text-stone-900 tracking-[-0.02em] tabular-nums"
+            >0</span
+          >
+          <span class="text-[20px] sm:text-[24px] font-medium text-stone-400">명</span>
+        </p>
+        <div class="mt-4 h-2.5 w-full rounded-full bg-stone-200 overflow-hidden">
+          <div
+            class="js-bar h-full rounded-full bg-stone-900 transition-[width] duration-700 ease-out"
+            style="width:0%"
+          />
+        </div>
+        <div class="mt-2.5 flex items-center justify-between text-[13px] tracking-[-0.14px]">
+          <span class="text-stone-500">
+            목표 <span class="font-medium text-stone-700">1,000,000명</span>
+          </span>
+          <span class="text-stone-500">
+            달성률 <span class="js-rate font-semibold text-stone-900">0%</span>
+            <span class="text-stone-400">· 오늘 +<span class="js-today">0</span></span>
+          </span>
+        </div>
+      </div>
+    ) : (
+      <p class="text-[14px] text-stone-500 tracking-[-0.14px]">
+        현재까지 <span class="js-count font-semibold text-stone-900 tabular-nums">0</span>명이
+        함께했습니다
+      </p>
+    )
+  }
+</div>
+
+<script>
+  import { fetchSignatureCount, formatNumber, SIGNATURE_GOAL } from "/revote/revote-client.js";
+
+  async function refreshCounters() {
+    const { total, today, goal } = await fetchSignatureCount();
+    const g = goal || SIGNATURE_GOAL;
+    const rate = Math.min(100, (total / g) * 100);
+    document.querySelectorAll(".revote-counter").forEach((root) => {
+      const c = root.querySelector(".js-count");
+      if (c) c.textContent = formatNumber(total);
+      const t = root.querySelector(".js-today");
+      if (t) t.textContent = formatNumber(today);
+      const r = root.querySelector(".js-rate");
+      if (r) r.textContent = rate.toFixed(rate < 1 ? 2 : 1) + "%";
+      const bar = root.querySelector(".js-bar");
+      if (bar) bar.style.width = Math.max(0.5, rate) + "%";
+    });
+  }
+
+  refreshCounters();
+  setInterval(refreshCounters, 20000);
+</script>

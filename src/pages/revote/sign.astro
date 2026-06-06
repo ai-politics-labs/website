@@ -1,0 +1,515 @@
+---
+import RevoteLayout from "../../layouts/RevoteLayout.astro";
+import ShareBar from "../../components/revote/ShareBar.astro";
+import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
+---
+
+<RevoteLayout title="서명하기 · 선거권 회복 100만 서명운동" active="sign">
+  <!-- SIGUNGU 데이터: 클라이언트에서 시/군/구 동적 생성용 -->
+  <script type="application/json" id="sigungu-data" set:html={JSON.stringify(SIGUNGU)}></script>
+
+  <section class="max-w-[640px] mx-auto px-4 sm:px-6 py-12">
+    <div class="mb-8">
+      <p class="text-[12px] font-medium text-stone-500 tracking-[0.14em] uppercase mb-3">선거권 회복 100만 서명운동</p>
+      <h1 class="font-semibold text-[28px] sm:text-[32px] text-stone-900 leading-[1.25] tracking-[-0.32px] mb-3">
+        30초 서명으로<br/>선거권 회복에 함께해주세요
+      </h1>
+      <p class="text-[15px] text-stone-500 leading-7 tracking-[-0.16px]">
+        투표용지 부족 및 선거관리 부실로 침해된 시민의 선거권 회복을 요구합니다.
+      </p>
+    </div>
+
+    <!-- 서명 폼 -->
+    <form id="sign-form" novalidate>
+      <div class="bg-stone-100 rounded-2xl p-6 sm:p-8 space-y-5">
+
+        <!-- 이름 -->
+        <div>
+          <label for="name" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            이름 <span class="text-red-500" aria-hidden="true">*</span>
+          </label>
+          <input
+            type="text" id="name" name="name" required autocomplete="name"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            placeholder="홍길동"
+          />
+          <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+        </div>
+
+        <!-- 휴대폰 번호 -->
+        <div>
+          <label for="phone" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            휴대폰 번호 <span class="text-red-500" aria-hidden="true">*</span>
+          </label>
+          <input
+            type="tel" id="phone" name="phone" required autocomplete="tel"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            placeholder="010-0000-0000"
+          />
+          <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+        </div>
+
+        <!-- 이메일 (선택) -->
+        <div>
+          <label for="email" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            이메일 <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
+          </label>
+          <input
+            type="email" id="email" name="email" autocomplete="email"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            placeholder="example@email.com"
+          />
+          <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+        </div>
+
+        <!-- 시/도 + 시/군/구 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="region_sido" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+              시/도 <span class="text-red-500" aria-hidden="true">*</span>
+            </label>
+            <select
+              id="region_sido" name="region_sido" required
+              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px]"
+            >
+              <option value="">선택해주세요</option>
+              {SIDO_LIST.map((sido) => (
+                <option value={sido}>{sido}</option>
+              ))}
+            </select>
+            <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+          </div>
+          <div>
+            <label for="region_sigungu" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+              시/군/구 <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
+            </label>
+            <select
+              id="region_sigungu" name="region_sigungu"
+              disabled
+              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px] disabled:bg-stone-50 disabled:text-stone-400"
+            >
+              <option value="">시/도 먼저 선택</option>
+            </select>
+            <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+          </div>
+        </div>
+
+        <!-- 연령대 (선택) -->
+        <div>
+          <label for="age_range" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            연령대 <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
+          </label>
+          <select
+            id="age_range" name="age_range"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px]"
+          >
+            <option value="">선택 안 함</option>
+            {AGE_RANGES.map((r) => (
+              <option value={r.code}>{r.label}</option>
+            ))}
+          </select>
+        </div>
+
+        <!-- 투표 지역 (선택) -->
+        <div>
+          <label for="voted_region" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            투표한 지역 <span class="text-[11px] text-stone-400 font-normal">(선택 — 거주지와 다를 경우)</span>
+          </label>
+          <input
+            type="text" id="voted_region" name="voted_region"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            placeholder="예: 서울 종로구"
+          />
+        </div>
+
+        <!-- 소식 수신 동의 -->
+        <div class="space-y-3 pt-1">
+          <div class="flex items-start gap-3">
+            <input
+              type="checkbox" id="wants_legal_updates" name="wants_legal_updates"
+              class="mt-0.5 accent-[#222222] size-4 shrink-0"
+            />
+            <label for="wants_legal_updates" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px] cursor-pointer">
+              <span class="text-[11px] text-stone-400">(선택)</span> 법적 대응 및 소송 진행 소식을 받겠습니다.
+            </label>
+          </div>
+          <div class="flex items-start gap-3">
+            <input
+              type="checkbox" id="wants_campaign_updates" name="wants_campaign_updates"
+              class="mt-0.5 accent-[#222222] size-4 shrink-0"
+            />
+            <label for="wants_campaign_updates" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px] cursor-pointer">
+              <span class="text-[11px] text-stone-400">(선택)</span> 캠페인 주요 소식 및 서명 현황을 받겠습니다.
+            </label>
+          </div>
+        </div>
+
+        <!-- 구분선 -->
+        <div class="h-px bg-stone-200"></div>
+
+        <!-- 제3자 제공 동의 (선택) -->
+        <div class="flex items-start gap-3">
+          <input
+            type="checkbox" id="third_party_consent" name="third_party_consent"
+            class="mt-0.5 accent-[#222222] size-4 shrink-0"
+          />
+          <label for="third_party_consent" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px] cursor-pointer">
+            <span class="text-[11px] text-stone-400">(선택)</span>
+            법률대리인, 공익단체 등 제3자에게 개인정보를 제공하는 것에 동의합니다.
+            (보유 기간: 제공 목적 달성 시까지)
+          </label>
+        </div>
+
+        <!-- 개인정보 수집·이용 동의 (필수) -->
+        <div class="flex items-start gap-3">
+          <input
+            type="checkbox" id="privacy_consent" name="privacy_consent" required
+            class="mt-0.5 accent-[#222222] size-4 shrink-0"
+          />
+          <label for="privacy_consent" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px] cursor-pointer">
+            <span class="text-red-500" aria-hidden="true">*</span>
+            개인정보 수집·이용에 동의합니다.
+            수집 항목: 이름, 휴대폰 번호, 이메일(선택), 지역.
+            수집 목적: 서명운동 참여 확인, 중복 방지, 법적·정치적 대응 자료 활용.
+            보유 기간: 캠페인 종료 후 1년. (<a href="/revote/privacy" class="underline hover:text-stone-900">개인정보처리방침</a>)
+          </label>
+        </div>
+        <p class="field-error hidden mt-1 text-[12px] text-red-500" id="privacy-consent-error"></p>
+
+        <!-- 정치적 의사 표현 고지 확인 (필수) -->
+        <div class="flex items-start gap-3">
+          <input
+            type="checkbox" id="sensitive_info_notice" name="sensitive_info_notice" required
+            class="mt-0.5 accent-[#222222] size-4 shrink-0"
+          />
+          <label for="sensitive_info_notice" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px] cursor-pointer">
+            <span class="text-red-500" aria-hidden="true">*</span>
+            아래 고지를 확인하였습니다: 본 서명은 공익적 시민행동 참여 기록으로, 정치적 의사 표현으로 해석될 수 있습니다.
+            운영팀은 참여자의 개인정보를 서명운동 목적 외로 사용하지 않으며, 동의 없는 외부 공개 또는 제3자 제공을 하지 않습니다.
+          </label>
+        </div>
+        <p class="field-error hidden mt-1 text-[12px] text-red-500" id="sensitive-notice-error"></p>
+      </div>
+
+      <!-- 제출 버튼 -->
+      <div class="mt-6">
+        <button
+          type="submit"
+          id="submit-btn"
+          class="inline-flex items-center justify-center h-10 px-6 text-sm font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px] disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          서명하기
+        </button>
+      </div>
+    </form>
+
+    <!-- 중복 메시지 -->
+    <div id="duplicate-message" role="status" class="hidden mt-8 bg-amber-50 border border-amber-200 rounded-2xl p-6 text-center">
+      <p class="text-[18px] font-semibold text-amber-800 tracking-[-0.28px] mb-2">이미 서명에 참여하셨습니다</p>
+      <p class="text-[14px] text-amber-700 leading-6 tracking-[-0.14px]">
+        소중한 참여 감사합니다.<br/>주변에 공유해 더 많은 분이 함께할 수 있도록 도와주세요.
+      </p>
+    </div>
+
+    <!-- 완료 화면 -->
+    <div id="success-message" role="status" class="hidden mt-8">
+      <div class="bg-stone-100 rounded-2xl p-6 sm:p-8 text-center">
+        <p class="text-[22px] font-semibold text-stone-900 tracking-[-0.32px] mb-2">
+          서명이 완료되었습니다.
+        </p>
+        <p class="text-[15px] text-stone-500 leading-7 tracking-[-0.16px] mb-5">
+          당신의 서명은 잃어버린 선거권을 회복하기 위한 첫 번째 행동입니다.
+        </p>
+        <p id="signature-count" class="text-[17px] font-semibold text-stone-800 tracking-[-0.24px] mb-1">
+          현재까지 집계 중...
+        </p>
+        <p class="text-[14px] text-stone-500 tracking-[-0.14px] mb-8">이제 3명에게 공유해주세요.</p>
+
+        <!-- 개인 추천 링크 -->
+        <div id="referral-link-box" class="hidden mb-6">
+          <p class="text-[13px] text-stone-500 tracking-[-0.14px] mb-2">나만의 공유 링크</p>
+          <div class="flex items-center gap-2">
+            <input
+              type="text" id="referral-link" readonly
+              class="flex-1 h-10 px-3 text-[13px] text-stone-700 bg-white border border-stone-200 rounded-xl focus:outline-none tracking-[-0.14px]"
+            />
+            <button
+              type="button" id="copy-referral-btn"
+              class="h-10 px-4 text-[13px] font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px] shrink-0"
+            >
+              복사
+            </button>
+          </div>
+        </div>
+
+        <ShareBar />
+      </div>
+    </div>
+
+    <!-- 에러 메시지 -->
+    <div id="error-message" role="alert" class="hidden mt-4 p-4 bg-red-50 rounded-xl text-[14px] text-red-600 leading-5"></div>
+  </section>
+</RevoteLayout>
+
+<script>
+  import {
+    supabase,
+    phoneHash,
+    formatMobile,
+    isValidMobile,
+    fetchSignatureCount,
+    formatNumber,
+    logConsents,
+    getStoredRef,
+    linkReferralConversion,
+    track,
+    copyShareLink,
+    SITE_URL,
+  } from "/revote/revote-client.js";
+
+  // ── SIGUNGU 동적 로드 ──────────────────────────────────────────────────────
+  const sigunguData = JSON.parse(
+    document.getElementById("sigungu-data")?.textContent || "{}"
+  );
+
+  const sidoSelect = document.getElementById("region_sido") as HTMLSelectElement;
+  const sigunguSelect = document.getElementById("region_sigungu") as HTMLSelectElement;
+
+  sidoSelect.addEventListener("change", () => {
+    const sido = sidoSelect.value;
+    sigunguSelect.innerHTML = "";
+    if (!sido) {
+      sigunguSelect.disabled = true;
+      sigunguSelect.innerHTML = '<option value="">시/도 먼저 선택</option>';
+      return;
+    }
+    const list: string[] = sigunguData[sido] || [];
+    sigunguSelect.disabled = false;
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "선택 안 함";
+    sigunguSelect.appendChild(placeholder);
+    list.forEach((name) => {
+      const opt = document.createElement("option");
+      opt.value = name;
+      opt.textContent = name;
+      sigunguSelect.appendChild(opt);
+    });
+  });
+
+  // ── 휴대폰 자동 포맷 ──────────────────────────────────────────────────────
+  const phoneInput = document.getElementById("phone") as HTMLInputElement;
+  phoneInput.addEventListener("input", (e) => {
+    (e.target as HTMLInputElement).value = formatMobile((e.target as HTMLInputElement).value);
+  });
+
+  // ── track start_signature on first focus ─────────────────────────────────
+  let startTracked = false;
+  document.getElementById("sign-form")?.querySelectorAll("input, select").forEach((el) => {
+    el.addEventListener(
+      "focus",
+      () => {
+        if (!startTracked) {
+          startTracked = true;
+          track("start_signature");
+        }
+      },
+      { once: false }
+    );
+  });
+
+  // ── 유효성 검사 ───────────────────────────────────────────────────────────
+  function validateForm(form: HTMLFormElement) {
+    const errors: { field: string; message: string; special?: string }[] = [];
+    const fd = new FormData(form);
+
+    const name = (fd.get("name") as string)?.trim();
+    if (!name || name.length < 2) {
+      errors.push({ field: "name", message: "이름을 2자 이상 입력해 주세요." });
+    }
+
+    const phone = (fd.get("phone") as string)?.trim();
+    if (!phone || !isValidMobile(phone)) {
+      errors.push({ field: "phone", message: "올바른 휴대폰 번호를 입력해 주세요. (예: 010-1234-5678)" });
+    }
+
+    const sido = fd.get("region_sido") as string;
+    if (!sido) {
+      errors.push({ field: "region_sido", message: "시/도를 선택해 주세요." });
+    }
+
+    const privacyChecked = (form.querySelector("#privacy_consent") as HTMLInputElement).checked;
+    if (!privacyChecked) {
+      errors.push({ field: "privacy_consent", special: "privacy-consent-error", message: "개인정보 수집·이용에 동의해 주세요." });
+    }
+
+    const sensitiveChecked = (form.querySelector("#sensitive_info_notice") as HTMLInputElement).checked;
+    if (!sensitiveChecked) {
+      errors.push({ field: "sensitive_info_notice", special: "sensitive-notice-error", message: "정치적 의사 표현 관련 고지를 확인해 주세요." });
+    }
+
+    return errors;
+  }
+
+  function showFieldErrors(errors: { field: string; message: string; special?: string }[]) {
+    errors.forEach(({ field, message, special }) => {
+      if (special) {
+        const el = document.getElementById(special);
+        if (el) {
+          el.textContent = message;
+          el.classList.remove("hidden");
+        }
+        return;
+      }
+      const input = document.getElementById(field) as HTMLInputElement | HTMLSelectElement | null;
+      if (input) {
+        const errorEl = input.closest("div")?.querySelector(".field-error") as HTMLElement | null;
+        if (errorEl) {
+          errorEl.textContent = message;
+          errorEl.classList.remove("hidden");
+        }
+        input.classList.add("border-red-400");
+        input.addEventListener(
+          "input",
+          () => {
+            input.classList.remove("border-red-400");
+            if (errorEl) errorEl.classList.add("hidden");
+          },
+          { once: true }
+        );
+      }
+    });
+
+    const first = errors[0];
+    const el = first.special
+      ? document.getElementById(first.special)
+      : document.getElementById(first.field);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (!first.special) (el as HTMLElement | null)?.focus?.();
+  }
+
+  // ── 폼 제출 ───────────────────────────────────────────────────────────────
+  const form = document.getElementById("sign-form") as HTMLFormElement;
+  const submitBtn = document.getElementById("submit-btn") as HTMLButtonElement;
+  const successDiv = document.getElementById("success-message") as HTMLElement;
+  const duplicateDiv = document.getElementById("duplicate-message") as HTMLElement;
+  const errorDiv = document.getElementById("error-message") as HTMLElement;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // 에러 초기화
+    errorDiv.classList.add("hidden");
+    document.querySelectorAll(".field-error").forEach((el) => {
+      (el as HTMLElement).textContent = "";
+      (el as HTMLElement).classList.add("hidden");
+    });
+    document.querySelectorAll<HTMLElement>(".border-red-400").forEach((el) => {
+      el.classList.remove("border-red-400");
+    });
+    document.getElementById("privacy-consent-error")!.classList.add("hidden");
+    document.getElementById("sensitive-notice-error")!.classList.add("hidden");
+
+    const errors = validateForm(form);
+    if (errors.length > 0) {
+      showFieldErrors(errors);
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "제출 중...";
+
+    try {
+      const fd = new FormData(form);
+      const rawPhone = (fd.get("phone") as string).trim();
+      const hash = await phoneHash(rawPhone);
+
+      const email = (fd.get("email") as string)?.trim() || null;
+      const region_sido = fd.get("region_sido") as string;
+      const region_sigungu = (fd.get("region_sigungu") as string) || null;
+      const voted_region = (fd.get("voted_region") as string)?.trim() || null;
+      const age_range = (fd.get("age_range") as string) || null;
+      const wants_legal_updates = (form.querySelector("#wants_legal_updates") as HTMLInputElement).checked;
+      const wants_campaign_updates = (form.querySelector("#wants_campaign_updates") as HTMLInputElement).checked;
+      const third_party_consent = (form.querySelector("#third_party_consent") as HTMLInputElement).checked;
+
+      const { data, error } = await (supabase as any)
+        .from("revote_signatures")
+        .insert({
+          name: (fd.get("name") as string).trim(),
+          phone: rawPhone,
+          phone_hash: hash,
+          email,
+          region_sido,
+          region_sigungu,
+          voted_region,
+          age_range,
+          referred_by: getStoredRef() || null,
+          wants_legal_updates,
+          wants_campaign_updates,
+          third_party_consent,
+          user_agent: navigator.userAgent,
+        })
+        .select("id, referral_code")
+        .single();
+
+      // 중복 처리 (unique phone_hash constraint)
+      if (error?.code === "23505") {
+        track("submit_signature_duplicate");
+        form.classList.add("hidden");
+        duplicateDiv.classList.remove("hidden");
+        duplicateDiv.scrollIntoView({ behavior: "smooth", block: "center" });
+        return;
+      }
+
+      if (error) throw error;
+
+      // 동의 로그
+      await logConsents("SIGNATURE", data.id, [
+        { type: "PRIVACY", consented: true },
+        { type: "SENSITIVE_NOTICE", consented: true },
+        { type: "THIRD_PARTY", consented: third_party_consent },
+      ]);
+
+      // referral
+      (window as any).__revoteRef = data.referral_code;
+      await linkReferralConversion(data.id, "sign");
+      track("submit_signature_success");
+
+      // 완료 화면
+      form.classList.add("hidden");
+      successDiv.classList.remove("hidden");
+      successDiv.scrollIntoView({ behavior: "smooth", block: "start" });
+
+      // 서명 카운트
+      try {
+        const countData = await fetchSignatureCount();
+        const total = countData?.total ?? 0;
+        const countEl = document.getElementById("signature-count");
+        if (countEl) countEl.textContent = `현재까지 ${formatNumber(total)}명이 함께했습니다.`;
+      } catch (_) {}
+
+      // 개인 추천 링크
+      if (data.referral_code) {
+        const refUrl = SITE_URL + "/?ref=" + data.referral_code;
+        const linkInput = document.getElementById("referral-link") as HTMLInputElement;
+        if (linkInput) linkInput.value = refUrl;
+        document.getElementById("referral-link-box")?.classList.remove("hidden");
+
+        document.getElementById("copy-referral-btn")?.addEventListener("click", async () => {
+          const ok = await copyShareLink(data.referral_code);
+          const btn = document.getElementById("copy-referral-btn") as HTMLButtonElement;
+          const prev = btn.textContent;
+          btn.textContent = ok ? "복사됨!" : "복사 실패";
+          setTimeout(() => { btn.textContent = prev; }, 1500);
+        });
+      }
+    } catch (err) {
+      console.error("Submission error:", err);
+      errorDiv.textContent = "서명 제출 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.";
+      errorDiv.classList.remove("hidden");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "서명하기";
+    }
+  });
+</script>

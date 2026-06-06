@@ -1,0 +1,101 @@
+---
+import Layout from "./Layout.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  active?: "home" | "sign" | "report" | "";
+  bodyClass?: string;
+}
+const {
+  title,
+  description = "투표용지 부족 및 선거관리 부실로 침해된 시민의 선거권 회복을 위한 100만 서명운동.",
+  active = "",
+  bodyClass = "bg-white text-stone-900 antialiased overflow-x-hidden",
+} = Astro.props;
+
+const nav = [
+  { key: "home", label: "캠페인", href: "/revote" },
+  { key: "sign", label: "서명하기", href: "/revote/sign" },
+  { key: "report", label: "피해 제보", href: "/revote/report" },
+];
+---
+
+<Layout title={title} bodyClass={bodyClass}>
+  <Fragment slot="head">
+    <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content="선거권 회복 100만 서명운동" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline defer src="/revote/analytics.js"></script>
+    <slot name="head" />
+  </Fragment>
+
+  <a
+    href="#main"
+    class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:bg-stone-900 focus:text-white focus:px-4 focus:py-2 focus:rounded-full focus:text-sm"
+    >본문으로 건너뛰기</a
+  >
+
+  <!-- 상단 바 -->
+  <header
+    class="sticky top-0 left-0 right-0 z-50 h-[60px] bg-white/90 backdrop-blur-xl border-b border-stone-200"
+  >
+    <div class="max-w-[1146px] mx-auto h-full px-6 flex items-center justify-between">
+      <a href="/revote" class="font-semibold text-[15.84px] text-stone-900 tracking-[-0.32px]">
+        선거권 회복 <span class="text-stone-400 font-normal">100만 서명운동</span>
+      </a>
+      <nav class="flex items-center gap-1 sm:gap-2" aria-label="주요 메뉴">
+        {
+          nav.map((item) => (
+            <a
+              href={item.href}
+              class={`px-2.5 sm:px-3 py-1.5 text-[13px] sm:text-[14px] rounded-full transition-colors tracking-[-0.14px] ${
+                active === item.key
+                  ? "text-stone-900 font-medium bg-stone-100"
+                  : "text-stone-500 hover:text-stone-900"
+              }`}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <slot />
+  </main>
+
+  <!-- 푸터 -->
+  <footer class="mt-24 border-t border-stone-200 bg-stone-50">
+    <div class="max-w-[1146px] mx-auto px-6 py-12">
+      <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+        <div>
+          <p class="text-[15px] font-semibold text-stone-800 tracking-[-0.16px]">
+            선거권 회복 100만 서명운동
+          </p>
+          <p class="mt-2 text-[13px] text-stone-500 leading-6 tracking-[-0.14px] max-w-md">
+            투표용지 부족 및 선거관리 부실로 침해된 시민의 선거권 회복을 위한 시민행동입니다.
+            제보 내용과 첨부자료는 기본적으로 외부에 공개되지 않습니다.
+          </p>
+        </div>
+        <nav class="flex flex-col gap-2 text-[13px] tracking-[-0.14px]" aria-label="푸터">
+          <a href="/revote/sign" class="text-stone-600 hover:text-stone-900">서명하기</a>
+          <a href="/revote/report" class="text-stone-600 hover:text-stone-900">피해 제보하기</a>
+          <a href="/revote/privacy" class="text-stone-600 hover:text-stone-900">개인정보처리방침</a>
+          <a href="/revote/delete-request" class="text-stone-600 hover:text-stone-900"
+            >개인정보 삭제 요청</a
+          >
+        </nav>
+      </div>
+      <div class="mt-10 pt-6 border-t border-stone-200 flex items-center justify-between">
+        <p class="text-xs text-stone-400">&copy; 2026 선거권 회복 100만 서명운동</p>
+        <a href="/" class="text-xs text-stone-400 hover:text-stone-600">AIP · AI Party →</a>
+      </div>
+    </div>
+  </footer>
+</Layout>
