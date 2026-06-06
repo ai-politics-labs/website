@@ -23,13 +23,6 @@ const { class: cls = "", compact = false } = Astro.props;
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
     인스타 공유
   </button>
-  <button
-    type="button"
-    data-share="copy"
-    class="inline-flex items-center gap-2 h-10 px-4 text-sm font-medium text-stone-700 border border-stone-300 rounded-full hover:bg-stone-100 transition tracking-[-0.14px]"
-  >
-    <span class="js-copy-label">링크 복사</span>
-  </button>
   {
     !compact && (
       <a
@@ -43,6 +36,13 @@ const { class: cls = "", compact = false } = Astro.props;
       </a>
     )
   }
+  <button
+    type="button"
+    data-share="copy"
+    class="inline-flex items-center gap-2 h-10 px-4 text-sm font-medium text-stone-700 border border-stone-300 rounded-full hover:bg-stone-100 transition tracking-[-0.14px]"
+  >
+    <span class="js-copy-label">링크 복사</span>
+  </button>
 </div>
 
 <script>
@@ -65,8 +65,19 @@ const { class: cls = "", compact = false } = Astro.props;
     return SITE_URL + (ref ? `/?ref=${ref}&ch=` : "/?ch=");
   }
 
+  // 버튼 텍스트를 잠깐 바꿔 피드백 (SVG 가 있는 버튼은 라벨 span 만 교체)
+  function flashLabel(btn: HTMLElement, msg: string) {
+    const label = btn.querySelector(".js-btn-label") as HTMLElement | null;
+    const target = label || btn;
+    const prev = target.textContent;
+    target.textContent = msg;
+    setTimeout(() => {
+      target.textContent = prev;
+    }, 1600);
+  }
+
   // 카카오 SDK 동적 로드 (public/revote/kakao.js 에서 init 처리)
-  async function kakaoShare() {
+  async function kakaoShare(btn: HTMLElement) {
     const ref = currentRef();
     try {
       const mod = await import("/revote/kakao.js");
@@ -82,8 +93,10 @@ const { class: cls = "", compact = false } = Astro.props;
         }
       }
     } catch (_) {}
-    // 폴백: 링크 복사
-    await doCopy("kakao");
+    // 폴백: 링크 복사 (카카오 키 미설정 시) — 버튼에 피드백 표시
+    const ok = await copyShareLink(ref);
+    track("copy_link_click", { channel: "kakao", ref });
+    flashLabel(btn, ok ? "링크 복사됨!" : "복사 실패");
   }
 
   // 인스타그램 스토리 공유
@@ -151,7 +164,7 @@ const { class: cls = "", compact = false } = Astro.props;
       return;
     }
     btn.addEventListener("click", () => {
-      if (kind === "kakao") kakaoShare();
+      if (kind === "kakao") kakaoShare(btn);
       else if (kind === "instagram") shareInstagram();
       else doCopy("link");
     });
