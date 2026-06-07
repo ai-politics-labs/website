@@ -48,3 +48,59 @@ export const DEMANDS = [
 
 // 연락처
 export const CONTACT_EMAIL = "revote@aiparty.kr"; // TODO: 실제 운영 이메일로 교체
+
+// 법률대응 수임 변호사 (위임장)
+export const LAWYER = {
+  name: "박세준",
+  firm: "법무법인(유한) 한별",
+  office: "Seoul Office",
+  email: "sejunbak@hanbl.co.kr",
+  phone: "02-6255-7779",
+};
+
+// 위임장 — 피해 유형
+export const DAMAGE_TYPES = [
+  "투표용지 부족",
+  "투표 지연",
+  "투표 포기",
+  "기타",
+];
+
+// 위임장 — 특별수권사항 (선택)
+export const SPECIAL_AUTHORITIES = [
+  "소청·심판청구 또는 소의 취하",
+  "청구의 포기 또는 인낙",
+  "화해 또는 조정 합의",
+  "상소·항고의 제기 또는 취하",
+  "복대리인 또는 공동대리인의 선임",
+  "별도 비용이 발생하는 절차의 진행",
+];
+
+// 위임장 — 동의사항 (1~4 필수, 5 확인)
+export const DELEGATION_CONSENTS = [
+  {
+    key: "purpose",
+    required: true,
+    text: "본인은 선거권 회복 100만 서명운동의 취지에 동의하고 참여합니다.",
+  },
+  {
+    key: "submission",
+    required: true,
+    text: "본인은 본 문서 및 관련 제보자료가 법률 검토, 소청·소송·헌법소원·국가배상청구·정보공개청구 등 절차 수행을 위하여 수임인, 공동대리인, 법원, 헌법재판소, 선거관리위원회 및 관계기관에 제출될 수 있음에 동의합니다.",
+  },
+  {
+    key: "privacy",
+    required: true,
+    text: "본인은 이름, 연락처, 주소, 생년월일, 제보내용, 첨부자료 등 개인정보 및 민감정보를 위 목적 범위 내에서 수집·이용하는 것에 동의합니다.",
+  },
+  {
+    key: "third_party",
+    required: true,
+    text: "본인은 필요한 범위에서 수임인, 법무법인, 공동대리인 또는 업무수탁자에게 제3자 제공되는 것에 동의합니다.",
+  },
+  {
+    key: "disclosure_notice",
+    required: true,
+    text: "본인은 언론 또는 대외 공개는 별도 동의가 있는 경우에만 진행됨을 확인합니다.",
+  },
+];

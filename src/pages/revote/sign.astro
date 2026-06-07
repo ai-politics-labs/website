@@ -231,12 +231,40 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
 
     <!-- 완료 화면 -->
     <div id="success-message" role="status" class="hidden mt-8">
+      <!-- 2단계: 법률대응 참여 선택 -->
+      <div id="legal-step" class="mb-6 bg-[#0e0e0d] rounded-2xl p-6 sm:p-8 text-left">
+        <p class="text-[13px] font-medium text-stone-400 tracking-[0.08em] uppercase mb-2">법률대응 참여</p>
+        <h2 class="text-[20px] sm:text-[22px] font-semibold text-white tracking-[-0.28px] leading-snug mb-3">
+          법률대응에도 참여하시겠습니까?
+        </h2>
+        <p class="text-[14px] text-stone-300 leading-7 tracking-[-0.14px] mb-6">
+          투표용지 부족, 투표 지연, 투표 포기 등으로 선거권 침해를 겪었다면
+          박세준 변호사를 대리인으로 선임하여 선거소청, 선거소송, 헌법소원,
+          국가배상청구 등 법률대응에 참여할 수 있습니다.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3">
+          <a
+            href="/revote/delegation"
+            id="goto-delegation"
+            class="inline-flex items-center justify-center h-11 px-5 text-[14px] font-semibold text-stone-900 bg-white rounded-full hover:bg-stone-200 transition-colors tracking-[-0.14px]"
+          >
+            법률대응 위임장 작성하기 →
+          </a>
+          <button
+            type="button" id="skip-delegation"
+            class="inline-flex items-center justify-center h-11 px-5 text-[14px] font-medium text-stone-300 border border-stone-600 rounded-full hover:bg-white/10 transition-colors tracking-[-0.14px]"
+          >
+            나중에 하기
+          </button>
+        </div>
+      </div>
+
       <div class="bg-stone-100 rounded-2xl p-6 sm:p-8 text-center">
         <p class="text-[22px] font-semibold text-stone-900 tracking-[-0.32px] mb-2">
           서명이 완료되었습니다.
         </p>
         <p class="text-[15px] text-stone-500 leading-7 tracking-[-0.16px] mb-5">
-          당신의 서명은 잃어버린 선거권을 회복하기 위한 첫 번째 행동입니다.
+          이제 법률대응에도 참여할 수 있습니다.
         </p>
         <p id="signature-count" class="text-[17px] font-semibold text-stone-800 tracking-[-0.24px] mb-1">
           현재까지 집계 중...
@@ -560,10 +588,34 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
       await linkReferralConversion(data.id, "sign");
       track("submit_signature_success");
 
+      // 2단계 위임장 연결용: 서명 정보 저장 (delegation 페이지에서 프리필/연결)
+      try {
+        sessionStorage.setItem(
+          "revote_sig",
+          JSON.stringify({
+            id: data.id,
+            name: basePayload.name,
+            phone: rawPhone,
+            email,
+            region_sido,
+            region_sigungu,
+          })
+        );
+      } catch (_) {}
+
       // 완료 화면
       form.classList.add("hidden");
       successDiv.classList.remove("hidden");
       successDiv.scrollIntoView({ behavior: "smooth", block: "start" });
+
+      // "나중에 하기" → 법률대응 카드 접기
+      document.getElementById("skip-delegation")?.addEventListener("click", () => {
+        document.getElementById("legal-step")?.classList.add("hidden");
+        track("skip_delegation");
+      });
+      document.getElementById("goto-delegation")?.addEventListener("click", () =>
+        track("start_delegation")
+      );
 
       // 서명 카운트
       try {
