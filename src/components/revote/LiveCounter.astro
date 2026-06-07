@@ -35,7 +35,7 @@ const isHero = variant === "hero";
         </div>
         <div class="mt-2.5 flex items-center justify-between text-[13px] tracking-[-0.14px]">
           <span class="text-stone-500">
-            목표 <span class="font-medium text-stone-700">1,000,000명</span>
+            목표 <span class="js-goal font-medium text-stone-700">10,000</span>명
           </span>
           <span class="text-stone-500">
             달성률 <span class="js-rate font-semibold text-stone-900">0%</span>
@@ -53,11 +53,11 @@ const isHero = variant === "hero";
 </div>
 
 <script>
-  import { fetchSignatureCount, formatNumber, SIGNATURE_GOAL } from "/revote/revote-client.js";
+  import { fetchSignatureCount, formatNumber, goalForTotal } from "/revote/revote-client.js";
 
   async function refreshCounters() {
-    const { total, today, goal } = await fetchSignatureCount();
-    const g = goal || SIGNATURE_GOAL;
+    const { total, today } = await fetchSignatureCount();
+    const g = goalForTotal(total);
     const rate = Math.min(100, (total / g) * 100);
     document.querySelectorAll(".revote-counter").forEach((root) => {
       const c = root.querySelector(".js-count");
@@ -68,6 +68,8 @@ const isHero = variant === "hero";
       if (r) r.textContent = rate.toFixed(rate < 1 ? 2 : 1) + "%";
       const bar = root.querySelector(".js-bar");
       if (bar) bar.style.width = Math.max(0.5, rate) + "%";
+      const goalEl = root.querySelector(".js-goal");
+      if (goalEl) goalEl.textContent = formatNumber(g);
     });
   }
 

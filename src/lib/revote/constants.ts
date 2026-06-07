@@ -10,8 +10,12 @@ export const SUPABASE_ESM = "https://esm.sh/@supabase/supabase-js@2";
 // Storage
 export const EVIDENCE_BUCKET = "revote-evidence";
 
-// 캠페인 목표
-export const SIGNATURE_GOAL = 1_000_000;
+// 캠페인 목표 — 1만에서 시작, 달성 시 10만→20만→…→100만 자동 상향
+export const SIGNATURE_MILESTONES = [
+  10_000, 100_000, 200_000, 300_000, 400_000, 500_000,
+  600_000, 700_000, 800_000, 900_000, 1_000_000,
+];
+export const SIGNATURE_GOAL = SIGNATURE_MILESTONES[0];
 
 // 동의서 버전 (변경 시 consent_logs 에 반영됨)
 export const CONSENT_VERSION = "2026-06-06";
