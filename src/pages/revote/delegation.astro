@@ -1,0 +1,400 @@
+---
+import RevoteLayout from "../../layouts/RevoteLayout.astro";
+import {
+  LAWYER,
+  DAMAGE_TYPES,
+  SPECIAL_AUTHORITIES,
+  DELEGATION_CONSENTS,
+} from "../../lib/revote/constants";
+---
+
+<RevoteLayout title="법률대응 위임장 · 선거권 회복 100만 서명운동" active="sign">
+  <section class="max-w-[680px] mx-auto px-4 sm:px-6 py-12">
+    <div class="mb-8">
+      <p class="text-[12px] font-medium text-stone-500 tracking-[0.14em] uppercase mb-3">법률대응 참여</p>
+      <h1 class="font-semibold text-[26px] sm:text-[30px] text-stone-900 leading-[1.25] tracking-[-0.32px] mb-3">
+        서명운동 참여 동의 및<br/>법률대응 위임장
+      </h1>
+      <p class="text-[14px] text-stone-500 leading-7 tracking-[-0.16px]">
+        2026년 6월 3일 지방선거 투표용지 부족 및 선거관리 부실로 인한 선거권 침해 관련
+        100만 서명운동 참여, 선거소청·선거소송·헌법소원심판·국가배상청구·정보공개청구 및
+        이에 부수하는 절차를 위한 위임장입니다.
+      </p>
+    </div>
+
+    <!-- 수임인 정보 (고정) -->
+    <div class="mb-6 rounded-2xl border border-stone-200 bg-stone-50 p-5 sm:p-6">
+      <p class="text-[12px] font-medium text-stone-400 tracking-[0.1em] uppercase mb-3">수임인 (대리인)</p>
+      <dl class="space-y-1.5 text-[14px] text-stone-700 tracking-[-0.14px]">
+        <div class="flex gap-3"><dt class="w-16 shrink-0 text-stone-400">성명</dt><dd class="font-medium text-stone-900">{LAWYER.name}</dd></div>
+        <div class="flex gap-3"><dt class="w-16 shrink-0 text-stone-400">소속</dt><dd>{LAWYER.firm}</dd></div>
+        <div class="flex gap-3"><dt class="w-16 shrink-0 text-stone-400">사무소</dt><dd>{LAWYER.office}</dd></div>
+        <div class="flex gap-3"><dt class="w-16 shrink-0 text-stone-400">이메일</dt><dd>{LAWYER.email}</dd></div>
+        <div class="flex gap-3"><dt class="w-16 shrink-0 text-stone-400">연락처</dt><dd>{LAWYER.phone}</dd></div>
+      </dl>
+    </div>
+
+    <form id="deleg-form" novalidate>
+      <div class="bg-stone-100 rounded-2xl p-6 sm:p-8 space-y-5">
+        <p class="text-[12px] font-medium text-stone-400 tracking-[0.1em] uppercase">위임인 정보</p>
+
+        <!-- 성명 -->
+        <div>
+          <label for="name" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            성명 <span class="text-red-500" aria-hidden="true">*</span>
+          </label>
+          <input type="text" id="name" name="name" required autocomplete="name"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            placeholder="홍길동" />
+          <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+        </div>
+
+        <!-- 생년월일 -->
+        <div>
+          <label for="birth_date" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            생년월일 <span class="text-red-500" aria-hidden="true">*</span>
+          </label>
+          <input type="text" id="birth_date" name="birth_date" required inputmode="numeric"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            placeholder="1990-01-01" />
+          <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+        </div>
+
+        <!-- 주소 -->
+        <div>
+          <label for="address" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            주소 <span class="text-red-500" aria-hidden="true">*</span>
+          </label>
+          <input type="text" id="address" name="address" required autocomplete="street-address"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            placeholder="서울특별시 종로구 ..." />
+          <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+        </div>
+
+        <!-- 연락처 -->
+        <div>
+          <label for="phone" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            연락처 <span class="text-red-500" aria-hidden="true">*</span>
+          </label>
+          <input type="tel" id="phone" name="phone" required autocomplete="tel"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            placeholder="010-0000-0000" />
+          <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+        </div>
+
+        <!-- 이메일 -->
+        <div>
+          <label for="email" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            이메일 <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
+          </label>
+          <input type="email" id="email" name="email" autocomplete="email"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            placeholder="example@email.com" />
+        </div>
+
+        <!-- 해당 선거구 -->
+        <div>
+          <label for="electoral_district" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            해당 선거구 <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
+          </label>
+          <input type="text" id="electoral_district" name="electoral_district"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            placeholder="예: 서울 종로구" />
+        </div>
+
+        <!-- 투표소명 -->
+        <div>
+          <label for="polling_station" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            투표소명 <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
+          </label>
+          <input type="text" id="polling_station" name="polling_station"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            placeholder="예: ○○동 제1투표소" />
+        </div>
+
+        <!-- 피해 유형 -->
+        <div>
+          <p class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-2">
+            겪으신 피해 <span class="text-[11px] text-stone-400 font-normal">(선택 · 복수 선택 가능)</span>
+          </p>
+          <div class="flex flex-wrap gap-2">
+            {DAMAGE_TYPES.map((t) => (
+              <label class="inline-flex items-center gap-2 px-3 h-9 bg-white border border-stone-200 rounded-full text-[13px] text-stone-700 cursor-pointer hover:border-stone-300 tracking-[-0.14px]">
+                <input type="checkbox" name="damage_type" value={t} class="accent-[#222222] size-4" />
+                {t}
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <!-- 피해 상세 -->
+        <div>
+          <label for="damage_detail" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            피해 상세 <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
+          </label>
+          <textarea id="damage_detail" name="damage_detail" rows="3" maxlength="1000"
+            class="w-full px-3 py-2.5 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] resize-none"
+            placeholder="겪으신 상황을 자유롭게 적어주세요."></textarea>
+        </div>
+      </div>
+
+      <!-- 특별수권사항 -->
+      <div class="mt-6 bg-stone-100 rounded-2xl p-6 sm:p-8">
+        <p class="text-[14px] font-semibold text-stone-800 tracking-[-0.14px] mb-1">특별수권사항</p>
+        <p class="text-[12px] text-stone-400 mb-4 tracking-[-0.14px]">아래 권한 위임에 동의하는 항목을 선택하세요. (선택)</p>
+        <div class="space-y-3">
+          {SPECIAL_AUTHORITIES.map((a, i) => (
+            <label class="flex items-start gap-3 cursor-pointer">
+              <input type="checkbox" name="special_authority" value={a} class="mt-0.5 accent-[#222222] size-4 shrink-0" />
+              <span class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px]">{a}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <!-- 동의사항 -->
+      <div class="mt-6 bg-stone-100 rounded-2xl p-6 sm:p-8">
+        <p class="text-[14px] font-semibold text-stone-800 tracking-[-0.14px] mb-4">동의사항 <span class="text-red-500">*</span></p>
+
+        <label class="flex items-start gap-3 pb-3 mb-1 border-b border-stone-200 cursor-pointer">
+          <input type="checkbox" id="consent_all" class="mt-0.5 accent-[#222222] size-4 shrink-0" />
+          <span class="text-[14px] font-medium text-stone-800 leading-5 tracking-[-0.14px]">아래 동의사항에 전체 동의합니다.</span>
+        </label>
+
+        <div class="space-y-3 pt-2">
+          {DELEGATION_CONSENTS.map((c, i) => (
+            <label class="flex items-start gap-3 cursor-pointer">
+              <input type="checkbox" name="consent" data-key={c.key} required class="deleg-consent mt-0.5 accent-[#222222] size-4 shrink-0" />
+              <span class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px]">
+                <span class="text-red-500" aria-hidden="true">*</span>
+                {c.text}
+              </span>
+            </label>
+          ))}
+        </div>
+        <p class="field-error hidden mt-3 text-[12px] text-red-500" id="consent-error"></p>
+      </div>
+
+      <!-- 서명 -->
+      <div class="mt-6 bg-stone-100 rounded-2xl p-6 sm:p-8 space-y-4">
+        <p class="text-[14px] font-semibold text-stone-800 tracking-[-0.14px]">전자서명</p>
+        <p class="text-[13px] text-stone-500 leading-6 tracking-[-0.14px]">
+          본인은 위 수임인을 대리인으로 선임함과 동시에, 본 문서 작성으로 선거권 회복 100만 서명운동 참여에 동의합니다.
+          아래에 본인 성명을 직접 입력하면 전자서명으로 갈음합니다.
+        </p>
+        <div>
+          <label for="signature_name" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            위임인 성명 (전자서명) <span class="text-red-500" aria-hidden="true">*</span>
+          </label>
+          <input type="text" id="signature_name" name="signature_name" required
+            class="w-full h-11 px-3 text-[16px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            placeholder="본인 성명 입력" />
+          <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
+        </div>
+        <p class="text-[12px] text-stone-400 tracking-[-0.14px]">작성일: <span id="signed-date"></span></p>
+        <p class="text-[11px] text-stone-400 leading-5 tracking-[-0.14px]">
+          ※ 본 문서는 실제 사건 진행 시 수임 변호사의 최종 검토 및 보정 후 사용될 수 있습니다. (변호사회 경유)
+        </p>
+      </div>
+
+      <div class="mt-6">
+        <button type="submit" id="submit-btn"
+          class="inline-flex items-center justify-center h-11 px-6 text-sm font-semibold text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px] disabled:opacity-40 disabled:cursor-not-allowed">
+          위임장 제출하기
+        </button>
+      </div>
+    </form>
+
+    <!-- 완료 화면 -->
+    <div id="success-message" role="status" class="hidden">
+      <div class="bg-stone-100 rounded-2xl p-6 sm:p-8 text-center">
+        <p class="text-[22px] font-semibold text-stone-900 tracking-[-0.32px] mb-2">위임장이 제출되었습니다.</p>
+        <p class="text-[15px] text-stone-500 leading-7 tracking-[-0.16px] mb-6">
+          박세준 변호사가 검토 후 법률대응 절차를 안내드립니다.<br/>소중한 참여 감사합니다.
+        </p>
+        <a href="/revote" class="inline-flex items-center justify-center h-10 px-5 text-sm font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px]">
+          캠페인 홈으로 →
+        </a>
+      </div>
+    </div>
+
+    <!-- 에러 -->
+    <div id="error-message" role="alert" class="hidden mt-4 p-4 bg-red-50 rounded-xl text-[14px] text-red-600 leading-5"></div>
+  </section>
+</RevoteLayout>
+
+<script>
+  import {
+    supabase,
+    phoneHash,
+    formatMobile,
+    isValidMobile,
+    logConsents,
+    track,
+  } from "/revote/revote-client.js";
+
+  // 작성일 표시
+  const now = new Date();
+  const p = (n: number) => String(n).padStart(2, "0");
+  const dateStr = `${now.getFullYear()}-${p(now.getMonth() + 1)}-${p(now.getDate())}`;
+  const signedDateEl = document.getElementById("signed-date");
+  if (signedDateEl) signedDateEl.textContent = dateStr;
+
+  // 서명 단계에서 넘어온 정보 프리필
+  let prefill: any = {};
+  try {
+    prefill = JSON.parse(sessionStorage.getItem("revote_sig") || "{}");
+  } catch (_) {}
+  const setVal = (id: string, v: string) => {
+    const el = document.getElementById(id) as HTMLInputElement | null;
+    if (el && v && !el.value) el.value = v;
+  };
+  setVal("name", prefill.name || "");
+  setVal("phone", prefill.phone || "");
+  setVal("email", prefill.email || "");
+  setVal("signature_name", prefill.name || "");
+  if (prefill.region_sido) {
+    const district = [prefill.region_sido, prefill.region_sigungu].filter(Boolean).join(" ");
+    setVal("electoral_district", district);
+  }
+
+  // 휴대폰 자동 포맷
+  const phoneInput = document.getElementById("phone") as HTMLInputElement;
+  phoneInput.addEventListener("input", (e) => {
+    (e.target as HTMLInputElement).value = formatMobile((e.target as HTMLInputElement).value);
+  });
+
+  // 전체 동의
+  const consentAll = document.getElementById("consent_all") as HTMLInputElement;
+  const consentBoxes = Array.from(
+    document.querySelectorAll<HTMLInputElement>(".deleg-consent")
+  );
+  consentAll?.addEventListener("change", () => {
+    consentBoxes.forEach((cb) => (cb.checked = consentAll.checked));
+    if (consentAll.checked) document.getElementById("consent-error")?.classList.add("hidden");
+  });
+  consentBoxes.forEach((cb) =>
+    cb.addEventListener("change", () => {
+      consentAll.checked = consentBoxes.every((c) => c.checked);
+    })
+  );
+
+  // 제출
+  const form = document.getElementById("deleg-form") as HTMLFormElement;
+  const submitBtn = document.getElementById("submit-btn") as HTMLButtonElement;
+  const successDiv = document.getElementById("success-message") as HTMLElement;
+  const errorDiv = document.getElementById("error-message") as HTMLElement;
+
+  function showFieldError(id: string, message: string) {
+    const input = document.getElementById(id);
+    const errorEl = input?.closest("div")?.querySelector(".field-error") as HTMLElement | null;
+    if (errorEl) {
+      errorEl.textContent = message;
+      errorEl.classList.remove("hidden");
+    }
+    input?.classList.add("border-red-400");
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    errorDiv.classList.add("hidden");
+    document.querySelectorAll(".field-error").forEach((el) => {
+      (el as HTMLElement).textContent = "";
+      (el as HTMLElement).classList.add("hidden");
+    });
+    document.querySelectorAll<HTMLElement>(".border-red-400").forEach((el) =>
+      el.classList.remove("border-red-400")
+    );
+
+    const fd = new FormData(form);
+    let firstError: string | null = null;
+
+    const name = (fd.get("name") as string)?.trim();
+    if (!name || name.length < 2) { showFieldError("name", "성명을 입력해 주세요."); firstError ||= "name"; }
+
+    const birth = (fd.get("birth_date") as string)?.trim();
+    if (!birth) { showFieldError("birth_date", "생년월일을 입력해 주세요."); firstError ||= "birth_date"; }
+
+    const address = (fd.get("address") as string)?.trim();
+    if (!address) { showFieldError("address", "주소를 입력해 주세요."); firstError ||= "address"; }
+
+    const phone = (fd.get("phone") as string)?.trim();
+    if (!phone || !isValidMobile(phone)) { showFieldError("phone", "올바른 휴대폰 번호를 입력해 주세요."); firstError ||= "phone"; }
+
+    const sigName = (fd.get("signature_name") as string)?.trim();
+    if (!sigName) { showFieldError("signature_name", "전자서명(성명)을 입력해 주세요."); firstError ||= "signature_name"; }
+
+    const allConsented = consentBoxes.every((c) => c.checked);
+    if (!allConsented) {
+      const ce = document.getElementById("consent-error");
+      if (ce) { ce.textContent = "법률대응을 위해 모든 동의사항에 동의해 주세요."; ce.classList.remove("hidden"); }
+      firstError ||= "consent-error";
+    }
+
+    if (firstError) {
+      document.getElementById(firstError)?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "제출 중...";
+
+    try {
+      const hash = await phoneHash(phone);
+      const damageTypes = fd.getAll("damage_type") as string[];
+      const specialAuthorities = fd.getAll("special_authority") as string[];
+      const consentItems: Record<string, boolean> = {};
+      consentBoxes.forEach((cb) => {
+        consentItems[cb.dataset.key || ""] = cb.checked;
+      });
+
+      const payload: Record<string, any> = {
+        signature_id: prefill.id || null,
+        name,
+        birth_date: birth,
+        address,
+        phone,
+        phone_hash: hash,
+        email: (fd.get("email") as string)?.trim() || null,
+        electoral_district: (fd.get("electoral_district") as string)?.trim() || null,
+        polling_station: (fd.get("polling_station") as string)?.trim() || null,
+        damage_types: damageTypes,
+        damage_detail: (fd.get("damage_detail") as string)?.trim() || null,
+        special_authorities: specialAuthorities,
+        consent_items: consentItems,
+        signature_name: sigName,
+        user_agent: navigator.userAgent,
+      };
+
+      const { data, error } = await (supabase as any)
+        .from("revote_legal_delegations")
+        .insert(payload)
+        .select("id")
+        .single();
+
+      if (error) throw error;
+
+      try {
+        await logConsents("DELEGATION", data.id, [
+          { type: "DELEGATION_PURPOSE", consented: true },
+          { type: "DELEGATION_SUBMISSION", consented: true },
+          { type: "PRIVACY", consented: true },
+          { type: "THIRD_PARTY", consented: true },
+        ]);
+      } catch (_) {}
+
+      track("submit_delegation_success");
+      form.classList.add("hidden");
+      successDiv.classList.remove("hidden");
+      successDiv.scrollIntoView({ behavior: "smooth", block: "start" });
+    } catch (err) {
+      console.error("Delegation error:", err);
+      errorDiv.textContent = "위임장 제출 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.";
+      errorDiv.classList.remove("hidden");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "위임장 제출하기";
+    }
+  });
+
+  track("page_view_delegation");
+</script>
