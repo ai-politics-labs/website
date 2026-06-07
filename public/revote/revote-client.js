@@ -8,7 +8,21 @@ export const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzaWF0cWppdmVubWJsa2N1amp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3ODk2OTMsImV4cCI6MjA4ODM2NTY5M30.ReRm1mteN7bsWiRoMhHc8EfhLncJuLZ_8hSR-El8-S4";
 
 export const EVIDENCE_BUCKET = "revote-evidence";
-export const SIGNATURE_GOAL = 1_000_000;
+// 목표 단계: 1만 달성 시 10만, 이후 10만 단위로 100만까지 자동 상향
+export const SIGNATURE_MILESTONES = [
+  10_000, 100_000, 200_000, 300_000, 400_000, 500_000,
+  600_000, 700_000, 800_000, 900_000, 1_000_000,
+];
+export const SIGNATURE_GOAL = SIGNATURE_MILESTONES[0];
+
+// 현재 집계(total)에 맞는 목표치(다음 단계) 계산. 100만 도달 후에는 100만 고정.
+export function goalForTotal(total) {
+  const n = Number(total || 0);
+  for (const m of SIGNATURE_MILESTONES) {
+    if (n < m) return m;
+  }
+  return SIGNATURE_MILESTONES[SIGNATURE_MILESTONES.length - 1];
+}
 // 표시용 기준 카운트 (오프라인/사전 모집분 등 실집계에 더해 노출)
 export const BASE_COUNT = 1534;
 export const CONSENT_VERSION = "2026-06-06";
