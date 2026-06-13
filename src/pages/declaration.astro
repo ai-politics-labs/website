@@ -8,7 +8,11 @@ const sections = [
 		body: [
 			"우리나라가 강성했을 때는 언제나 과학과 기술과 상업이 융성했습니다. 새로운 지식을 받아들이고, 더 나은 도구를 만들고, 바다와 대륙을 향해 담대히 나아가던 시기에 우리는 참으로 부강했습니다. 반대로 우리 국토가 짓밟히고 치욕을 당했을 때는 과학을 등한시하고, 기술을 홀대하고, 세계의 변화를 외면하던 시기였습니다.",
 			"그러므로 우리가 말하는 애국은 단순한 구호가 아닙니다. 우리가 말하는 애국은 기술입니다. 나라를 걱정하는 마음을 넘어, 나라의 미래를 실제로 만들어내는 힘입니다.",
-			"AI국민당이 만들고 싶은 세상은 분명합니다. 국민 한 사람 한 사람이 AI로 자신의 가능성을 확장하는 나라입니다. 학교는 정답만 맞히는 사람을 찍어내는 공장이 아니라, 스스로 질문하고 AI로 실행하는 인간을 키우는 곳이어야 합니다. 기업은 좁은 국내 시장 안에서만 경쟁하는 조직이 아니라, 처음부터 세계 시장을 향해 나아가는 팀이어야 합니다. 군대는 청년의 경력을 멈추게 하는 시간이 아니라, 국가 전략 기술을 실험하고 전력화하는 출발점이어야 합니다. 연구소는 가짜 제안서와 행정 절차에 갇힌 공간이 아니라, 실패를 두려워하지 않고 진짜 연구에 인생을 걸 수 있는 곳이어야 합니다.",
+			"AI국민당이 만들고 싶은 세상은 분명합니다. 국민 한 사람 한 사람이 AI로 자신의 가능성을 확장하는 나라입니다.",
+			["학교는 정답만 맞히는 사람을 찍어내는 공장이 아니라,", "스스로 질문하고 AI로 실행하는 인간을 키우는 곳이어야 합니다."],
+			["기업은 좁은 국내 시장 안에서만 경쟁하는 조직이 아니라,", "처음부터 세계 시장을 향해 나아가는 팀이어야 합니다."],
+			["군대는 청년의 경력을 멈추게 하는 시간이 아니라,", "국가 전략 기술을 실험하고 전력화하는 출발점이어야 합니다."],
+			["연구소는 가짜 제안서와 행정 절차에 갇힌 공간이 아니라,", "실패를 두려워하지 않고 진짜 연구에 인생을 걸 수 있는 곳이어야 합니다."],
 		],
 	},
 	{
@@ -103,7 +107,8 @@ const sections = [
 		<!-- 표제 -->
 		<section class="bg-[#0e0e0d] pt-24 pb-20">
 			<div class="max-w-2xl mx-auto px-6">
-				<p class="text-[12px] font-medium text-stone-500 tracking-[0.14em] uppercase mb-6">AI People Party · 에이아이국민당</p>
+				<p class="text-[12px] font-medium text-stone-500 tracking-[0.14em] uppercase mb-3">AIPP · Artificial Intelligence People Party</p>
+				<p class="text-[13px] text-stone-400 tracking-[-0.14px] mb-6">에이아이국민당 · 애국당</p>
 				<p class="text-[13px] text-stone-400 tracking-[-0.14px] mb-3">창당선언문</p>
 				<h1 class="text-white font-semibold text-[32px] sm:text-[40px] leading-[1.25] tracking-[-0.4px]">과학기술이<br/>곧 애국이다.</h1>
 			</div>
@@ -117,7 +122,7 @@ const sections = [
 						<h2 class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mb-7">{s.title}</h2>
 						<div class="space-y-5 text-[16px] text-stone-600 leading-8 tracking-[-0.16px]">
 							{s.lead && <p class="text-stone-900 font-medium text-[17px]">{s.lead}</p>}
-							{s.body.map((p) => <p>{p}</p>)}
+							{s.body.map((p) => Array.isArray(p) ? <p set:html={p.join("<br/>")} /> : <p>{p}</p>)}
 							{s.emphasis && <p class="text-stone-900 font-medium">{s.emphasis}</p>}
 						</div>
 					</div>
@@ -131,8 +136,9 @@ const sections = [
 				<p class="text-[12px] font-medium text-stone-500 tracking-[0.14em] uppercase mb-7">선언</p>
 				<div class="space-y-6 text-[16px] text-stone-300 leading-8 tracking-[-0.16px]">
 					<p class="text-white font-semibold text-[22px] sm:text-[26px] leading-[1.4] tracking-[-0.32px]">오늘 우리는 대한민국을<br/>AI 시대의 기술국가로 바꾸겠다고 선언합니다.</p>
-					<p>국민 한 사람 한 사람이 AI로 자신의 가능성을 확장하는 나라. 기업이 세계 시장으로 뻗어나가는 나라. 학교가 질문하는 인간을 키우는 나라. 군대가 AI 기술을 전력화하는 나라. 연구소가 실패를 두려워하지 않는 나라. 과학기술인이 존중받고, 창업가가 도전하고, 시민이 기본적 삶을 보장받는 나라.</p>
-					<p>우리는 과거의 일자리를 붙잡아두기 위해 기업을 낡은 고용 구조에 묶어두는 정치를 하지 않겠습니다. 국민이 미래로 이동할 수 있게 하는 정치를 하겠습니다. 우리는 애국을 새롭게 정의하겠습니다.</p>
+					<p set:html={"국민 한 사람 한 사람이 AI로 자신의 가능성을 확장하는 나라.<br/>기업이 세계 시장으로 뻗어나가는 나라.<br/>학교가 질문하는 인간을 키우는 나라.<br/>군대가 AI 기술을 전력화하는 나라.<br/>연구소가 실패를 두려워하지 않는 나라.<br/>과학기술인이 존경받고, 창업가가 도전하고, 시민이 기본적 삶을 보장받는 나라."} />
+					<p set:html={"우리는 과거의 일자리를 붙잡아두기 위해 기업을 낡은 고용 구조에 묶어두는 정치를 하지 않겠습니다.<br/>국민이 미래로 이동할 수 있게 하는 정치를 하겠습니다."} />
+					<p>우리는 애국을 새롭게 정의하겠습니다.</p>
 					<p class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.3] tracking-[-0.4px] py-2">과학이 곧 애국입니다.</p>
 					<p>AI가 국력이고, 기술이 안보이며, 창업가와 연구자가 국가의 미래입니다.</p>
 					<p class="text-white font-medium">에이아이국민당은 대한민국을 기술 애국의 나라로 바꾸겠습니다.</p>
