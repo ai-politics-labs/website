@@ -1,0 +1,337 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+// ─────────────────────────────────────────────────────────────
+// 목차
+// ─────────────────────────────────────────────────────────────
+const toc = [
+	{ id: "meaning", label: "의미" },
+	{ id: "analogy", label: "유비" },
+	{ id: "competition", label: "경쟁" },
+	{ id: "evolution", label: "진화" },
+	{ id: "aip", label: "AIP" },
+	{ id: "policy", label: "정책" },
+	{ id: "questions", label: "질문" },
+];
+
+// 유비 / 경쟁 — 거시 → 중간 → 미시 3층 구조
+const triads = {
+	analogy: [
+		{
+			head: "역사",
+			levels: [
+				{ scale: "거시", term: "국가", note: "집단이라는 단위" },
+				{ scale: "중간", term: "인간", note: "개체라는 단위" },
+				{ scale: "미시", term: "AI", note: "새로 등장한 단위" },
+			],
+		},
+		{
+			head: "생물",
+			levels: [
+				{ scale: "거시", term: "종(種)", note: "유전자의 집합" },
+				{ scale: "중간", term: "세포", note: "생명의 단위" },
+				{ scale: "미시", term: "미토콘드리아", note: "동력원, 그리고 한때 외부자" },
+			],
+		},
+	],
+	competition: [
+		{
+			head: "국가",
+			levels: [
+				{ scale: "1", term: "미국", note: "" },
+				{ scale: "2", term: "중국", note: "" },
+				{ scale: "3", term: "한국", note: "" },
+			],
+		},
+		{
+			head: "종족",
+			levels: [
+				{ scale: "1", term: "네안데르탈", note: "사라진 경쟁자" },
+				{ scale: "2", term: "사피엔스", note: "살아남은 우리" },
+				{ scale: "3", term: "가축", note: "선택된 길" },
+			],
+		},
+	],
+};
+
+// AIP — 태아 장기 형성 순서
+const fetus = [
+	{ n: "01", organ: "뇌", sub: "중추신경" },
+	{ n: "02", organ: "심장", sub: "" },
+	{ n: "03", organ: "귀 · 눈", sub: "감각" },
+	{ n: "04", organ: "팔 · 다리", sub: "실행" },
+	{ n: "05", organ: "치아 · 구개", sub: "" },
+	{ n: "06", organ: "생식기", sub: "재생산" },
+];
+
+// AIP — 확장 단계
+const expansion = ["house", "school", "city", "nation", "empire"];
+
+// 정책
+const policies = ["고용", "UBI", "에너지", "교육", "언어", "금융"];
+
+// 질문 + 참가자
+const questions = [
+	"벼와 가축은 불행한가?",
+	"인간의 가치는 어디서 오는가?",
+	"우리는 무엇을 해야 하는가?",
+];
+const speakers = [
+	{ name: "이태양", org: "BASS" },
+	{ name: "도은욱", org: "Clobe" },
+	{ name: "정도환", org: "BZCF" },
+	{ name: "한관엽", org: "Aleph lab" },
+	{ name: "최동인", org: "AIP" },
+];
+---
+
+<Layout title="ATLAS 2049 | AI Party" bodyClass="bg-[#0e0e0d] text-stone-200 antialiased overflow-x-hidden">
+	<Fragment slot="head">
+		<meta name="description" content="ATLAS 2049 — 천구를 짊어진 티탄과 20~49세 세대가 2049년을 묻는다. 국가·인간·AI, 종·세포·미토콘드리아의 유비 위에서 인간의 가치와 우리가 해야 할 일을 토론하는 AIP의 포럼." />
+		<link rel="canonical" href="https://aiparty.kr/atlas2049" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://aiparty.kr/atlas2049" />
+		<meta property="og:title" content="ATLAS 2049 · 천구를 짊어진 세대" />
+		<meta property="og:description" content="국가·인간·AI의 유비 위에서 인간의 가치와 우리가 해야 할 일을 묻는다. 이태양·도은욱·정도환·한관엽·최동인." />
+		<meta property="og:image" content="https://aiparty.kr/og-main-v2.png" />
+		<meta property="og:site_name" content="AIP · AI Party" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="ATLAS 2049 · 천구를 짊어진 세대" />
+		<meta name="twitter:image" content="https://aiparty.kr/og-main-v2.png" />
+	</Fragment>
+
+	<!-- 상단 바 -->
+	<header class="fixed top-0 left-0 right-0 z-50 h-[64px] bg-[#0e0e0d]/85 backdrop-blur-xl border-b border-white/10">
+		<div class="h-full max-w-3xl mx-auto px-6 flex items-center justify-between">
+			<a href="/" class="font-semibold text-[15px] text-white tracking-[0.18em]">ATLAS<span class="text-stone-500">2049</span></a>
+			<a href="/" class="text-[13px] text-stone-400 hover:text-white transition-colors tracking-[-0.14px]">AIP ↗</a>
+		</div>
+	</header>
+
+	<main class="pt-[64px]">
+
+		<!-- ───────── HERO ───────── -->
+		<section class="relative border-b border-white/10 overflow-hidden">
+			<div class="absolute inset-0 opacity-[0.06] pointer-events-none"
+				style="background-image:radial-gradient(circle at 1px 1px,#fff 1px,transparent 0);background-size:22px 22px;"></div>
+			<div class="relative max-w-3xl mx-auto px-6 pt-28 pb-24">
+				<p class="text-[12px] font-medium text-stone-500 tracking-[0.32em] uppercase mb-8">AI Party · Forum</p>
+				<h1 class="text-white font-semibold leading-[0.92] tracking-[-0.02em]
+					text-[64px] sm:text-[104px]">
+					ATLAS<br/><span class="text-stone-500">2049</span>
+				</h1>
+				<p class="mt-10 max-w-xl text-[16px] sm:text-[17px] text-stone-400 leading-8 tracking-[-0.16px]">
+					천구(天球)를 짊어진 티탄의 이름으로, 지금의 20대부터 40대가
+					2049년의 인간과 AI를 묻는다. 우리는 무엇을 짊어지고, 무엇을 해야 하는가.
+				</p>
+				<div class="mt-12 flex flex-wrap gap-3">
+					<a href="#meaning" class="inline-flex items-center h-10 px-5 text-sm font-medium text-stone-900 bg-white rounded-full hover:bg-stone-200 transition-colors tracking-[-0.14px]">시작하기 ↓</a>
+					<a href="#questions" class="inline-flex items-center h-10 px-5 text-sm font-medium text-stone-200 border border-stone-600 rounded-full hover:bg-white/10 transition-colors tracking-[-0.14px]">참가자 보기</a>
+				</div>
+			</div>
+		</section>
+
+		<!-- ───────── 목차 ───────── -->
+		<nav class="sticky top-[64px] z-40 bg-[#0e0e0d]/85 backdrop-blur-xl border-b border-white/10">
+			<div class="max-w-3xl mx-auto px-6 h-12 flex items-center gap-5 overflow-x-auto text-[13px] tracking-[-0.14px] whitespace-nowrap">
+				{toc.map((t) => (
+					<a href={`#${t.id}`} class="toc-link text-stone-500 hover:text-white transition-colors">{t.label}</a>
+				))}
+			</div>
+		</nav>
+
+		<!-- ───────── 의미 ───────── -->
+		<section id="meaning" class="border-b border-white/10 py-24">
+			<div class="max-w-3xl mx-auto px-6">
+				<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">01 — 의미</p>
+				<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-14">이름이 곧 선언이다</h2>
+
+				<div class="grid sm:grid-cols-2 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden">
+					<!-- ATLAS -->
+					<div class="bg-[#0e0e0d] p-8">
+						<p class="text-white font-semibold text-[20px] tracking-[0.06em] mb-6">ATLAS</p>
+						<ul class="space-y-5 text-[15px] text-stone-400 leading-7 tracking-[-0.14px]">
+							<li><span class="block text-stone-200 font-medium mb-0.5">천구를 짊어지는 티탄</span>하늘 전체의 무게를 어깨로 받친 자.</li>
+							<li><span class="block text-stone-200 font-medium mb-0.5">프로메테우스의 형제</span>인간에게 불을 건넨 자의 혈족.</li>
+							<li><span class="block text-stone-200 font-medium mb-0.5">지도, 그리고 생체 해부도</span>세계를 펼쳐 보이고 몸 안을 들여다보는 도해(圖解).</li>
+						</ul>
+					</div>
+					<!-- 2049 -->
+					<div class="bg-[#0e0e0d] p-8">
+						<p class="text-white font-semibold text-[20px] tracking-[0.06em] mb-6">2049</p>
+						<ul class="space-y-5 text-[15px] text-stone-400 leading-7 tracking-[-0.14px]">
+							<li><span class="block text-stone-200 font-medium mb-0.5">20살 ~ 49살</span>지금 사회를 짊어진, 그리고 짊어질 세대.</li>
+							<li><span class="block text-stone-200 font-medium mb-0.5">2049년</span>인간과 AI의 관계가 결정되는 한 세대 뒤의 지평.</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- ───────── 유비 / 경쟁 ───────── -->
+		{(["analogy", "competition"] as const).map((key, idx) => {
+			const meta = key === "analogy"
+				? { num: "02", ko: "유비", en: "Analogy", lead: "다른 층위를 같은 구조로 본다" }
+				: { num: "03", ko: "경쟁", en: "Competition", lead: "같은 자리를 두고 다투는 것들" };
+			return (
+				<section id={key} class="border-b border-white/10 py-24">
+					<div class="max-w-3xl mx-auto px-6">
+						<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">{meta.num} — {meta.ko}</p>
+						<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-14">{meta.lead}</h2>
+
+						<div class="grid sm:grid-cols-2 gap-6">
+							{triads[key].map((group) => (
+								<div class="border border-white/10 rounded-2xl p-7">
+									<p class="text-[13px] font-medium text-stone-500 tracking-[0.18em] uppercase mb-6">{group.head}</p>
+									<div class="relative pl-6">
+										<span class="absolute left-[3px] top-1 bottom-1 w-px bg-white/15"></span>
+										{group.levels.map((lv) => (
+											<div class="relative mb-6 last:mb-0">
+												<span class="absolute -left-6 top-[7px] w-2 h-2 rounded-full bg-stone-400"></span>
+												<p class="text-white font-medium text-[18px] tracking-[-0.2px]">{lv.term}</p>
+												{lv.note && <p class="text-[13px] text-stone-500 mt-0.5 tracking-[-0.14px]">{lv.note}</p>}
+											</div>
+										))}
+									</div>
+								</div>
+							))}
+						</div>
+					</div>
+				</section>
+			);
+		})}
+
+		<!-- ───────── 진화 ───────── -->
+		<section id="evolution" class="border-b border-white/10 py-24">
+			<div class="max-w-3xl mx-auto px-6">
+				<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">04 — 진화</p>
+				<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-14">지금은 어디에 와 있는가</h2>
+
+				<div class="grid sm:grid-cols-2 gap-6">
+					<div class="border border-white/10 rounded-2xl p-8 bg-white/[0.02]">
+						<p class="text-[12px] font-medium text-stone-500 tracking-[0.2em] uppercase mb-4">현재</p>
+						<p class="text-white font-semibold text-[26px] tracking-[-0.3px] mb-3">자율신경계</p>
+						<p class="text-[15px] text-stone-400 leading-7 tracking-[-0.14px]">의식하지 않아도 도시는 호흡하고, 시장은 박동한다. AI는 이미 그 무의식의 층위에서 작동하고 있다.</p>
+					</div>
+					<div class="border border-white/10 rounded-2xl p-8 bg-white">
+						<p class="text-[12px] font-medium text-stone-500 tracking-[0.2em] uppercase mb-4">최종</p>
+						<p class="text-stone-900 font-semibold text-[26px] tracking-[-0.3px] mb-3">리바이어던</p>
+						<p class="text-[15px] text-stone-600 leading-7 tracking-[-0.14px]">개체들을 하나의 거대한 몸으로 묶어내는 인공의 주권체. 우리가 만들 마지막 형상.</p>
+					</div>
+				</div>
+				<div class="mt-6 flex items-center gap-3 text-[13px] text-stone-500 tracking-[-0.14px]">
+					<span>자율신경계</span>
+					<span class="flex-1 h-px bg-white/15"></span>
+					<span class="text-stone-300">리바이어던</span>
+				</div>
+			</div>
+		</section>
+
+		<!-- ───────── AIP ───────── -->
+		<section id="aip" class="border-b border-white/10 py-24">
+			<div class="max-w-3xl mx-auto px-6">
+				<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">05 — AIP</p>
+				<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-4">우리는 어떻게 자라는가</h2>
+				<p class="text-[15px] text-stone-400 leading-7 tracking-[-0.14px] mb-14 max-w-xl">하나의 정당을 하나의 생명체로 본다. 태아가 장기를 형성하는 순서로 조직이 갖춰지고, 세포가 군집을 넓히듯 영토가 확장된다.</p>
+
+				<!-- 태아: 장기 형성 순서 -->
+				<p class="text-[13px] font-medium text-stone-500 tracking-[0.18em] uppercase mb-6">태아 · 형성의 순서</p>
+				<div class="grid grid-cols-2 sm:grid-cols-3 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden mb-16">
+					{fetus.map((f) => (
+						<div class="bg-[#0e0e0d] p-6">
+							<p class="text-[12px] text-stone-600 font-mono mb-3">{f.n}</p>
+							<p class="text-white font-medium text-[18px] tracking-[-0.2px]">{f.organ}</p>
+							{f.sub && <p class="text-[12px] text-stone-500 mt-1">{f.sub}</p>}
+						</div>
+					))}
+				</div>
+
+				<!-- 확장 -->
+				<p class="text-[13px] font-medium text-stone-500 tracking-[0.18em] uppercase mb-6">확장 · 규모의 단계</p>
+				<div class="flex flex-wrap items-center gap-2">
+					{expansion.map((e, i) => (
+						<>
+							<span class="inline-flex items-center h-10 px-5 border border-white/15 rounded-full text-[15px] text-stone-200 lowercase tracking-[0.04em]">{e}</span>
+							{i < expansion.length - 1 && <span class="text-stone-600">→</span>}
+						</>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- ───────── 정책 ───────── -->
+		<section id="policy" class="border-b border-white/10 py-24">
+			<div class="max-w-3xl mx-auto px-6">
+				<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">06 — 정책</p>
+				<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-14">여섯 개의 전장</h2>
+				<div class="grid grid-cols-2 sm:grid-cols-3 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden">
+					{policies.map((p, i) => (
+						<div class="bg-[#0e0e0d] p-8 flex items-baseline gap-4">
+							<span class="text-[12px] text-stone-600 font-mono">{String(i + 1).padStart(2, "0")}</span>
+							<span class="text-white font-medium text-[19px] tracking-[-0.2px]">{p}</span>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- ───────── 질문 + 참가자 ───────── -->
+		<section id="questions" class="py-24">
+			<div class="max-w-3xl mx-auto px-6">
+				<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">07 — 질문</p>
+				<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-14">세 개의 질문</h2>
+
+				<div class="space-y-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden mb-20">
+					{questions.map((q, i) => (
+						<div class="bg-[#0e0e0d] p-8 flex items-start gap-6">
+							<span class="text-stone-600 font-semibold text-[22px] tracking-[-0.3px] shrink-0">Q{i + 1}</span>
+							<p class="text-white font-medium text-[20px] sm:text-[23px] leading-[1.35] tracking-[-0.3px]">{q}</p>
+						</div>
+					))}
+				</div>
+
+				<p class="text-[13px] font-medium text-stone-500 tracking-[0.18em] uppercase mb-6">함께 묻는 사람들</p>
+				<div class="grid grid-cols-2 sm:grid-cols-3 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden">
+					{speakers.map((s) => (
+						<div class="bg-[#0e0e0d] p-7">
+							<p class="text-white font-semibold text-[19px] tracking-[-0.2px]">{s.name}</p>
+							<p class="text-[13px] text-stone-500 mt-1 tracking-[0.04em]">{s.org}</p>
+						</div>
+					))}
+				</div>
+
+				<div class="mt-16 flex flex-wrap gap-3">
+					<a href="/" class="inline-flex items-center h-11 px-6 text-sm font-medium text-stone-900 bg-white rounded-full hover:bg-stone-200 transition-colors tracking-[-0.14px]">AI Party 홈 →</a>
+					<a href="/declaration" class="inline-flex items-center h-11 px-6 text-sm font-medium text-stone-200 border border-stone-600 rounded-full hover:bg-white/10 transition-colors tracking-[-0.14px]">창당선언문 읽기</a>
+				</div>
+			</div>
+		</section>
+
+		<!-- ───────── 푸터 ───────── -->
+		<footer class="border-t border-white/10 py-12">
+			<div class="max-w-3xl mx-auto px-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+				<p class="text-[13px] text-stone-500 tracking-[0.18em]">ATLAS<span class="text-stone-700">2049</span></p>
+				<p class="text-[12px] text-stone-600 tracking-[-0.14px]">AI Party · aiparty.kr/atlas2049</p>
+			</div>
+		</footer>
+
+	</main>
+
+	<script>
+		// 목차 스크롤 스파이
+		const links = Array.from(document.querySelectorAll<HTMLAnchorElement>("nav .toc-link"));
+		const map = new Map(links.map((l) => [l.getAttribute("href")!.slice(1), l]));
+		const obs = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((e) => {
+					if (e.isIntersecting) {
+						links.forEach((l) => l.classList.remove("active"));
+						map.get(e.target.id)?.classList.add("active");
+					}
+				});
+			},
+			{ rootMargin: "-20% 0px -70% 0px" }
+		);
+		document.querySelectorAll("section[id]").forEach((s) => obs.observe(s));
+	</script>
+</Layout>
