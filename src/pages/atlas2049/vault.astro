@@ -213,12 +213,12 @@ const noteCount = vaultData.notes.length;
 		.node:hover .node-circle { fill:#78716c; }
 		.node.sel .node-circle { fill:#fafaf9; stroke:#fff; }
 		.node.neighbor .node-circle { fill:#8a8785; }
-		.node-label { fill:#8a8785; font-size:9px; letter-spacing:-0.2px; pointer-events:none; paint-order:stroke; stroke:#0e0e0d; stroke-width:2.5px; opacity:1; transition:opacity .12s; }
-		#nodes.labels-min .node-label { opacity:0; }
-		#nodes.labels-min .node.sel .node-label,
-		#nodes.labels-min .node.neighbor .node-label { opacity:1; }
-		.node:hover .node-label { opacity:1; fill:#e7e5e4; }
-		.node.sel .node-label { fill:#fff; font-weight:600; }
+		.node-label { fill:#e7e5e4; font-size:10.5px; letter-spacing:-0.2px; pointer-events:none; paint-order:stroke; stroke:#0e0e0d; stroke-width:3.5px; opacity:0; transition:opacity .12s; }
+		.node.hub .node-label { opacity:0.85; }
+		#nodes.labels-all .node-label { opacity:0.9; }
+		.node.neighbor .node-label { opacity:1; }
+		.node:hover .node-label { opacity:1; fill:#fff; }
+		.node.sel .node-label { opacity:1; fill:#fff; font-weight:600; }
 		.node.dim { opacity:0.12; }
 		.edge.dim { opacity:0.09; }
 		.node-hit { fill:transparent; cursor:pointer; }
@@ -355,11 +355,28 @@ const noteCount = vaultData.notes.length;
 				}
 				outMap.set(n.id, outs);
 			}
+			computeMass();
 		}
-		function radius(id: string) { return 3.5 + Math.min(9, (degree.get(id) || 0) * 0.9); }
+		// 질량 = 언급/연결 수(degree) + 관련 텍스트 길이. 무거운 개념일수록 크고 무겁다(항성).
+		let massMap = new Map<string, number>();
+		function computeMass() {
+			massMap = new Map();
+			for (const n of notes) {
+				const dg = degree.get(n.id) || 0;
+				const len = (n.content || "").length;
+				const m = 0.9 + Math.log2(1 + dg) * 0.9 + Math.log2(1 + len / 150) * 0.6;
+				massMap.set(n.id, m);
+			}
+		}
+		function mass(id: string) { return massMap.get(id) || 1; }
+		function radius(id: string) { return 2 + mass(id) * 1.25; }
+		// 질량 상위 노드 집합(개요에서 라벨 상시 표시)
+		function hubSet(topN = 26) {
+			return new Set([...massMap.entries()].sort((a, b) => b[1] - a[1]).slice(0, topN).map(e => e[0]));
+		}
 
-		// ── 물리 시뮬레이션 ──────────────────────────────
-		const pos = new Map<string, {x: number; y: number; vx: number; vy: number}>();
+		// ── 물리 시뮬레이션 (질량 기반 중력: 항성=무거운 개념 중심, 행성=가벼운 개념 주변) ──
+		const pos = new Map<string, {x: number; y: number; vx: number; vy: number; fx: number; fy: number}>();
 		let fixed: {id: string} | null = null;
 		let alpha = 0, running = false, W = 800, H = 600;
 
@@ -367,8 +384,8 @@ const noteCount = vaultData.notes.length;
 			const cx = W / 2, cy = H / 2;
 			notes.forEach((n, i) => {
 				if (reseed || !pos.has(n.id)) {
-					const ang = i * 2.399963, rad = 30 + Math.sqrt(i) * 26;
-					pos.set(n.id, { x: cx + Math.cos(ang) * rad, y: cy + Math.sin(ang) * rad, vx: 0, vy: 0 });
+					const ang = i * 2.399963, rad = 40 + Math.sqrt(i) * 34;
+					pos.set(n.id, { x: cx + Math.cos(ang) * rad, y: cy + Math.sin(ang) * rad, vx: 0, vy: 0, fx: 0, fy: 0 });
 				}
 			});
 			for (const id of [...pos.keys()]) if (!byId.has(id)) pos.delete(id);
@@ -381,45 +398,72 @@ const noteCount = vaultData.notes.length;
 		}
 		function settleStatic() {
 			let it = 0;
-			while (alpha > 0.02 && it < 200) { step(); it++; }
+			while (alpha > 0.02 && it < 240) { step(); it++; }
 			renderPositions();
 		}
+		// 첫 표시 전 미리 안정화(레이아웃이 튀지 않도록)
+		function prewarm(iter = 300) { alpha = 1; for (let i = 0; i < iter; i++) step(); }
 
 		function step() {
 			const arr = notes, n = arr.length;
-			const kRep = 5200, kSpring = 0.035, L = 78, kCenter = 0.014, damp = 0.86;
+			const kRep = 1500, kSpring = 0.02, kCenter = 0.02, damp = 0.85;
 			const cx = W / 2, cy = H / 2;
+			for (const nn of arr) { const p = pos.get(nn.id)!; p.fx = 0; p.fy = 0; }
+			// 반발: 질량 곱에 비례(무거운 개념일수록 넓은 공간 확보)
 			for (let i = 0; i < n; i++) {
-				const pi = pos.get(arr[i].id)!;
+				const a = arr[i], pi = pos.get(a.id)!, mi = mass(a.id);
 				for (let j = i + 1; j < n; j++) {
-					const pj = pos.get(arr[j].id)!;
+					const b = arr[j], pj = pos.get(b.id)!;
 					let dx = pi.x - pj.x, dy = pi.y - pj.y, d2 = dx * dx + dy * dy;
 					if (d2 < 0.01) { dx = (i - j) * 0.1 + 0.05; dy = 0.05; d2 = dx * dx + dy * dy; }
-					const dist = Math.sqrt(d2), f = (kRep / d2) * alpha;
+					const dist = Math.sqrt(d2), f = kRep * mi * mass(b.id) / d2;
 					const fx = (dx / dist) * f, fy = (dy / dist) * f;
-					pi.vx += fx; pi.vy += fy; pj.vx -= fx; pj.vy -= fy;
+					pi.fx += fx; pi.fy += fy; pj.fx -= fx; pj.fy -= fy;
 				}
 			}
+			// 링크 스프링: 목표 거리 = 두 노드 반경 합에 비례(뉴런 연결)
 			for (const e of edges) {
 				const pa = pos.get(e.a), pb = pos.get(e.b);
 				if (!pa || !pb) continue;
 				let dx = pb.x - pa.x, dy = pb.y - pa.y, dist = Math.sqrt(dx * dx + dy * dy) || 0.01;
-				const f = (dist - L) * kSpring * alpha, fx = (dx / dist) * f, fy = (dy / dist) * f;
-				pa.vx += fx; pa.vy += fy; pb.vx -= fx; pb.vy -= fy;
+				const L = 44 + (radius(e.a) + radius(e.b)) * 3.4;
+				const f = (dist - L) * kSpring;
+				const fx = (dx / dist) * f, fy = (dy / dist) * f;
+				pa.fx += fx; pa.fy += fy; pb.fx -= fx; pb.fy -= fy;
 			}
+			// 적분: 가속도 = 힘/질량(무거우면 관성 커 잘 안 움직임) + 질량비례 중심 인력(무거운 것이 중심으로)
 			for (const nn of arr) {
-				const p = pos.get(nn.id)!;
+				const p = pos.get(nn.id)!, m = mass(nn.id);
 				if (fixed && fixed.id === nn.id) { p.vx = 0; p.vy = 0; continue; }
-				p.vx += (cx - p.x) * kCenter * alpha; p.vy += (cy - p.y) * kCenter * alpha;
-				p.vx *= damp; p.vy *= damp;
-				p.x += Math.max(-40, Math.min(40, p.vx)); p.y += Math.max(-40, Math.min(40, p.vy));
+				const ax = p.fx / m + (cx - p.x) * kCenter * Math.sqrt(m);
+				const ay = p.fy / m + (cy - p.y) * kCenter * Math.sqrt(m);
+				p.vx = (p.vx + ax * alpha) * damp;
+				p.vy = (p.vy + ay * alpha) * damp;
+				p.x += Math.max(-45, Math.min(45, p.vx));
+				p.y += Math.max(-45, Math.min(45, p.vy));
 			}
-			alpha *= 0.985;
+			alpha *= 0.986;
 		}
 		function tick() {
 			if (document.hidden) { running = false; return; }
 			step(); renderPositions();
 			if (alpha > 0.006 || fixed) { requestAnimationFrame(tick); } else { running = false; }
+		}
+		// 전체 노드가 화면에 들어오도록 뷰포트 맞춤
+		function fitToContent(pad = 70) {
+			const r = svg.getBoundingClientRect(); W = r.width || 800; H = r.height || 600;
+			let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+			for (const nn of notes) {
+				const p = pos.get(nn.id); if (!p) continue;
+				const rr = radius(nn.id);
+				if (p.x - rr < minX) minX = p.x - rr; if (p.y - rr < minY) minY = p.y - rr;
+				if (p.x + rr > maxX) maxX = p.x + rr; if (p.y + rr > maxY) maxY = p.y + rr;
+			}
+			if (!isFinite(minX)) return;
+			const w = Math.max(1, maxX - minX), h = Math.max(1, maxY - minY);
+			scale = Math.max(0.35, Math.min(1.4, Math.min((W - pad * 2) / w, (H - pad * 2) / h)));
+			tx = (W - (minX + maxX) * scale) / 2; ty = (H - (minY + maxY) * scale) / 2;
+			applyViewport();
 		}
 
 		// ── 그래프 DOM ───────────────────────────────────
@@ -443,9 +487,10 @@ const noteCount = vaultData.notes.length;
 		function buildGraphDOM() {
 			makeEdges();
 			gNodes.textContent = ""; nodeEls = new Map();
+			const hubs = hubSet();
 			for (const n of notes) {
 				const g = document.createElementNS(NS, "g");
-				g.setAttribute("class", "node" + (n.visibility === "risk" ? " risk" : ""));
+				g.setAttribute("class", "node" + (n.visibility === "risk" ? " risk" : "") + (hubs.has(n.id) ? " hub" : ""));
 				const rr = radius(n.id);
 				const hit = document.createElementNS(NS, "circle");
 				hit.setAttribute("class", "node-hit"); hit.setAttribute("r", String(rr + 6));
@@ -463,9 +508,10 @@ const noteCount = vaultData.notes.length;
 		}
 		// 노드 집합 불변 시: 엣지만 재생성 + 노드 비주얼만 갱신(위치·리스너 유지)
 		function updateNodeVisuals() {
+			const hubs = hubSet();
 			for (const n of notes) {
 				const g = nodeEls.get(n.id); if (!g) continue;
-				g.setAttribute("class", "node" + (n.visibility === "risk" ? " risk" : ""));
+				g.setAttribute("class", "node" + (n.visibility === "risk" ? " risk" : "") + (hubs.has(n.id) ? " hub" : ""));
 				const rr = radius(n.id);
 				(g.querySelector(".node-circle") as Element).setAttribute("r", String(rr));
 				(g.querySelector(".node-hit") as Element).setAttribute("r", String(rr + 6));
@@ -487,7 +533,7 @@ const noteCount = vaultData.notes.length;
 		}
 		function applyViewport() {
 			gViewport.setAttribute("transform", `translate(${tx},${ty}) scale(${scale})`);
-			gNodes.classList.toggle("labels-min", scale < 0.8);
+			gNodes.classList.toggle("labels-all", scale >= 1.15);
 		}
 
 		function applyMode() {
@@ -785,7 +831,7 @@ const noteCount = vaultData.notes.length;
 			if (wired) return; wired = true;
 			document.getElementById("btn-global")!.addEventListener("click", () => setMode("global"));
 			document.getElementById("btn-local")!.addEventListener("click", () => setMode("local"));
-			document.getElementById("btn-relayout")!.addEventListener("click", () => { ensurePositions(true); fitView(); kick(1); });
+			document.getElementById("btn-relayout")!.addEventListener("click", () => { ensurePositions(true); prewarm(); renderPositions(); fitToContent(); kick(0.15); });
 			document.getElementById("btn-preview")!.addEventListener("click", () => { panelMode = "preview"; renderPanel(); });
 			document.getElementById("btn-edit")!.addEventListener("click", () => { panelMode = "edit"; renderPanel(); });
 			document.getElementById("btn-save")!.addEventListener("click", () => {
@@ -815,7 +861,7 @@ const noteCount = vaultData.notes.length;
 						const arr = sanitizeNotes(Array.isArray(data) ? data : data.notes);
 						if (!arr.length) throw new Error("empty");
 						notes = arr; selectedId = null; panelMode = "preview"; pos.clear();
-						rebuild(); ensurePositions(true); renderList(); buildGraphDOM(); fitView(); renderPanel(); save(); kick(1);
+						rebuild(); ensurePositions(true); prewarm(); renderList(); buildGraphDOM(); fitToContent(); renderPanel(); save(); kick(0.15);
 					} catch (e) { alert("가져오기 실패: 올바른 Vault JSON이 아닙니다."); }
 					fileEl.value = "";
 				};
@@ -825,8 +871,8 @@ const noteCount = vaultData.notes.length;
 				if (!confirm("편집 내용을 지우고 기본 Vault로 되돌립니다. 계속할까요?")) return;
 				try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
 				notes = seed(); selectedId = null; panelMode = "preview"; pos.clear();
-				rebuild(); ensurePositions(true); renderList(); buildGraphDOM(); fitView(); renderPanel();
-				if (byId.has("AIP")) selectNote("AIP"); kick(1);
+				rebuild(); ensurePositions(true); prewarm(); renderList(); buildGraphDOM(); fitToContent(); renderPanel();
+				if (byId.has("AIP")) selectNote("AIP"); kick(0.15);
 			});
 
 			document.getElementById("btn-m-list")!.addEventListener("click", openListPane);
@@ -842,18 +888,19 @@ const noteCount = vaultData.notes.length;
 			rebuild();
 			const r = svg.getBoundingClientRect(); W = r.width || 800; H = r.height || 600;
 			ensurePositions(reseedPos);
-			setMode("global"); renderList(); buildGraphDOM(); applyViewport(); wire();
+			prewarm();                                  // 첫 표시 전 안정화
+			setMode("global"); renderList(); buildGraphDOM(); fitToContent(); wire();
 		}
 		function boot() {
 			try { load(); } catch (e) { notes = seed(); }
 			try {
 				renderAll(false);
 				if (byId.has("AIP")) selectNote("AIP");
-				kick(1);
+				kick(0.12);
 			} catch (e) {
 				try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
 				notes = seed();
-				try { renderAll(true); kick(1); } catch (_) { /* 최후 방어 */ }
+				try { renderAll(true); kick(0.12); } catch (_) { /* 최후 방어 */ }
 			}
 		}
 		boot();
