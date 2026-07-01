@@ -1,0 +1,861 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import vaultData from "../../data/atlas2049-vault.json";
+
+const noteCount = vaultData.notes.length;
+---
+
+<Layout title="ATLAS 2049 · Vault | AI Party" bodyClass="bg-[#0e0e0d] text-stone-200 antialiased overflow-hidden h-screen">
+	<Fragment slot="head">
+		<meta name="description" content="ATLAS 2049 Vault — 최동인의 역사관·인간론·국가론·AI론에서 AIP 창당·전략·긴장까지를 Obsidian식 노트 네트워크(위키링크 그래프)로 탐색한다." />
+		<link rel="canonical" href="https://aiparty.kr/atlas2049/vault" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://aiparty.kr/atlas2049/vault" />
+		<meta property="og:title" content="ATLAS 2049 · Vault" />
+		<meta property="og:description" content="세포·미토콘드리아·리바이어던 — 세계관을 트리가 아니라 링크 네트워크로. 164개 노트의 그래프 뷰." />
+		<meta property="og:image" content="https://aiparty.kr/og-main-v2.png" />
+		<meta property="og:site_name" content="AIP · AI Party" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="ATLAS 2049 · Vault" />
+		<meta name="twitter:image" content="https://aiparty.kr/og-main-v2.png" />
+	</Fragment>
+
+	<!-- seed 데이터: 클라이언트로 전달 -->
+	<script type="application/json" id="atlas-vault-seed" set:html={JSON.stringify(vaultData.notes)}></script>
+
+	<div class="flex flex-col h-screen">
+		<!-- 상단 헤더 -->
+		<header class="shrink-0 h-[56px] bg-[#0e0e0d] border-b border-white/10 flex items-center justify-between px-4 sm:px-6">
+			<div class="flex items-baseline gap-2">
+				<a href="/" class="font-semibold text-[14px] text-white tracking-[0.16em]">ATLAS<span class="text-stone-500">2049</span></a>
+				<span class="text-stone-600 text-[13px]">/</span>
+				<span class="text-[13px] text-stone-400 tracking-[0.02em]">Vault</span>
+			</div>
+			<div class="flex items-center gap-4 text-[12.5px]">
+				<a href="/atlas2049" class="text-stone-400 hover:text-white transition-colors tracking-[-0.14px]">← 소개</a>
+				<a href="/" class="text-stone-400 hover:text-white transition-colors tracking-[-0.14px]">AIP ↗</a>
+			</div>
+		</header>
+
+		<!-- 툴바 -->
+		<div class="shrink-0 h-[46px] bg-[#0e0e0d] border-b border-white/10 flex items-center gap-2 px-3 sm:px-4 overflow-x-auto">
+			<div class="flex items-center rounded-full border border-white/15 overflow-hidden shrink-0">
+				<button id="btn-global" class="mode-btn px-3 h-7 text-[12px] tracking-[-0.1px]">Global</button>
+				<button id="btn-local" class="mode-btn px-3 h-7 text-[12px] tracking-[-0.1px] border-l border-white/15">Local</button>
+			</div>
+			<button id="btn-relayout" class="tool-btn">↻ 레이아웃</button>
+			<button id="btn-export" class="tool-btn">↧ Export</button>
+			<button id="btn-import" class="tool-btn">↥ Import</button>
+			<button id="btn-reset" class="tool-btn">⟲ 초기화</button>
+			<input id="file-import" type="file" accept="application/json" class="hidden" />
+			<div class="flex-1 min-w-[8px]"></div>
+			<span id="node-count" class="text-[11.5px] text-stone-500 shrink-0 tabular-nums pr-1">{noteCount} notes</span>
+			<!-- 모바일 패널 토글 -->
+			<button id="btn-m-list" class="tool-btn sm:hidden">목록</button>
+			<button id="btn-m-note" class="tool-btn sm:hidden">노트</button>
+		</div>
+
+		<!-- 본문 3분할 -->
+		<div class="flex-1 flex min-h-0 relative">
+			<!-- 모바일 오버레이 배경 -->
+			<div id="scrim" class="hidden absolute inset-0 z-20 bg-black/50 sm:!hidden"></div>
+
+			<!-- 좌: Vault 리스트 -->
+			<aside id="pane-list" class="w-[248px] shrink-0 border-r border-white/10 flex flex-col min-h-0 bg-[#0f0f0e]">
+				<div class="p-3 border-b border-white/10">
+					<input id="search" type="text" placeholder="노트 검색…"
+						class="w-full h-8 px-3 bg-white/[0.04] border border-white/10 rounded-md text-[13px] text-stone-200 placeholder:text-stone-500 focus:outline-none focus:border-white/25" />
+				</div>
+				<div id="note-list" class="flex-1 overflow-y-auto px-1.5 py-2 space-y-0.5"></div>
+			</aside>
+
+			<!-- 가운데: 그래프 -->
+			<main class="flex-1 min-w-0 relative bg-[#0e0e0d]">
+				<svg id="graph" class="w-full h-full block touch-none select-none">
+					<g id="viewport">
+						<g id="edges"></g>
+						<g id="nodes"></g>
+					</g>
+				</svg>
+				<div id="graph-hint" class="absolute bottom-3 left-3 text-[11px] text-stone-500 pointer-events-none tracking-[-0.1px]">
+					드래그 이동 · 휠/핀치 확대 · 노드 클릭 선택
+				</div>
+				<div id="local-hint" class="absolute top-3 left-3 hidden text-[11px] text-stone-400 border border-white/15 rounded-full px-3 h-6 items-center bg-[#0e0e0d]/80 tracking-[-0.1px]">
+					Local — 선택 노트 + 1-hop
+				</div>
+			</main>
+
+			<!-- 우: 노트 패널 -->
+			<aside id="pane-note" class="w-[320px] shrink-0 border-l border-white/10 flex flex-col min-h-0 bg-[#0f0f0e]">
+				<div id="panel-empty" class="flex-1 flex items-center justify-center px-8 text-center">
+					<p class="text-[13px] text-stone-500 leading-6">노트를 선택하면<br/>본문·아웃링크·백링크가<br/>여기 표시됩니다.</p>
+				</div>
+				<div id="panel-body" class="hidden flex-1 flex flex-col min-h-0">
+					<!-- 헤더 -->
+					<div class="p-4 border-b border-white/10">
+						<div class="flex items-start justify-between gap-2">
+							<h2 id="n-title" class="text-[17px] font-semibold text-white leading-snug tracking-[-0.2px]"></h2>
+							<button id="btn-delete" title="노트 삭제" class="shrink-0 text-stone-500 hover:text-white transition-colors text-[15px] leading-none mt-0.5">✕</button>
+						</div>
+						<div class="mt-2 flex flex-wrap items-center gap-1.5">
+							<span id="n-group" class="badge"></span>
+							<span id="n-vis" class="badge"></span>
+							<span id="n-tags" class="flex flex-wrap gap-1.5"></span>
+						</div>
+						<div class="mt-3 flex items-center gap-1 text-[12px]">
+							<button id="btn-preview" class="seg-btn">Preview</button>
+							<button id="btn-edit" class="seg-btn">Edit</button>
+							<div class="flex-1"></div>
+							<button id="btn-create-missing" class="tool-btn !h-6 !text-[11px]">없는 링크 생성</button>
+						</div>
+					</div>
+					<!-- 본문 -->
+					<div class="flex-1 overflow-y-auto min-h-0">
+						<div id="n-preview" class="prose-note px-4 py-4"></div>
+						<div id="n-edit" class="hidden h-full flex flex-col p-3">
+							<textarea id="n-textarea" class="flex-1 w-full resize-none bg-white/[0.03] border border-white/10 rounded-md p-3 text-[13px] leading-6 text-stone-200 focus:outline-none focus:border-white/25 font-mono"></textarea>
+							<div class="mt-2 flex gap-2">
+								<button id="btn-save" class="tool-btn !bg-white !text-stone-900 !border-white">저장</button>
+								<button id="btn-cancel" class="tool-btn">취소</button>
+							</div>
+						</div>
+					</div>
+					<!-- 링크 -->
+					<div class="shrink-0 border-t border-white/10 max-h-[38%] overflow-y-auto">
+						<div class="px-4 pt-3 pb-2">
+							<p class="link-head">Outlinks <span id="out-count" class="text-stone-500"></span></p>
+							<div id="n-out" class="mt-1.5 space-y-0.5"></div>
+						</div>
+						<div class="px-4 pt-2 pb-3">
+							<p class="link-head">Backlinks <span id="in-count" class="text-stone-500"></span></p>
+							<div id="n-in" class="mt-1.5 space-y-0.5"></div>
+						</div>
+					</div>
+				</div>
+			</aside>
+		</div>
+	</div>
+
+	<style is:global>
+		/* 툴바/버튼 (무채색) */
+		.tool-btn {
+			height: 1.75rem; padding: 0 0.6rem; font-size: 12px; letter-spacing: -0.1px;
+			color: #d6d3d1; border: 1px solid rgba(255,255,255,0.14); border-radius: 9999px;
+			background: transparent; white-space: nowrap; transition: background .15s, color .15s;
+		}
+		.tool-btn:hover { background: rgba(255,255,255,0.08); color:#fff; }
+		.tool-btn:disabled { opacity:0.4; cursor:default; }
+		.tool-btn:disabled:hover { background:transparent; color:#d6d3d1; }
+		.mode-btn { color:#a8a29e; background:transparent; transition:background .15s,color .15s; }
+		.mode-btn:hover { color:#fff; }
+		.mode-btn.active { background:#fafaf9; color:#0e0e0d; font-weight:600; }
+		.seg-btn {
+			height:1.6rem; padding:0 0.7rem; border-radius:6px; color:#a8a29e;
+			border:1px solid transparent; transition:all .15s;
+		}
+		.seg-btn:hover { color:#fff; }
+		.seg-btn.active { color:#fafaf9; border-color:rgba(255,255,255,0.2); background:rgba(255,255,255,0.05); }
+
+		/* 배지 */
+		.badge {
+			display:inline-flex; align-items:center; height:18px; padding:0 7px; border-radius:4px;
+			font-size:10.5px; letter-spacing:0.02em; color:#a8a29e; border:1px solid rgba(255,255,255,0.14);
+		}
+		.badge.vis-public { color:#e7e5e4; border-color:rgba(255,255,255,0.28); }
+		.badge.vis-inner  { color:#a8a29e; border-color:rgba(255,255,255,0.16); }
+		.badge.vis-risk   { color:#d6d3d1; border-color:rgba(255,255,255,0.22); border-style:dashed; }
+		.tag { display:inline-flex; align-items:center; height:18px; padding:0 6px; font-size:10.5px; color:#78716c; }
+		.tag::before { content:"#"; color:#57534e; margin-right:1px; }
+
+		.link-head { font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:#78716c; }
+
+		/* 리스트 아이템 */
+		.nl-group { font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:#57534e; padding:10px 10px 4px; }
+		.nl-item {
+			display:flex; align-items:center; gap:7px; width:100%; text-align:left;
+			padding:5px 10px; border-radius:6px; font-size:13px; color:#d6d3d1;
+			cursor:pointer; transition:background .12s, color .12s; line-height:1.3;
+		}
+		.nl-item:hover { background:rgba(255,255,255,0.05); color:#fff; }
+		.nl-item.sel { background:rgba(255,255,255,0.1); color:#fff; }
+		.nl-dot { width:5px; height:5px; border-radius:9999px; background:#57534e; flex:none; }
+		.nl-item.risk .nl-dot { background:transparent; border:1px dashed #78716c; width:6px; height:6px; }
+
+		/* 본문 프리뷰 */
+		.prose-note { font-size:14px; line-height:1.72; color:#c4c0bd; letter-spacing:-0.1px; }
+		.prose-note p { margin:0 0 0.85em; }
+		.prose-note strong { color:#f5f5f4; font-weight:600; }
+		.prose-note blockquote {
+			margin:0.6em 0; padding:0.4em 0.9em; border-left:2px solid rgba(255,255,255,0.2);
+			color:#e7e5e4; font-style:normal;
+		}
+		.prose-note ul { margin:0 0 0.85em; padding-left:1.1em; list-style:disc; }
+		.prose-note li { margin:0.15em 0; }
+		.prose-note a.lk { color:#fafaf9; text-decoration:underline; text-decoration-color:rgba(255,255,255,0.35); text-underline-offset:2px; cursor:pointer; }
+		.prose-note a.lk:hover { text-decoration-color:#fff; }
+		.prose-note a.lk.missing { color:#a8a29e; text-decoration-style:dashed; text-decoration-color:rgba(255,255,255,0.25); opacity:0.8; }
+
+		/* 링크 리스트 항목 */
+		.lk-item { display:flex; align-items:center; gap:7px; padding:3px 6px; border-radius:5px; font-size:12.5px; color:#d6d3d1; cursor:pointer; line-height:1.3; }
+		.lk-item:hover { background:rgba(255,255,255,0.06); color:#fff; }
+		.lk-item .lk-arrow { color:#57534e; font-size:11px; flex:none; }
+		.lk-item.missing { color:#8a8785; }
+		.lk-item.missing .lk-label { text-decoration:underline dashed rgba(255,255,255,0.25); text-underline-offset:2px; }
+		.empty-note { font-size:12px; color:#78716c; padding:2px 6px; }
+
+		/* 그래프 SVG */
+		#graph { cursor:grab; }
+		#graph.panning { cursor:grabbing; }
+		.edge { stroke:rgba(255,255,255,0.13); stroke-width:1; }
+		.edge.hl { stroke:rgba(255,255,255,0.5); stroke-width:1.4; }
+		.node-circle { fill:#3f3c3a; stroke:#0e0e0d; stroke-width:1.5; transition:fill .12s; }
+		.node.risk .node-circle { stroke:#8a8785; stroke-dasharray:2 2; }
+		.node:hover .node-circle { fill:#78716c; }
+		.node.sel .node-circle { fill:#fafaf9; stroke:#fff; }
+		.node.neighbor .node-circle { fill:#8a8785; }
+		.node-label { fill:#8a8785; font-size:9px; letter-spacing:-0.2px; pointer-events:none; paint-order:stroke; stroke:#0e0e0d; stroke-width:2.5px; opacity:1; transition:opacity .12s; }
+		#nodes.labels-min .node-label { opacity:0; }
+		#nodes.labels-min .node.sel .node-label,
+		#nodes.labels-min .node.neighbor .node-label { opacity:1; }
+		.node:hover .node-label { opacity:1; fill:#e7e5e4; }
+		.node.sel .node-label { fill:#fff; font-weight:600; }
+		.node.dim { opacity:0.12; }
+		.edge.dim { opacity:0.09; }
+		.node-hit { fill:transparent; cursor:pointer; }
+
+		#note-list::-webkit-scrollbar, .overflow-y-auto::-webkit-scrollbar { width:8px; }
+		#note-list::-webkit-scrollbar-thumb, .overflow-y-auto::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.1); border-radius:8px; }
+
+		/* 모바일: 사이드 패널을 오버레이로 */
+		@media (max-width: 640px) {
+			#pane-list, #pane-note {
+				position:absolute; top:0; bottom:0; z-index:30; width:82%; max-width:340px;
+				transition:transform .2s ease; box-shadow:0 0 40px rgba(0,0,0,0.6);
+			}
+			#pane-list { left:0; transform:translateX(-102%); }
+			#pane-note { right:0; transform:translateX(102%); }
+			#pane-list.open { transform:translateX(0); }
+			#pane-note.open { transform:translateX(0); }
+		}
+	</style>
+
+	<script>
+		type Note = {
+			id: string; title: string; aliases: string[]; group: string;
+			visibility: "public" | "inner" | "risk"; tags: string[]; content: string;
+			x?: number; y?: number; vx?: number; vy?: number;
+		};
+
+		const STORAGE_KEY = "atlas2049-vault-v1";
+		const GROUP_ORDER = ["메타","서사","역사관","인간론","국가론","AI론","실행","정책","질문","긴장","참조","미분류"];
+		const REDUCED = typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+		// ── 상태 ─────────────────────────────────────────
+		let notes: Note[] = [];
+		let selectedId: string | null = null;
+		let mode: "global" | "local" = "global";
+		let panelMode: "preview" | "edit" = "preview";
+		let wired = false;
+		let lastNodeSig = "";
+
+		// 파생 인덱스
+		let byId = new Map<string, Note>();
+		let resolveMap = new Map<string, string>();
+		let outMap = new Map<string, {target: string; id: string | null}[]>();
+		let inMap = new Map<string, string[]>();
+		let edges: {a: string; b: string}[] = [];
+		let degree = new Map<string, number>();
+
+		const linkRe = /\[\[([^\]]+)\]\]/g;
+
+		// ── 데이터 정규화(방어) ──────────────────────────
+		function sanitizeNotes(arr: any): Note[] {
+			const seen = new Set<string>();
+			const out: Note[] = [];
+			for (const n of (Array.isArray(arr) ? arr : [])) {
+				if (!n || typeof n !== "object") continue;
+				let id = (n.id != null ? String(n.id) : (n.title != null ? String(n.title) : "")).trim();
+				if (!id || seen.has(id)) continue;
+				seen.add(id);
+				const vis = (n.visibility === "public" || n.visibility === "inner" || n.visibility === "risk") ? n.visibility : "inner";
+				out.push({
+					id,
+					title: (n.title != null ? String(n.title) : id).trim() || id,
+					aliases: Array.isArray(n.aliases) ? n.aliases.filter((x: any) => typeof x === "string") : [],
+					group: (typeof n.group === "string" && n.group) ? n.group : "미분류",
+					visibility: vis,
+					tags: Array.isArray(n.tags) ? n.tags.filter((x: any) => typeof x === "string") : [],
+					content: typeof n.content === "string" ? n.content : "",
+				});
+			}
+			return out;
+		}
+
+		function seed(): Note[] {
+			const el = document.getElementById("atlas-vault-seed");
+			try { return sanitizeNotes(JSON.parse(el!.textContent || "[]")); } catch (e) { return []; }
+		}
+		function load() {
+			try {
+				const raw = localStorage.getItem(STORAGE_KEY);
+				if (raw) {
+					const parsed = sanitizeNotes(JSON.parse(raw));
+					if (parsed.length) { notes = parsed; return; }
+				}
+			} catch (e) { /* 손상 시 seed */ }
+			notes = seed();
+		}
+		function save() {
+			try { localStorage.setItem(STORAGE_KEY, JSON.stringify(notes.map(n => ({
+				id:n.id, title:n.title, aliases:n.aliases, group:n.group, visibility:n.visibility, tags:n.tags, content:n.content
+			})))); } catch (e) { console.warn("Vault 저장 실패(용량 초과/프라이빗 모드 등):", e); }
+		}
+
+		function norm(s: string) { return (s || "").trim().toLowerCase(); }
+		function searchVal() { return (document.getElementById("search") as HTMLInputElement).value; }
+		function nodeSig() { return notes.map(n => n.id).slice().sort().join("\u0001"); }
+
+		// ── 인덱스/그래프 재계산 ─────────────────────────
+		function rebuild() {
+			byId = new Map(); resolveMap = new Map();
+			// 1차: id·title 은 항상 등록(우선순위 높음)
+			for (const n of notes) {
+				byId.set(n.id, n);
+				resolveMap.set(norm(n.id), n.id);
+				resolveMap.set(norm(n.title), n.id);
+			}
+			// 2차: alias 는 id/title 로 이미 잡힌 키가 없을 때만(alias가 실제 노트를 덮어쓰지 않도록)
+			for (const n of notes) {
+				for (const a of (n.aliases || [])) { const k = norm(a); if (!resolveMap.has(k)) resolveMap.set(k, n.id); }
+			}
+			outMap = new Map(); inMap = new Map(); degree = new Map();
+			const edgeSet = new Set<string>(); edges = [];
+			for (const n of notes) {
+				const outs: {target: string; id: string | null}[] = [];
+				const seen = new Set<string>();
+				let m; linkRe.lastIndex = 0;
+				while ((m = linkRe.exec(n.content || "")) !== null) {
+					const target = m[1].split("|")[0].trim();
+					if (!target || seen.has(norm(target))) continue;
+					seen.add(norm(target));
+					const rid = resolveMap.get(norm(target)) || null;
+					if (rid === n.id) continue;
+					outs.push({ target, id: rid });
+					if (rid) {
+						if (!inMap.has(rid)) inMap.set(rid, []);
+						const arr = inMap.get(rid)!;
+						if (!arr.includes(n.id)) arr.push(n.id);
+						const key = n.id < rid ? n.id + "\u0000" + rid : rid + "\u0000" + n.id;
+						if (!edgeSet.has(key)) {
+							edgeSet.add(key); edges.push({ a: n.id, b: rid });
+							degree.set(n.id, (degree.get(n.id) || 0) + 1);
+							degree.set(rid, (degree.get(rid) || 0) + 1);
+						}
+					}
+				}
+				outMap.set(n.id, outs);
+			}
+		}
+		function radius(id: string) { return 3.5 + Math.min(9, (degree.get(id) || 0) * 0.9); }
+
+		// ── 물리 시뮬레이션 ──────────────────────────────
+		const pos = new Map<string, {x: number; y: number; vx: number; vy: number}>();
+		let fixed: {id: string} | null = null;
+		let alpha = 0, running = false, W = 800, H = 600;
+
+		function ensurePositions(reseed = false) {
+			const cx = W / 2, cy = H / 2;
+			notes.forEach((n, i) => {
+				if (reseed || !pos.has(n.id)) {
+					const ang = i * 2.399963, rad = 30 + Math.sqrt(i) * 26;
+					pos.set(n.id, { x: cx + Math.cos(ang) * rad, y: cy + Math.sin(ang) * rad, vx: 0, vy: 0 });
+				}
+			});
+			for (const id of [...pos.keys()]) if (!byId.has(id)) pos.delete(id);
+		}
+
+		function kick(a = 1) {
+			alpha = Math.max(alpha, a);
+			if (REDUCED) { settleStatic(); return; }
+			if (!running) { running = true; requestAnimationFrame(tick); }
+		}
+		function settleStatic() {
+			let it = 0;
+			while (alpha > 0.02 && it < 200) { step(); it++; }
+			renderPositions();
+		}
+
+		function step() {
+			const arr = notes, n = arr.length;
+			const kRep = 5200, kSpring = 0.035, L = 78, kCenter = 0.014, damp = 0.86;
+			const cx = W / 2, cy = H / 2;
+			for (let i = 0; i < n; i++) {
+				const pi = pos.get(arr[i].id)!;
+				for (let j = i + 1; j < n; j++) {
+					const pj = pos.get(arr[j].id)!;
+					let dx = pi.x - pj.x, dy = pi.y - pj.y, d2 = dx * dx + dy * dy;
+					if (d2 < 0.01) { dx = (i - j) * 0.1 + 0.05; dy = 0.05; d2 = dx * dx + dy * dy; }
+					const dist = Math.sqrt(d2), f = (kRep / d2) * alpha;
+					const fx = (dx / dist) * f, fy = (dy / dist) * f;
+					pi.vx += fx; pi.vy += fy; pj.vx -= fx; pj.vy -= fy;
+				}
+			}
+			for (const e of edges) {
+				const pa = pos.get(e.a), pb = pos.get(e.b);
+				if (!pa || !pb) continue;
+				let dx = pb.x - pa.x, dy = pb.y - pa.y, dist = Math.sqrt(dx * dx + dy * dy) || 0.01;
+				const f = (dist - L) * kSpring * alpha, fx = (dx / dist) * f, fy = (dy / dist) * f;
+				pa.vx += fx; pa.vy += fy; pb.vx -= fx; pb.vy -= fy;
+			}
+			for (const nn of arr) {
+				const p = pos.get(nn.id)!;
+				if (fixed && fixed.id === nn.id) { p.vx = 0; p.vy = 0; continue; }
+				p.vx += (cx - p.x) * kCenter * alpha; p.vy += (cy - p.y) * kCenter * alpha;
+				p.vx *= damp; p.vy *= damp;
+				p.x += Math.max(-40, Math.min(40, p.vx)); p.y += Math.max(-40, Math.min(40, p.vy));
+			}
+			alpha *= 0.985;
+		}
+		function tick() {
+			if (document.hidden) { running = false; return; }
+			step(); renderPositions();
+			if (alpha > 0.006 || fixed) { requestAnimationFrame(tick); } else { running = false; }
+		}
+
+		// ── 그래프 DOM ───────────────────────────────────
+		const svg = document.getElementById("graph") as unknown as SVGSVGElement;
+		const gViewport = document.getElementById("viewport") as unknown as SVGGElement;
+		const gEdges = document.getElementById("edges") as unknown as SVGGElement;
+		const gNodes = document.getElementById("nodes") as unknown as SVGGElement;
+		const NS = "http://www.w3.org/2000/svg";
+		let edgeEls = new Map<string, SVGLineElement>();
+		let nodeEls = new Map<string, SVGGElement>();
+		let tx = 0, ty = 0, scale = 1;
+
+		function makeEdges() {
+			gEdges.textContent = ""; edgeEls = new Map();
+			for (const e of edges) {
+				const line = document.createElementNS(NS, "line");
+				line.setAttribute("class", "edge"); (line as any)._e = e;
+				gEdges.appendChild(line); edgeEls.set(e.a + "\u0000" + e.b, line);
+			}
+		}
+		function buildGraphDOM() {
+			makeEdges();
+			gNodes.textContent = ""; nodeEls = new Map();
+			for (const n of notes) {
+				const g = document.createElementNS(NS, "g");
+				g.setAttribute("class", "node" + (n.visibility === "risk" ? " risk" : ""));
+				const rr = radius(n.id);
+				const hit = document.createElementNS(NS, "circle");
+				hit.setAttribute("class", "node-hit"); hit.setAttribute("r", String(rr + 6));
+				const c = document.createElementNS(NS, "circle");
+				c.setAttribute("class", "node-circle"); c.setAttribute("r", String(rr));
+				const label = document.createElementNS(NS, "text");
+				label.setAttribute("class", "node-label"); label.setAttribute("x", String(rr + 3)); label.setAttribute("y", "3");
+				label.textContent = n.title.length > 16 ? n.title.slice(0, 15) + "…" : n.title;
+				g.appendChild(hit); g.appendChild(c); g.appendChild(label);
+				attachNodeDrag(g, n.id);
+				gNodes.appendChild(g); nodeEls.set(n.id, g);
+			}
+			lastNodeSig = nodeSig();
+			applyMode(); renderPositions();
+		}
+		// 노드 집합 불변 시: 엣지만 재생성 + 노드 비주얼만 갱신(위치·리스너 유지)
+		function updateNodeVisuals() {
+			for (const n of notes) {
+				const g = nodeEls.get(n.id); if (!g) continue;
+				g.setAttribute("class", "node" + (n.visibility === "risk" ? " risk" : ""));
+				const rr = radius(n.id);
+				(g.querySelector(".node-circle") as Element).setAttribute("r", String(rr));
+				(g.querySelector(".node-hit") as Element).setAttribute("r", String(rr + 6));
+				const label = g.querySelector(".node-label") as Element;
+				label.setAttribute("x", String(rr + 3));
+				label.textContent = n.title.length > 16 ? n.title.slice(0, 15) + "…" : n.title;
+			}
+			applyMode();
+		}
+
+		function renderPositions() {
+			for (const [, line] of edgeEls) {
+				const e = (line as any)._e, pa = pos.get(e.a), pb = pos.get(e.b);
+				if (!pa || !pb) continue;
+				line.setAttribute("x1", String(pa.x)); line.setAttribute("y1", String(pa.y));
+				line.setAttribute("x2", String(pb.x)); line.setAttribute("y2", String(pb.y));
+			}
+			for (const [id, g] of nodeEls) { const p = pos.get(id); if (p) g.setAttribute("transform", `translate(${p.x},${p.y})`); }
+		}
+		function applyViewport() {
+			gViewport.setAttribute("transform", `translate(${tx},${ty}) scale(${scale})`);
+			gNodes.classList.toggle("labels-min", scale < 0.8);
+		}
+
+		function applyMode() {
+			const localHint = document.getElementById("local-hint")!;
+			if (mode === "local" && selectedId) {
+				localHint.style.display = "flex";
+				const visible = new Set<string>([selectedId]);
+				for (const e of edges) { if (e.a === selectedId) visible.add(e.b); if (e.b === selectedId) visible.add(e.a); }
+				for (const [id, g] of nodeEls) g.classList.toggle("dim", !visible.has(id));
+				for (const [, line] of edgeEls) { const e = (line as any)._e; line.classList.toggle("dim", !(visible.has(e.a) && visible.has(e.b))); }
+			} else {
+				localHint.style.display = "none";
+				for (const [, g] of nodeEls) g.classList.remove("dim");
+				for (const [, line] of edgeEls) line.classList.remove("dim");
+			}
+			applyHighlight();
+		}
+		function applyHighlight() {
+			const nb = new Set<string>();
+			if (selectedId) for (const e of edges) { if (e.a === selectedId) nb.add(e.b); if (e.b === selectedId) nb.add(e.a); }
+			for (const [id, g] of nodeEls) {
+				g.classList.toggle("sel", id === selectedId);
+				g.classList.toggle("neighbor", nb.has(id) && id !== selectedId);
+			}
+			for (const [, line] of edgeEls) { const e = (line as any)._e; line.classList.toggle("hl", selectedId != null && (e.a === selectedId || e.b === selectedId)); }
+		}
+
+		// ── 노드 드래그 / 팬 / 핀치 / 줌 ─────────────────
+		function clientToGraph(cx: number, cy: number) {
+			const r = svg.getBoundingClientRect();
+			return { x: (cx - r.left - tx) / scale, y: (cy - r.top - ty) / scale };
+		}
+		function attachNodeDrag(g: SVGGElement, id: string) {
+			g.addEventListener("pointerdown", (ev) => {
+				ev.stopPropagation();
+				(ev.target as Element).setPointerCapture?.(ev.pointerId);
+				fixed = { id }; selectNote(id);
+				const move = (e: PointerEvent) => {
+					const gp = clientToGraph(e.clientX, e.clientY);
+					const p = pos.get(id)!; p.x = gp.x; p.y = gp.y; p.vx = 0; p.vy = 0;
+					if (!REDUCED) kick(0.3); renderPositions();
+				};
+				const up = () => {
+					fixed = null; if (!REDUCED) kick(0.4);
+					window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up);
+				};
+				window.addEventListener("pointermove", move); window.addEventListener("pointerup", up);
+			});
+		}
+		// 배경 팬 + 핀치 줌(통합 포인터)
+		const ptrs = new Map<number, {x: number; y: number}>();
+		let lastPinch = 0;
+		svg.addEventListener("pointerdown", (ev) => {
+			if (ev.pointerType === "mouse" && ev.button !== 0) return;
+			if (window.innerWidth <= 640) closeMobilePanes();
+			svg.setPointerCapture?.(ev.pointerId);
+			ptrs.set(ev.pointerId, { x: ev.clientX, y: ev.clientY });
+			svg.classList.add("panning");
+		});
+		svg.addEventListener("pointermove", (ev) => {
+			if (!ptrs.has(ev.pointerId)) return;
+			const prev = ptrs.get(ev.pointerId)!;
+			ptrs.set(ev.pointerId, { x: ev.clientX, y: ev.clientY });
+			if (ptrs.size === 1) { tx += ev.clientX - prev.x; ty += ev.clientY - prev.y; applyViewport(); }
+			else if (ptrs.size === 2) {
+				const pts = [...ptrs.values()];
+				const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+				if (lastPinch) {
+					const r = svg.getBoundingClientRect();
+					const mx = (pts[0].x + pts[1].x) / 2 - r.left, my = (pts[0].y + pts[1].y) / 2 - r.top;
+					const ns = Math.max(0.3, Math.min(3, scale * (dist / lastPinch))), k = ns / scale;
+					tx = mx - (mx - tx) * k; ty = my - (my - ty) * k; scale = ns; applyViewport();
+				}
+				lastPinch = dist;
+			}
+		});
+		function endPtr(ev: PointerEvent) {
+			ptrs.delete(ev.pointerId);
+			if (ptrs.size < 2) lastPinch = 0;
+			if (ptrs.size === 0) svg.classList.remove("panning");
+		}
+		svg.addEventListener("pointerup", endPtr);
+		svg.addEventListener("pointercancel", endPtr);
+		svg.addEventListener("wheel", (ev) => {
+			ev.preventDefault();
+			const r = svg.getBoundingClientRect(), mx = ev.clientX - r.left, my = ev.clientY - r.top;
+			const factor = Math.exp(-ev.deltaY * 0.0012), ns = Math.max(0.3, Math.min(3, scale * factor)), k = ns / scale;
+			tx = mx - (mx - tx) * k; ty = my - (my - ty) * k; scale = ns; applyViewport();
+		}, { passive: false });
+
+		function fitView() { const r = svg.getBoundingClientRect(); W = r.width || 800; H = r.height || 600; tx = 0; ty = 0; scale = 1; applyViewport(); }
+
+		// ── 좌측 리스트 ──────────────────────────────────
+		const listEl = document.getElementById("note-list")!;
+		function renderList(filter = "") {
+			const f = norm(filter);
+			const groups = new Map<string, Note[]>();
+			for (const n of notes) {
+				if (f && !(norm(n.title).includes(f) || norm(n.content).includes(f) || (n.aliases || []).some(a => norm(a).includes(f)))) continue;
+				if (!groups.has(n.group)) groups.set(n.group, []);
+				groups.get(n.group)!.push(n);
+			}
+			listEl.textContent = "";
+			const orderedGroups = [...groups.keys()].sort((a, b) => {
+				const ia = GROUP_ORDER.indexOf(a), ib = GROUP_ORDER.indexOf(b);
+				return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+			});
+			if (orderedGroups.length === 0) { const em = document.createElement("p"); em.className = "empty-note"; em.textContent = "결과 없음"; listEl.appendChild(em); return; }
+			for (const gk of orderedGroups) {
+				const gh = document.createElement("p"); gh.className = "nl-group"; gh.textContent = gk; listEl.appendChild(gh);
+				for (const n of groups.get(gk)!.sort((a, b) => a.title.localeCompare(b.title, "ko"))) {
+					const it = document.createElement("button");
+					it.className = "nl-item" + (n.visibility === "risk" ? " risk" : "") + (n.id === selectedId ? " sel" : "");
+					it.dataset.id = n.id;
+					const dot = document.createElement("span"); dot.className = "nl-dot";
+					const tt = document.createElement("span"); tt.textContent = n.title;
+					tt.style.overflow = "hidden"; tt.style.textOverflow = "ellipsis"; tt.style.whiteSpace = "nowrap";
+					it.appendChild(dot); it.appendChild(tt);
+					it.addEventListener("click", () => selectNote(n.id));
+					listEl.appendChild(it);
+				}
+			}
+		}
+		function syncListSel() {
+			for (const el of listEl.querySelectorAll<HTMLElement>(".nl-item")) el.classList.toggle("sel", el.dataset.id === selectedId);
+		}
+
+		// ── 우측 패널 ────────────────────────────────────
+		function esc(s: string) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+		function unesc(s: string) { return s.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&"); }
+		function inlineMd(escaped: string) {
+			let s = escaped.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+			s = s.replace(/\[\[([^\]]+)\]\]/g, (_m, inner) => {
+				const parts = inner.split("|");
+				// 조회·data-target 은 엔티티 디코드한 원본으로(제목에 &,<,> 있어도 정확), 표시 텍스트는 escape 유지
+				const target = unesc(parts[0].trim());
+				const disp = (parts.length > 1 ? parts.slice(1).join("|") : parts[0]).trim();
+				const rid = resolveMap.get(norm(target));
+				return `<a class="lk${rid ? "" : " missing"}" data-target="${esc(target).replace(/"/g, "&quot;")}">${disp}</a>`;
+			});
+			return s;
+		}
+		function renderMarkdown(md: string) {
+			const lines = (md || "").split("\n"); let html = "", i = 0;
+			while (i < lines.length) {
+				const raw = lines[i];
+				if (/^\s*>\s?/.test(raw)) {
+					let block: string[] = [];
+					while (i < lines.length && /^\s*>\s?/.test(lines[i])) { block.push(inlineMd(esc(lines[i].replace(/^\s*>\s?/, "")))); i++; }
+					html += `<blockquote>${block.join("<br/>")}</blockquote>`; continue;
+				}
+				if (/^\s*[-*]\s+/.test(raw)) {
+					let items: string[] = [];
+					while (i < lines.length && /^\s*[-*]\s+/.test(lines[i])) { items.push(`<li>${inlineMd(esc(lines[i].replace(/^\s*[-*]\s+/, "")))}</li>`); i++; }
+					html += `<ul>${items.join("")}</ul>`; continue;
+				}
+				if (raw.trim() === "") { i++; continue; }
+				html += `<p>${inlineMd(esc(raw))}</p>`; i++;
+			}
+			return html;
+		}
+
+		const panelEmpty = document.getElementById("panel-empty")!;
+		const panelBody = document.getElementById("panel-body")!;
+		function renderPanel() {
+			const n = selectedId ? byId.get(selectedId) : null;
+			if (!n) { panelEmpty.classList.remove("hidden"); panelBody.classList.add("hidden"); return; }
+			panelEmpty.classList.add("hidden"); panelBody.classList.remove("hidden");
+			(document.getElementById("n-title") as HTMLElement).textContent = n.title;
+			const g = document.getElementById("n-group") as HTMLElement; g.className = "badge"; g.textContent = n.group;
+			const v = document.getElementById("n-vis") as HTMLElement; v.className = "badge vis-" + n.visibility; v.textContent = n.visibility;
+			const tg = document.getElementById("n-tags") as HTMLElement; tg.textContent = "";
+			for (const t of (n.tags || [])) { const s = document.createElement("span"); s.className = "tag"; s.textContent = t; tg.appendChild(s); }
+
+			const prev = document.getElementById("n-preview") as HTMLElement;
+			const edit = document.getElementById("n-edit") as HTMLElement;
+			document.getElementById("btn-preview")!.classList.toggle("active", panelMode === "preview");
+			document.getElementById("btn-edit")!.classList.toggle("active", panelMode === "edit");
+			if (panelMode === "preview") {
+				prev.classList.remove("hidden"); edit.classList.add("hidden");
+				prev.innerHTML = renderMarkdown(n.content);
+				prev.querySelectorAll<HTMLElement>("a.lk").forEach(a => a.addEventListener("click", () => openLink(a.dataset.target || "")));
+			} else {
+				prev.classList.add("hidden"); edit.classList.remove("hidden");
+				(document.getElementById("n-textarea") as HTMLTextAreaElement).value = n.content;
+			}
+
+			const outs = outMap.get(n.id) || [];
+			const missCount = outs.filter(o => !o.id).length;
+			const cm = document.getElementById("btn-create-missing") as HTMLButtonElement;
+			cm.disabled = missCount === 0;
+			cm.textContent = missCount ? `없는 링크 ${missCount} 생성` : "없는 링크 없음";
+
+			const outEl = document.getElementById("n-out")!; outEl.textContent = "";
+			(document.getElementById("out-count") as HTMLElement).textContent = outs.length ? String(outs.length) : "";
+			if (!outs.length) outEl.appendChild(emptyLine("아웃링크 없음"));
+			for (const o of outs) outEl.appendChild(linkItem(o.id ? byId.get(o.id)!.title : o.target, o.target, !o.id));
+
+			const ins = inMap.get(n.id) || [];
+			const inEl = document.getElementById("n-in")!; inEl.textContent = "";
+			(document.getElementById("in-count") as HTMLElement).textContent = ins.length ? String(ins.length) : "";
+			if (!ins.length) inEl.appendChild(emptyLine("백링크 없음"));
+			for (const sid of ins) inEl.appendChild(linkItem(byId.get(sid)!.title, sid, false));
+		}
+		function emptyLine(txt: string) { const p = document.createElement("p"); p.className = "empty-note"; p.textContent = txt; return p; }
+		function linkItem(label: string, target: string, missing: boolean) {
+			const it = document.createElement("div");
+			it.className = "lk-item" + (missing ? " missing" : "");
+			const ar = document.createElement("span"); ar.className = "lk-arrow"; ar.textContent = missing ? "◌" : "→";
+			const lb = document.createElement("span"); lb.className = "lk-label"; lb.textContent = label;
+			it.appendChild(ar); it.appendChild(lb);
+			it.addEventListener("click", () => openLink(target));
+			return it;
+		}
+
+		// ── 링크 열기 / 노트 생성·삭제 ───────────────────
+		function openLink(target: string) {
+			const rid = resolveMap.get(norm(target));
+			if (rid) { selectNote(rid); return; }
+			const id = target.trim();
+			if (!confirm(`"${id}" 노트가 아직 없습니다. 새로 만들까요?`)) return;
+			createNoteSilent(id); afterMutate(); selectNote(id);
+		}
+		function createNoteSilent(title: string) {
+			const id = title.trim(); if (!id || byId.has(id)) return;
+			const nn: Note = { id, title: id, aliases: [], group: "미분류", visibility: "inner", tags: [], content: "" };
+			notes.push(nn); byId.set(id, nn);
+		}
+		function createMissingFromCurrent() {
+			if (!selectedId) return;
+			const outs = outMap.get(selectedId) || [];
+			let made = 0;
+			for (const o of outs) if (!o.id && !byId.has(o.target.trim())) { createNoteSilent(o.target); made++; }
+			if (made) afterMutate();
+		}
+		function deleteNote(id: string) {
+			const n = byId.get(id); if (!n) return;
+			if (!confirm(`"${n.title}" 노트를 삭제할까요? 되돌릴 수 없습니다.`)) return;
+			notes = notes.filter(x => x.id !== id); pos.delete(id);
+			if (selectedId === id) { selectedId = null; panelMode = "preview"; }
+			afterMutate();
+		}
+
+		// ── 선택 (편집 dirty 방어 포함) ──────────────────
+		function isDirty() {
+			if (panelMode !== "edit" || !selectedId) return false;
+			const cur = byId.get(selectedId); const ta = document.getElementById("n-textarea") as HTMLTextAreaElement | null;
+			return !!(cur && ta && ta.value !== cur.content);
+		}
+		function selectNote(id: string) {
+			if (id === selectedId && panelMode !== "edit") return;
+			if (isDirty() && !confirm("편집 중인 내용을 저장하지 않고 이동할까요?")) return;
+			selectedId = id; panelMode = "preview";
+			renderPanel(); syncListSel(); applyMode();
+			if (window.innerWidth <= 640) openNotePane();
+		}
+
+		// 데이터 변경 후 갱신 (저장은 렌더 성공 후)
+		function afterMutate() {
+			rebuild(); ensurePositions();
+			const sig = nodeSig();
+			if (sig === lastNodeSig && nodeEls.size === notes.length) { makeEdges(); updateNodeVisuals(); renderPositions(); }
+			else buildGraphDOM();
+			renderList(searchVal()); renderPanel();
+			save();
+			kick(0.3);
+		}
+
+		// ── 모바일 패널 ──────────────────────────────────
+		const scrim = document.getElementById("scrim")!;
+		function openNotePane() {
+			document.getElementById("pane-list")!.classList.remove("open");
+			document.getElementById("pane-note")!.classList.add("open");
+			scrim.classList.remove("hidden");
+		}
+		function openListPane() {
+			document.getElementById("pane-note")!.classList.remove("open");
+			document.getElementById("pane-list")!.classList.add("open");
+			scrim.classList.remove("hidden");
+		}
+		function closeMobilePanes() {
+			document.getElementById("pane-list")!.classList.remove("open");
+			document.getElementById("pane-note")!.classList.remove("open");
+			scrim.classList.add("hidden");
+		}
+
+		// ── 툴바 ─────────────────────────────────────────
+		function setMode(m: "global" | "local") {
+			mode = m;
+			document.getElementById("btn-global")!.classList.toggle("active", m === "global");
+			document.getElementById("btn-local")!.classList.toggle("active", m === "local");
+			applyMode();
+		}
+		function wire() {
+			if (wired) return; wired = true;
+			document.getElementById("btn-global")!.addEventListener("click", () => setMode("global"));
+			document.getElementById("btn-local")!.addEventListener("click", () => setMode("local"));
+			document.getElementById("btn-relayout")!.addEventListener("click", () => { ensurePositions(true); fitView(); kick(1); });
+			document.getElementById("btn-preview")!.addEventListener("click", () => { panelMode = "preview"; renderPanel(); });
+			document.getElementById("btn-edit")!.addEventListener("click", () => { panelMode = "edit"; renderPanel(); });
+			document.getElementById("btn-save")!.addEventListener("click", () => {
+				if (!selectedId) return;
+				byId.get(selectedId)!.content = (document.getElementById("n-textarea") as HTMLTextAreaElement).value;
+				panelMode = "preview"; afterMutate();
+			});
+			document.getElementById("btn-cancel")!.addEventListener("click", () => { panelMode = "preview"; renderPanel(); });
+			document.getElementById("btn-create-missing")!.addEventListener("click", createMissingFromCurrent);
+			document.getElementById("btn-delete")!.addEventListener("click", () => { if (selectedId) deleteNote(selectedId); });
+			document.getElementById("search")!.addEventListener("input", (e) => renderList((e.target as HTMLInputElement).value));
+
+			document.getElementById("btn-export")!.addEventListener("click", () => {
+				const blob = new Blob([JSON.stringify({ notes }, null, 1)], { type: "application/json" });
+				const url = URL.createObjectURL(blob);
+				const a = document.createElement("a"); a.href = url; a.download = "atlas2049-vault.json"; a.click();
+				setTimeout(() => URL.revokeObjectURL(url), 1000);
+			});
+			const fileEl = document.getElementById("file-import") as HTMLInputElement;
+			document.getElementById("btn-import")!.addEventListener("click", () => fileEl.click());
+			fileEl.addEventListener("change", () => {
+				const f = fileEl.files?.[0]; if (!f) { return; }
+				const rd = new FileReader();
+				rd.onload = () => {
+					try {
+						const data = JSON.parse(String(rd.result));
+						const arr = sanitizeNotes(Array.isArray(data) ? data : data.notes);
+						if (!arr.length) throw new Error("empty");
+						notes = arr; selectedId = null; panelMode = "preview"; pos.clear();
+						rebuild(); ensurePositions(true); renderList(); buildGraphDOM(); fitView(); renderPanel(); save(); kick(1);
+					} catch (e) { alert("가져오기 실패: 올바른 Vault JSON이 아닙니다."); }
+					fileEl.value = "";
+				};
+				rd.readAsText(f);
+			});
+			document.getElementById("btn-reset")!.addEventListener("click", () => {
+				if (!confirm("편집 내용을 지우고 기본 Vault로 되돌립니다. 계속할까요?")) return;
+				try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+				notes = seed(); selectedId = null; panelMode = "preview"; pos.clear();
+				rebuild(); ensurePositions(true); renderList(); buildGraphDOM(); fitView(); renderPanel();
+				if (byId.has("AIP")) selectNote("AIP"); kick(1);
+			});
+
+			document.getElementById("btn-m-list")!.addEventListener("click", openListPane);
+			document.getElementById("btn-m-note")!.addEventListener("click", () => { if (selectedId) openNotePane(); });
+			scrim.addEventListener("click", closeMobilePanes);
+
+			window.addEventListener("resize", () => { const r = svg.getBoundingClientRect(); W = r.width || W; H = r.height || H; });
+			document.addEventListener("visibilitychange", () => { if (!document.hidden && !REDUCED) kick(0.2); });
+		}
+
+		// ── 부팅 (전면 방어) ─────────────────────────────
+		function renderAll(reseedPos: boolean) {
+			rebuild();
+			const r = svg.getBoundingClientRect(); W = r.width || 800; H = r.height || 600;
+			ensurePositions(reseedPos);
+			setMode("global"); renderList(); buildGraphDOM(); applyViewport(); wire();
+		}
+		function boot() {
+			try { load(); } catch (e) { notes = seed(); }
+			try {
+				renderAll(false);
+				if (byId.has("AIP")) selectNote("AIP");
+				kick(1);
+			} catch (e) {
+				try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+				notes = seed();
+				try { renderAll(true); kick(1); } catch (_) { /* 최후 방어 */ }
+			}
+		}
+		boot();
+	</script>
+</Layout>
