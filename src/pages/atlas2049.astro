@@ -250,12 +250,12 @@ const speakers = [
 
 				<!-- 확장 -->
 				<p class="text-[13px] font-medium text-stone-500 tracking-[0.18em] uppercase mb-6">확장 · 규모의 단계</p>
-				<div class="flex flex-wrap items-center gap-2">
+				<div class="grid grid-cols-2 sm:grid-cols-3 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden">
 					{expansion.map((e, i) => (
-						<>
-							<span class="inline-flex items-center h-10 px-5 border border-white/15 rounded-full text-[15px] text-stone-200 lowercase tracking-[0.04em]">{e}</span>
-							{i < expansion.length - 1 && <span class="text-stone-600">→</span>}
-						</>
+						<div class="bg-[#0e0e0d] p-6">
+							<p class="text-[12px] text-stone-600 font-mono mb-3">{String(i + 1).padStart(2, "0")}</p>
+							<p class="text-white font-medium text-[18px] tracking-[-0.2px] lowercase">{e}</p>
+						</div>
 					))}
 				</div>
 			</div>
