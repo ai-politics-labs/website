@@ -2,101 +2,36 @@
 import Layout from "../layouts/Layout.astro";
 
 // ─────────────────────────────────────────────────────────────
-// 목차
+// 목차 — 서문 + 11개 섹션
 // ─────────────────────────────────────────────────────────────
 const toc = [
-	{ id: "meaning", label: "의미" },
-	{ id: "analogy", label: "유비" },
-	{ id: "competition", label: "경쟁" },
-	{ id: "evolution", label: "진화" },
-	{ id: "aip", label: "AIP" },
-	{ id: "policy", label: "정책" },
-	{ id: "questions", label: "질문" },
-];
-
-// 유비 / 경쟁 — 거시 → 중간 → 미시 3층 구조
-const triads = {
-	analogy: [
-		{
-			head: "역사",
-			levels: [
-				{ scale: "거시", term: "국가", note: "집단이라는 단위" },
-				{ scale: "중간", term: "인간", note: "개체라는 단위" },
-				{ scale: "미시", term: "AI", note: "새로 등장한 단위" },
-			],
-		},
-		{
-			head: "생물",
-			levels: [
-				{ scale: "거시", term: "종(種)", note: "유전자의 집합" },
-				{ scale: "중간", term: "세포", note: "생명의 단위" },
-				{ scale: "미시", term: "미토콘드리아", note: "동력원, 그리고 한때 외부자" },
-			],
-		},
-	],
-	competition: [
-		{
-			head: "국가",
-			levels: [
-				{ scale: "1", term: "미국", note: "" },
-				{ scale: "2", term: "중국", note: "" },
-				{ scale: "3", term: "한국", note: "" },
-			],
-		},
-		{
-			head: "종족",
-			levels: [
-				{ scale: "1", term: "네안데르탈", note: "사라진 경쟁자" },
-				{ scale: "2", term: "사피엔스", note: "살아남은 우리" },
-				{ scale: "3", term: "가축", note: "선택된 길" },
-			],
-		},
-	],
-};
-
-// AIP — 태아 장기 형성 순서
-const fetus = [
-	{ n: "01", organ: "뇌", sub: "중추신경" },
-	{ n: "02", organ: "심장", sub: "" },
-	{ n: "03", organ: "귀 · 눈", sub: "감각" },
-	{ n: "04", organ: "팔 · 다리", sub: "실행" },
-	{ n: "05", organ: "치아 · 구개", sub: "" },
-	{ n: "06", organ: "생식기", sub: "재생산" },
-];
-
-// AIP — 확장 단계
-const expansion = ["house", "school", "city", "nation", "empire"];
-
-// 정책
-const policies = ["고용", "UBI", "에너지", "교육", "언어", "금융"];
-
-// 질문 + 참가자
-const questions = [
-	"벼와 가축은 불행한가?",
-	"인간의 가치는 무엇인가?",
-	"우리는 무엇을 해야 하는가?",
-];
-const speakers = [
-	{ name: "이태양", org: "BASS" },
-	{ name: "도은욱", org: "Clobe" },
-	{ name: "정도환", org: "BZCF" },
-	{ name: "한관엽", org: "Aleph lab" },
-	{ name: "최동인", org: "AIP" },
+	{ id: "prologue", label: "서문" },
+	{ id: "s1", label: "미토콘드리아" },
+	{ id: "s2", label: "리바이어던" },
+	{ id: "s3", label: "미·중" },
+	{ id: "s4", label: "대한민국" },
+	{ id: "s5", label: "좋은 국가" },
+	{ id: "s6", label: "AI Native" },
+	{ id: "s7", label: "태아" },
+	{ id: "s8", label: "분노" },
+	{ id: "s9", label: "심판" },
+	{ id: "s10", label: "연합" },
+	{ id: "s11", label: "인류 OS" },
 ];
 ---
 
-<Layout title="ATLAS 2049 | AI Party" bodyClass="bg-[#0e0e0d] text-stone-200 antialiased overflow-x-hidden">
+<Layout title="ATLAS 2049 · 서문 | AI Party" bodyClass="bg-[#0e0e0d] text-stone-200 antialiased overflow-x-hidden">
 	<Fragment slot="head">
-		<meta name="description" content="ATLAS 2049 — 천구를 짊어진 티탄과 20~49세 세대가 2049년을 묻는다. 국가·인간·AI, 종·세포·미토콘드리아의 유비 위에서 인간의 가치와 우리가 해야 할 일을 토론하는 AIP의 포럼." />
+		<meta name="description" content="ATLAS 2049 서문 — 개인은 세포, 국가는 다세포 생물, AI는 미토콘드리아다. AI 시대의 경쟁은 누가 더 고차원의 다세포 생물이 되는가로 넘어간다. 더 유능하고 자유롭고 덕있는 신공화국을 향한 AIP의 선언." />
 		<link rel="canonical" href="https://aiparty.kr/atlas2049" />
-		<meta property="og:type" content="website" />
+		<meta property="og:type" content="article" />
 		<meta property="og:url" content="https://aiparty.kr/atlas2049" />
-		<meta property="og:title" content="ATLAS 2049 · 천구를 짊어진 세대" />
-		<meta property="og:description" content="국가·인간·AI의 유비 위에서 인간의 가치와 우리가 해야 할 일을 묻는다. 이태양·도은욱·정도환·한관엽·최동인." />
+		<meta property="og:title" content="ATLAS 2049 · 서문" />
+		<meta property="og:description" content="인간은 세포이고, 국가는 다세포 생물이며, AI는 세포 속 미토콘드리아다. AIP의 출발점." />
 		<meta property="og:image" content="https://aiparty.kr/og-main-v2.png" />
 		<meta property="og:site_name" content="AIP · AI Party" />
 		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:title" content="ATLAS 2049 · 천구를 짊어진 세대" />
+		<meta name="twitter:title" content="ATLAS 2049 · 서문" />
 		<meta name="twitter:image" content="https://aiparty.kr/og-main-v2.png" />
 	</Fragment>
 
@@ -115,19 +50,17 @@ const speakers = [
 			<div class="absolute inset-0 opacity-[0.06] pointer-events-none"
 				style="background-image:radial-gradient(circle at 1px 1px,#fff 1px,transparent 0);background-size:22px 22px;"></div>
 			<div class="relative max-w-3xl mx-auto px-6 pt-28 pb-24">
-				<p class="text-[12px] font-medium text-stone-500 tracking-[0.32em] uppercase mb-8">AI Party · Forum</p>
-				<h1 class="text-white font-semibold leading-[0.92] tracking-[-0.02em]
-					text-[64px] sm:text-[104px]">
+				<p class="text-[12px] font-medium text-stone-500 tracking-[0.32em] uppercase mb-8">AI Party · 서문</p>
+				<h1 class="text-white font-semibold leading-[0.92] tracking-[-0.02em] text-[64px] sm:text-[104px]">
 					ATLAS<br/><span class="text-stone-500">2049</span>
 				</h1>
 				<p class="mt-10 max-w-xl text-[16px] sm:text-[17px] text-stone-400 leading-8 tracking-[-0.16px]">
-					천구를 짊어진 티탄의 이름으로,<br/>
-					2049년이 인간과 AI를 묻는다.<br/>
-					우리는 무엇을 해야하는가.
+					인간은 세포이고, 국가는 다세포 생물이며,<br/>
+					AI는 세포 속 미토콘드리아다.<br/>
+					우리는 무엇을 짊어지고, 무엇을 해야 하는가.
 				</p>
 				<div class="mt-12 flex flex-wrap gap-3">
-					<a href="#meaning" class="inline-flex items-center h-10 px-5 text-sm font-medium text-stone-900 bg-white rounded-full hover:bg-stone-200 transition-colors tracking-[-0.14px]">시작하기 ↓</a>
-					<a href="#questions" class="inline-flex items-center h-10 px-5 text-sm font-medium text-stone-200 border border-stone-600 rounded-full hover:bg-white/10 transition-colors tracking-[-0.14px]">참가자 보기</a>
+					<a href="#prologue" class="inline-flex items-center h-10 px-5 text-sm font-medium text-stone-900 bg-white rounded-full hover:bg-stone-200 transition-colors tracking-[-0.14px]">읽기 시작 ↓</a>
 					<a href="/atlas2049/vault" class="inline-flex items-center h-10 px-5 text-sm font-medium text-stone-200 border border-stone-600 rounded-full hover:bg-white/10 transition-colors tracking-[-0.14px]">월드뷰 Vault ↗</a>
 				</div>
 			</div>
@@ -142,164 +75,263 @@ const speakers = [
 			</div>
 		</nav>
 
-		<!-- ───────── 의미 ───────── -->
-		<section id="meaning" class="border-b border-white/10 py-24">
+		<!-- ───────── 서문 ───────── -->
+		<section id="prologue" class="border-b border-white/10 py-24">
 			<div class="max-w-3xl mx-auto px-6">
-				<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">01 — 의미</p>
-				<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-14">이름이 곧 선언이다</h2>
+				<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">서문</p>
+				<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-8">경쟁하는 것은 사람이 아니라 조직화된 생명체다</h2>
+				<div class="space-y-5 text-[16px] text-stone-400 leading-[1.9] tracking-[-0.16px]">
+					<p>개인은 세포다.<br/>국가는 세포들이 연결된 다세포 생물이다.<br/>그리고 AI가 그 세포들을 인프라 신경망으로 잇는 순간, 경쟁은 더 이상 개인 대 개인의 것이 아니게 된다.</p>
+					<p>그때부터 경쟁하는 것은 사람이 아니라 <strong class="text-white font-semibold">조직화된 생명체</strong>다.</p>
+					<p>개인들의 핵을 살리면서도 하나의 방향으로 연결하는 국가. 다양성을 탄압하지 않고 에너지로 바꾸는 조직. 흩어진 인간들을 데이터와 신뢰와 제도로 묶어, 하나의 감각기관과 하나의 반사신경과 하나의 의사결정 체계로 움직이게 만드는 문명.</p>
+					<p>AI 시대의 경쟁은 결국, <strong class="text-white font-semibold">누가 더 강한 개인을 가졌는가를 넘어, 누가 더 고차원의 다세포 생물이 되었는가.</strong></p>
+					<p>AIP의 출발점도 바로 이 명제다. 인간은 세포이고, 국가는 다세포 생물이며, AI는 세포 속 미토콘드리아다.</p>
+				</div>
+			</div>
+		</section>
 
-				<div class="grid sm:grid-cols-2 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden">
-					<!-- ATLAS -->
-					<div class="bg-[#0e0e0d] p-8">
-						<p class="text-white font-semibold text-[20px] tracking-[0.06em] mb-6">ATLAS</p>
-						<ul class="space-y-5 text-[15px] text-stone-400 leading-7 tracking-[-0.14px]">
-							<li><span class="block text-stone-200 font-medium mb-0.5">천구를 짊어지는 티탄</span>하늘 전체의 무게를 어깨로 받친 자.</li>
-							<li><span class="block text-stone-200 font-medium mb-0.5">프로메테우스의 형제</span>인간에게 불을 건넨 자의 혈족.</li>
-							<li><span class="block text-stone-200 font-medium mb-0.5">지도, 그리고 생체 해부도</span>세계를 펼쳐 보이고 몸 안을 들여다보는 도해(圖解).</li>
-						</ul>
+		<!-- ───────── 1. 미토콘드리아 ───────── -->
+		<section id="s1" class="border-b border-white/10 py-24">
+			<div class="max-w-3xl mx-auto px-6">
+				<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">01</p>
+				<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-8">AI는 미토콘드리아다</h2>
+				<div class="space-y-5 text-[16px] text-stone-400 leading-[1.9] tracking-[-0.16px]">
+					<p>생명의 역사에서 가장 극적인 사건은, 한 세포가 외부 생명체를 완전히 소화하지 않고 안에 품은 순간이었다.</p>
+					<p>미토콘드리아는 원래 세포 밖에서 따로 살던 생명체였을 가능성이 크다. 세포 안으로 들어온 뒤에도 자기 DNA를 일부 갖고 있고, 세균처럼 분열하며, 독립적인 막 구조를 가진다는 점은 세포내공생설의 중요한 근거로 설명된다.</p>
+					<p>세포는 공간을 내줬고, 미토콘드리아는 에너지를 내줬다. 그 공생이 생명의 판을 바꿨다. 미토콘드리아를 얻은 세포는 훨씬 많은 에너지를 쓸 수 있게 되었고, 그 위에서 더 커지고, 더 복잡해지고, 더 정교해졌다. 단순한 원핵세포는 복잡한 진핵세포가 되었고, 진핵세포는 다세포 생명으로 갔다.</p>
+					<p>AI가 인간에게 들어오는 과정이 이것과 닮아 있다.</p>
+					<p>예전의 도구는 인간의 손과 발을 강화했다. 망치, 바퀴, 자동차, 공장은 인간의 물리적 한계를 늘렸다. 하지만 AI는 다르다. AI는 인간의 뇌와 판단, 언어와 사고 그 자체를 확장한다. 손이 아니라 지능을, 근육이 아니라 의사결정을 늘리는 동력원이다.</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- ───────── 2. AI 리바이어던 ───────── -->
+		<section id="s2" class="border-b border-white/10 py-24">
+			<div class="max-w-3xl mx-auto px-6">
+				<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">02</p>
+				<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-8">AI 리바이어던</h2>
+				<div class="space-y-5 text-[16px] text-stone-400 leading-[1.9] tracking-[-0.16px]">
+					<p>개인 안에서 AI가 미토콘드리아라면, 조직과 국가는 리바이어던이다.</p>
+					<p>홉스의 리바이어던은 수많은 개인이 하나의 거대한 몸처럼 결합된 정치적 생명체다. 과거의 리바이어던은 법, 관료제, 군대, 세금, 교육, 언론으로 만들어졌다. 그러나 AI 시대의 리바이어던은 데이터와 신경망으로 만들어진다.</p>
+					<p>한 조직 안의 회의, 문서, 대화, 고객 반응, 매출, 민원, 감정 신호가 하나의 시스템에 연결된다고 해보자. 조직은 전에 없던 감각기관을 갖는다. 어디서 문제가 생겼는지, 누가 막혀 있는지, 어떤 고객이 이탈하려는지, 어떤 의사결정이 병목인지를 더 빨리 감지한다.</p>
+					<p>이것은 조직의 <strong class="text-white font-semibold">통각세포</strong>다.</p>
+					<p>손끝에 상처가 나면 뇌보다 먼저 손을 뗀다. 건강한 조직도 그래야 한다. 현장에서 문제가 터졌는데 보고서가 세 단계를 거쳐 올라가고, 회의가 다시 잡히고, 책임 소재를 따지다가 한 달이 지나면 이미 늦다.</p>
+					<p>AI로 연결된 조직은 더 빨리 느끼고, 더 빨리 반응한다.</p>
+					<p>2026년. 아직은 완전한 뇌가 아니다. 고차 판단을 전부 맡길 수는 없다. 지금의 AI 조직은 뇌라기보다 자율신경, 무조건반사에 가깝다. 그래도 자율신경이 생긴 조직은 없는 조직보다 강하다. 머리가 모든 것을 명령하지 않아도 사지가 움직이는 곤충처럼, 현장 정보가 자동으로 수집되고 반복 업무가 자동화되고 의사결정자는 압축된 정보를 받는다. 작동 원리는 노버트 위너가 1950년대에 예견한 사이버네틱스와 닮아있다.</p>
+					<p><strong class="text-white font-semibold">기준을 세우는 건 인간적 합의이고, 운영을 최적화하는 건 AI다.</strong></p>
+					<p>이 원칙을 잃으면 리바이어던은 괴물이 된다. 감시와 통제만 남고, 인간은 한낱 데이터로 쪼그라든다. 그러나 원칙을 지키면 리바이어던은 조직과 국가의 새로운 형태가 된다. 더 빨리 듣고, 더 정확히 판단하고, 더 민첩하게 움직이는 공적 생명체.</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- ───────── 3. 미·중 ───────── -->
+		<section id="s3" class="border-b border-white/10 py-24">
+			<div class="max-w-3xl mx-auto px-6">
+				<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">03</p>
+				<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-8">미국은 네안데르탈인, 중국은 사피엔스</h2>
+				<div class="space-y-5 text-[16px] text-stone-400 leading-[1.9] tracking-[-0.16px]">
+					<p>그렇게 이제 국가는 행정체제를 넘어선다. AI 시대의 국가는 학습하고 반응하는 다세포 생물이다.</p>
+					<p>그리고 다세포 생물들 사이에서는 생존 경쟁이 벌어진다.</p>
+					<p>이 관점에서 보면, 미국과 중국은 서로 다른 진화 전략을 취한다.</p>
+					<p>미국은 개인의 자율성과 다양성에서 강하다. 세계 최고의 인재를 끌어들이고, 창업가와 과학자와 투자자가 자유롭게 실험한다. 개체의 능력이 압도적이다. 그러나 그만큼 의사결정은 느리고, 이해관계는 흩어져 있고, 국가적 집중력은 약하다.</p>
+					<p>중국은 조직력과 효율에서 강하다. 목표를 정하면 거대한 자원과 인력을 순식간에 동원한다. 사회 전체가 하나의 기계처럼 움직인다. 그러나 그만큼 다양성을 억누르고, 실패를 숨기며, 창의적 이탈을 두려워한다.</p>
+					<p>과감하게 은유하자면, <strong class="text-white font-semibold">미국은 네안데르탈인, 중국은 사피엔스다.</strong></p>
+					<p>개체로는 네안데르탈인이 더 강했다. 신체 능력이 뛰어났다. 그런데 누가 살아남았나. 사피엔스다. 네안데르탈인은 조직이 약해, 숫자가 적어, 모이지 못해 하나씩 사냥당해 죽었다.</p>
+					<p><strong class="text-white font-semibold">개체의 우월성은 조직화 앞에서 무력해질 수 있다.</strong></p>
+					<p>강한 개인, 뛰어난 두뇌, 탁월한 신체, 엄청난 창의성. 그것만으로는 부족하다. 결국 살아남는 것은 연결된 집단이다. 더 많은 정보를 공유하고, 더 빠르게 학습하고, 더 넓은 신뢰망을 만들고, 더 큰 목표 앞에서 정렬되는 생명체다.</p>
+					<p>그러나 AI 시대의 승자는 미국도 중국도 아닐 수 있다. 진짜 승자는 <strong class="text-white font-semibold">다양성과 효율성을 동시에 조직하는 국가</strong>다.</p>
+					<p>자유로운 개인을 살리면서도 그 개인들을 신경망으로 연결하는 국가. 창의적 이탈을 허용하면서도 공통의 목표 앞에서는 빠르게 정렬되는 국가. 다양성을 탄압하지 않고, 그 다양성을 에너지로 바꾸는 국가.</p>
+					<p>그 가능성이 있는 자리가 바로 한국이다.</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- ───────── 4. 대한민국 ───────── -->
+		<section id="s4" class="border-b border-white/10 py-24">
+			<div class="max-w-3xl mx-auto px-6">
+				<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">04</p>
+				<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-8">지금의 대한민국은 가축이다</h2>
+				<div class="space-y-5 text-[16px] text-stone-400 leading-[1.9] tracking-[-0.16px]">
+					<p>솔직히 말하자.</p>
+					<p>지금 대한민국은 제국이 아니다. 문명을 설계하는 중심국가도 아니다. 미국과 중국이라는 거대한 질서 사이에서 기능하는 중간 수준의 생명체에 가깝다. 지금 대한민국의 포지션은 딱 말이다.</p>
+					<p class="text-white font-semibold text-[20px] tracking-[-0.3px]">가축이다.</p>
+					<p>하지만 말에게도 운명을 바꾸는 순간이 있었다. 말에 올라탄 인간은 더 이상 보병이 아니다. 기병이 된다. 신화의 언어로 말하면 켄타우로스가 된다.</p>
+					<p>한국에게 그 말이 반도체다.</p>
+					<p>한국은 유토피아를 실험할 수 있는 장소다. 미국은 다양성의 극단이라 강하지만 효율이 떨어진다. 중국은 효율의 극단이라 강하지만 다양성을 탄압한다. 그 중앙의 한국이야말로 둘 다 취할 수 있는 자리다.</p>
+					<p>문제는 한국이 아직 그 상태에 도달하지 못했다는 점이다. 낡은 제도, 무능한 정치, 과잉 규제, 경직된 교육, 세대 갈등, 지역 갈등, 낮은 출생, 높은 자살을 안고 있다.</p>
+					<p>한국은 가축으로 남을 수도 있고, 켄타우로스가 될 수도 있다. 차이는 하나다.</p>
+					<p><strong class="text-white font-semibold">AI 네이티브한 국가 운영체제를 먼저 세울 수 있는가.</strong></p>
+				</div>
+			</div>
+		</section>
+
+		<!-- ───────── 5. 좋은 국가 ───────── -->
+		<section id="s5" class="border-b border-white/10 py-24">
+			<div class="max-w-3xl mx-auto px-6">
+				<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">05</p>
+				<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-8">좋은 국가는 무엇인가</h2>
+				<div class="space-y-5 text-[16px] text-stone-400 leading-[1.9] tracking-[-0.16px]">
+					<p>좋은 국가는 국민의 가능성을 증폭하는 국가다.</p>
+					<p>행정은 느린 장벽이 아니라 빠른 인터페이스가 되고, 정치는 감정적 진영전이 아니라 공동 문제 해결의 운영체제가 되는 것.</p>
+					<p>국가를 하나의 서비스로 보면 KPI는 분명하다.</p>
+					<ul class="border border-white/10 rounded-2xl divide-y divide-white/10 overflow-hidden text-stone-300">
+						<li class="px-6 py-3.5">국민이 더 자유로운가.</li>
+						<li class="px-6 py-3.5">더 번영하는가.</li>
+						<li class="px-6 py-3.5">더 연결되어 있는가.</li>
+						<li class="px-6 py-3.5">자살은 줄어드는가.</li>
+						<li class="px-6 py-3.5">출생은 회복되는가.</li>
+						<li class="px-6 py-3.5">좋은 인재가 들어오는가.</li>
+						<li class="px-6 py-3.5">떠나고 싶은 나라가 아니라 들어오고 싶은 나라가 되는가.</li>
+					</ul>
+					<p>이 기준에서 보수와 진보는 부차적이다. 중요한 것은 이 선택이 AI 시대 한국인의 고통을 줄이고 행복을 늘리는가다. 인간 운영의 휴먼 에러, 즉 부패와 무능과 무책임을 줄이고, 더 방대한 정보를 처리하는 의사결정 시스템을 만드는가다.</p>
+					<p>그런 국가를 세우려면 공화주의 3요소가 필요하다.</p>
+					<p class="text-white font-medium">민주주의.<br/>자유주의.<br/>시민의 덕.</p>
+					<p>민주주의만 남으면 다수의 이름으로 자유를 친다. 자유주의만 극단화되면 공동체가 무너지고 강자의 자유만 남는다. 덕이 사라지면 제도는 껍데기가 되고 모든 정치적 행위에는 계산만 남는다.</p>
+					<p>민주주의와 자유주의, 그 중용의 미덕은 시민의 덕성에서부터 비롯된다. 진짜 적은 <strong class="text-white font-semibold">덕의 부재</strong>다.</p>
+					<p>AI 시대의 공화국은 더 나은 덕을 제도화하는 나라여야 한다. 투명성, 책임성, 정직, 실력, 애민, 애국이 개인의 선의가 아니라 시스템 안에서 작동하는 나라. 무능과 부패가 드러나고 교정되는 구조를 가진 나라.</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- ───────── 6. AI Native 정당 ───────── -->
+		<section id="s6" class="border-b border-white/10 py-24">
+			<div class="max-w-3xl mx-auto px-6">
+				<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">06</p>
+				<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-8">AI Native 정당</h2>
+				<div class="space-y-5 text-[16px] text-stone-400 leading-[1.9] tracking-[-0.16px]">
+					<p>이 결론에 이르기까지 2년의 시행착오가 있었다.</p>
+					<p>참치상사에서는 기존 정당들을 AX하려 했다. 그러나 실패했다. 본질은 도구가 아니었다. 병목은 의사결정자였다. 아무리 좋은 AI 툴을 쥐여줘도, 낡은 판단 구조는 그대로였다. 낡은 조직에 AI를 붙인다고 새 조직이 되지 않는다.</p>
+					<p>삼성을 만들 생각을 해야지, 낡은 조직에 “삼성식 제도”를 얹는다고 삼성이 되지는 않는다.</p>
+					<p>게다가 정치 콘텐츠로 유입되는 사람들은 대부분 이미 누군가를 사랑하거나 죽이고 싶어서 들어온다. 귀가 열려 있어서 들어오는 것이 아니다. 수단만 바꾸면 욕을 더 효율적으로 할 뿐이다.</p>
+					<p>그래서 본질을 새로 만들기로 한다.</p>
+					<p><strong class="text-white font-semibold">AX가 아니라, 처음부터 AI 네이티브한 정당.</strong></p>
+					<p>기존 신당들이 실패한 이유는 분명하다.</p>
+					<p class="text-white font-medium">코어한 비전이 없다.<br/>비전이 없으니, 인재가 없다.<br/>그 생각을 전파할 미디어가 없다.</p>
+					<p>개혁신당과 조국혁신당은 인물이 먼저 있었다. 세력에서 떨어져 나온 사람들이 모여 다시 권력 다툼을 한다. 나보다 뛰어난 사람이 들어와 크는 것을 견제한다. 비전이 없으니 인재 밀도가 낮고, 인재가 없으니 미디어가 약하고, 미디어가 없으니 메시지가 퍼지지 않는다.</p>
+					<p>그래서 AIP의 순서는, 비전. 인재. 미디어.</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- ───────── 7. 태아 ───────── -->
+		<section id="s7" class="border-b border-white/10 py-24">
+			<div class="max-w-3xl mx-auto px-6">
+				<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">07</p>
+				<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-8">정당은 태아처럼 자란다</h2>
+				<div class="space-y-5 text-[16px] text-stone-400 leading-[1.9] tracking-[-0.16px]">
+					<p>정당은 어느 날 갑자기 만들어지는 조직이 아니다. 정당은 태아처럼 자라야 한다.</p>
+					<p>먼저 중추신경이 생기고, 심장이 뛰고, 감각기관이 열리고, 사지가 자라고, 먹고 소화할 수 있어야 한다. 그다음에야 독립된 생명체로 태어난다.</p>
+					<ul class="border border-white/10 rounded-2xl divide-y divide-white/10 overflow-hidden">
+						<li class="px-6 py-3.5 flex gap-4"><span class="text-white font-medium w-28 shrink-0">비전</span><span>뇌와 중추신경</span></li>
+						<li class="px-6 py-3.5 flex gap-4"><span class="text-white font-medium w-28 shrink-0">인재</span><span>심장</span></li>
+						<li class="px-6 py-3.5 flex gap-4"><span class="text-white font-medium w-28 shrink-0">언론·정보</span><span>눈과 귀</span></li>
+						<li class="px-6 py-3.5 flex gap-4"><span class="text-white font-medium w-28 shrink-0">지역·기능</span><span>팔과 다리</span></li>
+						<li class="px-6 py-3.5 flex gap-4"><span class="text-white font-medium w-28 shrink-0">재원</span><span>치아와 소화기관</span></li>
+						<li class="px-6 py-3.5 flex gap-4"><span class="text-white font-medium w-28 shrink-0">확산 구조</span><span>생식기관</span></li>
+					</ul>
+					<p>AIP의 창당은 법적 절차가 아니라 <strong class="text-white font-semibold">생명체의 발생 과정</strong>이다.</p>
+
+					<div class="pt-4 space-y-2">
+						<p class="text-white font-semibold text-[18px] tracking-[-0.2px]">첫째, 비전 (뇌)</p>
+						<p>“좋은 인간과 국가란 무엇인가”에 답해야 한다. 철학을 세운다. 토론한다. 이에 따라 국가적 KPI를 세운다. 연구한다. 관찰한다. 검증한다. 회고한다. 개선한다.</p>
 					</div>
-					<!-- 2049 -->
-					<div class="bg-[#0e0e0d] p-8">
-						<p class="text-white font-semibold text-[20px] tracking-[0.06em] mb-6">2049</p>
-						<ul class="space-y-5 text-[15px] text-stone-400 leading-7 tracking-[-0.14px]">
-							<li><span class="block text-stone-200 font-medium mb-0.5">20살 ~ 49살</span>지금 사회를 짊어진, 그리고 짊어질 세대.</li>
-							<li><span class="block text-stone-200 font-medium mb-0.5">2049년</span>인간과 AI의 관계가 결정되는 한 세대 뒤의 지평.</li>
-						</ul>
+					<div class="space-y-2">
+						<p class="text-white font-semibold text-[18px] tracking-[-0.2px]">둘째, 커뮤니티 (심장)</p>
+						<p>지금 대한민국에서 가장 젊고 뛰어난 문제 해결자들은 빌더다. 창업가, 개발자, 기획자, 데이터 분석가, 디자이너, 연구자, 예술가. 막히면 우회로를 찾고, 자원이 부족하면 실험하고, 시장이 거부하면 제품을 바꾸는 사람들. AIP의 인재 풀은 빌더여야 한다. 흑백개발자는 그 서두다.</p>
+						<p>인성, 지능, 실행력은 기본이다. 그 위에 필요한 것은 애국, 애족, 애민이다. 낡은 단어처럼 들리지만 AI 시대에는 오히려 중요해진다. 뿌리가 없는 사람은 언제든 더 좋은 조건을 찾아 떠난다. 한탕 벌고 싱가포르로, 스위스로 가면 된다고 생각하는 사람은 국가를 바꾸지 못한다. 국가를 바꾸는 일에는 작은 손해와 긴 시간을 감내할 사람이 필요하다. AIP는 부평초처럼 떠다니는 엘리트가 아니라, 뿌리 있는 사람을 모아야 한다.</p>
+					</div>
+					<div class="space-y-2">
+						<p class="text-white font-semibold text-[18px] tracking-[-0.2px]">셋째, 미디어 (눈·귀)</p>
+						<p>생각은 퍼질 때 현실이 된다. 기존 정치 콘텐츠처럼 과몰입하는 사람을 향하는 것이 아니라, 창업·기술·라이프스타일·문제 해결의 언어로 사람과 소통해야 한다. THEHACK의 역할이다.</p>
+					</div>
+					<div class="space-y-2">
+						<p class="text-white font-semibold text-[18px] tracking-[-0.2px]">넷째, 재원 (소화기관)</p>
+						<p>정당이 지속하려면 돈이 필요하다. 그러나 소수의 고액 정치자금은 늘 부패의 위험을 안고 있다. 그래서 핵심은 책임당원 기반의 SaaS 정당이다. 100만 명이 연 10만 원을 낸다면 연 1,000억 원의 반복 수익이 생긴다. 기업으로 치면 유니콘급 ARR이다. 그 수익을 개인이 가져가지 못하고 공적 목적에 묶인다. 그리고 이것들을 극도로 투명하게 운영해야 한다. 이것이 강점이다.</p>
+						<p>정치후원금의 세액공제 구조도 이 설계를 가능하게 하는 현실적 기반이다. 정치자금 기부금에 대해 10만 원 이하 구간에 100/110의 세액공제율이 적용된다. 당원들의 체감 부담을 낮추면서도 반복 재원을 만들 수 있는 구조다.</p>
+					</div>
+					<div class="space-y-2">
+						<p class="text-white font-semibold text-[18px] tracking-[-0.2px]">다섯째, 확산 (생식기관)</p>
+						<p>정책은 문서에서 완성되지 않는다. 생활 속에서 검증되어야 한다. 해커하우스는 미래 국가의 페트리 접시다. 열 명, 스무 명의 빌더가 함께 살며 AI 도구, 교육, 의사결정, 수익 배분, 커뮤니티 규칙을 실험한다. 거기서 검증된 원리가 학교로, 도시로, 국가로 확장된다.</p>
+						<p>물론 법적 몸도 필요하다. 한국에서 정당을 세우려면 중앙당 등록, 시·도당 조직, 당원 요건을 충족해야 한다. 정당 설립에는 5개 이상의 시·도당과 각 시·도당 1,000명 이상의 당원이 요구되고, 창당준비 과정에서는 발기인 200명 이상의 발기인대회가 필요하다.</p>
 					</div>
 				</div>
 			</div>
 		</section>
 
-		<!-- ───────── 유비 / 경쟁 ───────── -->
-		{(["analogy", "competition"] as const).map((key, idx) => {
-			const meta = key === "analogy"
-				? { num: "02", ko: "유비", en: "Analogy", lead: "다른 층위를 같은 구조로 본다" }
-				: { num: "03", ko: "경쟁", en: "Competition", lead: "같은 자리를 두고 다투는 것들" };
-			return (
-				<section id={key} class="border-b border-white/10 py-24">
-					<div class="max-w-3xl mx-auto px-6">
-						<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">{meta.num} — {meta.ko}</p>
-						<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-14">{meta.lead}</h2>
-
-						<div class="grid sm:grid-cols-2 gap-6">
-							{triads[key].map((group) => (
-								<div class="border border-white/10 rounded-2xl p-7">
-									<p class="text-[13px] font-medium text-stone-500 tracking-[0.18em] uppercase mb-6">{group.head}</p>
-									<div class="relative pl-6">
-										<span class="absolute left-[3px] top-1 bottom-1 w-px bg-white/15"></span>
-										{group.levels.map((lv) => (
-											<div class="relative mb-6 last:mb-0">
-												<span class="absolute -left-6 top-[7px] w-2 h-2 rounded-full bg-stone-400"></span>
-												<p class="text-white font-medium text-[18px] tracking-[-0.2px]">{lv.term}</p>
-												{lv.note && <p class="text-[13px] text-stone-500 mt-0.5 tracking-[-0.14px]">{lv.note}</p>}
-											</div>
-										))}
-									</div>
-								</div>
-							))}
-						</div>
-					</div>
-				</section>
-			);
-		})}
-
-		<!-- ───────── 진화 ───────── -->
-		<section id="evolution" class="border-b border-white/10 py-24">
+		<!-- ───────── 8. 분노 ───────── -->
+		<section id="s8" class="border-b border-white/10 py-24">
 			<div class="max-w-3xl mx-auto px-6">
-				<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">04 — 진화</p>
-				<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-14">지금은 어디에 와 있는가</h2>
-
-				<div class="grid sm:grid-cols-2 gap-6">
-					<div class="border border-white/10 rounded-2xl p-8 bg-white/[0.02]">
-						<p class="text-[12px] font-medium text-stone-500 tracking-[0.2em] uppercase mb-4">현재</p>
-						<p class="text-white font-semibold text-[26px] tracking-[-0.3px] mb-3">자율신경계</p>
-						<p class="text-[15px] text-stone-400 leading-7 tracking-[-0.14px]">의식하지 않아도 도시는 호흡하고, 시장은 박동한다. AI는 이미 그 무의식의 층위에서 작동하고 있다.</p>
-					</div>
-					<div class="border border-white/10 rounded-2xl p-8 bg-white">
-						<p class="text-[12px] font-medium text-stone-500 tracking-[0.2em] uppercase mb-4">최종</p>
-						<p class="text-stone-900 font-semibold text-[26px] tracking-[-0.3px] mb-3">리바이어던</p>
-						<p class="text-[15px] text-stone-600 leading-7 tracking-[-0.14px]">개체들을 하나의 거대한 몸으로 묶어내는 인공의 주권체. 우리가 만들 마지막 형상.</p>
-					</div>
-				</div>
-				<div class="mt-6 flex items-center gap-3 text-[13px] text-stone-500 tracking-[-0.14px]">
-					<span>자율신경계</span>
-					<span class="flex-1 h-px bg-white/15"></span>
-					<span class="text-stone-300">리바이어던</span>
+				<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">08</p>
+				<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-8">분노는 에너지다. 방향을 잃지 않으면</h2>
+				<div class="space-y-5 text-[16px] text-stone-400 leading-[1.9] tracking-[-0.16px]">
+					<p>정치에는 분노가 필요하다.</p>
+					<p>부패한 권력, 무능한 관료제, 무책임한 정치인, 비효율적인 공공 시스템에 대한 분노는 사회를 움직이는 강력한 에너지다.</p>
+					<p>그러나 분노는 위험하다. 사실을 떠나면 음모론이 되고, 제도개혁을 떠나면 폭력이 되며, 책임 정치를 떠나면 희생양 만들기가 된다.</p>
+					<p>AIP가 해야 할 일은 분노를 선동하는 것이 아니다. 분노를 제도개혁의 연료로 바꾸는 것이다.</p>
+					<p>무능한 기득권은 청산되어야 한다. 그러나 청산은 사람을 파괴하는 방식이 아니라, 권한과 책임의 구조를 바꾸는 방식이어야 한다. 선관위, 검찰, 경찰, 관료제, 공공기관은 성역이 아니다. 모든 권력기관은 감시받아야 하고, 성과로 평가받아야 하며, 실패에 책임져야 한다.</p>
+					<p>르네 지라르의 희생양 메커니즘의 정치적 힘은 실재한다. 그러나 AIP가 겨냥해야 할 희생양은 사람이 아니라 <strong class="text-white font-semibold">무능이 반복되는 구조</strong>여야 한다. 청소해야 하는 것은 인간이 아니라, 책임 없는 권한과 권한 없는 책임이다.</p>
+					<p class="text-white font-medium">레이지베이트는 쉽다.<br/>분노를 미끼로 클릭을 뽑는 것은 쉽다.<br/>하지만 허위 의제를 미끼로 삼는 순간, 스스로를 훼손한다.</p>
+					<p>AIP는 레이지베이트를 넘어서야 한다. 분노를 클릭으로 낭비하지 말고, 감시와 개혁으로 전환해야 한다.</p>
+					<p>우리의 목표는 복수가 아니다. 진짜 목표는 <strong class="text-white font-semibold">더 유능한 공화국</strong>이다.</p>
 				</div>
 			</div>
 		</section>
 
-		<!-- ───────── AIP ───────── -->
-		<section id="aip" class="border-b border-white/10 py-24">
+		<!-- ───────── 9. 심판 ───────── -->
+		<section id="s9" class="border-b border-white/10 py-24">
 			<div class="max-w-3xl mx-auto px-6">
-				<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">05 — AIP</p>
-				<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-4">우리는 어떻게 자라는가</h2>
-				<p class="text-[15px] text-stone-400 leading-7 tracking-[-0.14px] mb-14 max-w-xl">하나의 정당을 하나의 생명체로 본다. 태아가 장기를 형성하는 순서로 조직이 갖춰지고, 세포가 군집을 넓히듯 영토가 확장된다.</p>
-
-				<!-- 태아: 장기 형성 순서 -->
-				<p class="text-[13px] font-medium text-stone-500 tracking-[0.18em] uppercase mb-6">태아 · 형성의 순서</p>
-				<div class="grid grid-cols-2 sm:grid-cols-3 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden mb-16">
-					{fetus.map((f) => (
-						<div class="bg-[#0e0e0d] p-6">
-							<p class="text-[12px] text-stone-600 font-mono mb-3">{f.n}</p>
-							<p class="text-white font-medium text-[18px] tracking-[-0.2px]">{f.organ}</p>
-							{f.sub && <p class="text-[12px] text-stone-500 mt-1">{f.sub}</p>}
-						</div>
-					))}
-				</div>
-
-				<!-- 확장 -->
-				<p class="text-[13px] font-medium text-stone-500 tracking-[0.18em] uppercase mb-6">확장 · 규모의 단계</p>
-				<div class="grid grid-cols-2 sm:grid-cols-3 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden">
-					{expansion.map((e, i) => (
-						<div class="bg-[#0e0e0d] p-6">
-							<p class="text-[12px] text-stone-600 font-mono mb-3">{String(i + 1).padStart(2, "0")}</p>
-							<p class="text-white font-medium text-[18px] tracking-[-0.2px] lowercase">{e}</p>
-						</div>
-					))}
+				<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">09</p>
+				<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-8">먼저 무질서한 경기장의 심판이 된다</h2>
+				<div class="space-y-5 text-[16px] text-stone-400 leading-[1.9] tracking-[-0.16px]">
+					<p>AIP의 첫 목표는 곧바로 집권하는 것이 아니다.</p>
+					<p>2028년 총선은 생존 가능성의 첫 검증대다. 비례 득표율 10%라는 목표는 제도권 정치에 새로운 룰 브레이커가 들어왔다는 신호다.</p>
+					<p>그 의석은 단순한 숫자가 아니다. AI로 정치인의 발언, 표결, 예산, 이해충돌을 추적하고, 기존 정치권에 압력을 가하는 심판자의 자리다. 일종의 심판이다.</p>
+					<p>2030년 대선은 더 큰 검증대다. AI 네이티브 정치가 대중적 국가 운영 구상으로 검증받는 무대가 된다.</p>
+					<p>정당 성능의 벤치마크는 분명하다. 선거는 생명체가 외부 환경에서 생존 가능성을 검증받는 순간이다.</p>
+					<p>또한, 누군가의 시즌2가 되어서는 안 된다. 특정 인물의 팬덤에 기대는 정치가 아니라, 비전·인재·미디어·재원·기술이 결합된 정치.</p>
 				</div>
 			</div>
 		</section>
 
-		<!-- ───────── 정책 ───────── -->
-		<section id="policy" class="border-b border-white/10 py-24">
+		<!-- ───────── 10. 연합 ───────── -->
+		<section id="s10" class="border-b border-white/10 py-24">
 			<div class="max-w-3xl mx-auto px-6">
-				<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">06 — 정책</p>
-				<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-14">여섯 개의 전장</h2>
-				<div class="grid grid-cols-2 sm:grid-cols-3 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden">
-					{policies.map((p, i) => (
-						<div class="bg-[#0e0e0d] p-8 flex items-baseline gap-4">
-							<span class="text-[12px] text-stone-600 font-mono">{String(i + 1).padStart(2, "0")}</span>
-							<span class="text-white font-medium text-[19px] tracking-[-0.2px]">{p}</span>
-						</div>
-					))}
+				<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">10</p>
+				<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-8">제3의 네트워크 연합</h2>
+				<div class="space-y-5 text-[16px] text-stone-400 leading-[1.9] tracking-[-0.16px]">
+					<p>한국이 AI 네이티브 국가 모델을 만들면, 그 모델은 한국 안에 머물지 않는다. 일본, 대만, 동남아, 아프리카와 연결될 수 있다.</p>
+					<p>단, 과거식 제국주의가 되어서는 안 된다. 지배하고, 자원을 빼앗고, 수족처럼 부리는 모델은 오래가지 못한다.</p>
+					<p>AI 시대의 확장은 약탈이 아니라 네트워크여야 한다.</p>
+					<p>한국은 강대국이 아니다. 그래서 더 영리해야 한다. 미국과 중국이라는 거대한 질서에 적대적으로만 맞서는 것이 아니라, 그 질서에 접속해 자본, 기술, 시장, 인재, 데이터를 흡수해야 한다.</p>
+					<p>거칠게는 “숙주에 기생한다”는 말이 가능하다. <strong class="text-white font-semibold">비대칭 흡수 전략</strong>이다.</p>
+					<p>작은 국가는 큰 질서를 활용해야 한다. 강대국의 시장을 활용하고, 동맹의 안보를 활용하고, 글로벌 자본을 활용하고, 해외 인재를 활용해야 한다.</p>
+					<p>그러나 최종적으로는 자기 모델을 깔아야 한다.</p>
+					<p>일본과는 제조·로보틱스를, 대만과는 반도체·안보·AI 인프라를, 동남아와는 젊은 인구와 디지털 행정을, 아프리카와는 도시화·교육·금융·공공 인프라부터 함께 설계할 수 있다. 한국은 이미 이들 국가에 군대 없이도 일상에 들어가는 법을 안다. 드라마, 음악, 영화, 웹툰, 게임, 음식, 뷰티, 패션. 사람들은 먼저 콘텐츠를 좋아하고, 그다음 언어를 배우고, 제품을 사고, 도시를 방문하고, 사람을 신뢰하고, 제도를 궁금해한다.</p>
+					<p>AI 네이티브 운영체제를 깔기 전에, 먼저 한국에 대한 호감과 신뢰와 호기심을 깐다.</p>
+					<p>그래서 한국의 확장은 칩만 파는 방식이어서는 안 된다. 콘텐츠, 교육, 도시, 창업, 행정 시스템, 금융 인프라, 디지털 정체성, AI 거버넌스가 하나의 패키지로 나가야 한다. 한국 드라마를 본 사람이 한국어를 배우고, 한국어를 배운 사람이 한국 플랫폼을 쓰고, 한국 플랫폼을 쓰는 사람이 한국식 AI 행정과 교육 모델을 받아들이는 구조. 이것이 문화에서 제도로 이어지는 깔대기다.</p>
+					<p>문화는 가장 부드러운 침투다. 그리고 가장 오래 남는 각인이다.</p>
+					<p>이것은 제국이라기보다 연합이다. 명령하는 중심부와 복종하는 주변부가 아니라, AI 네이티브 운영체제를 공유하는 도시와 국가들의 네트워크.</p>
+					<p>AIP의 세계 전략은 지배가 아니라 전파다. 그 과정에서 한국은 네트워크의 중심이 된다.</p>
 				</div>
 			</div>
 		</section>
 
-		<!-- ───────── 질문 + 참가자 ───────── -->
-		<section id="questions" class="py-24">
+		<!-- ───────── 11. 인류 OS ───────── -->
+		<section id="s11" class="border-b border-white/10 py-24">
 			<div class="max-w-3xl mx-auto px-6">
-				<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">07 — 질문</p>
-				<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-14">세 개의 질문</h2>
-
-				<div class="space-y-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden mb-20">
-					{questions.map((q, i) => (
-						<div class="bg-[#0e0e0d] p-8 flex items-start gap-6">
-							<span class="text-stone-600 font-semibold text-[22px] tracking-[-0.3px] shrink-0">Q{i + 1}</span>
-							<p class="text-white font-medium text-[20px] sm:text-[23px] leading-[1.35] tracking-[-0.3px]">{q}</p>
-						</div>
-					))}
-				</div>
-
-				<p class="text-[13px] font-medium text-stone-500 tracking-[0.18em] uppercase mb-6">함께 묻는 사람들</p>
-				<div class="grid grid-cols-2 sm:grid-cols-3 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden">
-					{speakers.map((s) => (
-						<div class="bg-[#0e0e0d] p-7">
-							<p class="text-white font-semibold text-[19px] tracking-[-0.2px]">{s.name}</p>
-							<p class="text-[13px] text-stone-500 mt-1 tracking-[0.04em]">{s.org}</p>
-						</div>
-					))}
+				<p class="text-[12px] font-medium text-stone-500 tracking-[0.24em] uppercase mb-3">11</p>
+				<h2 class="text-white font-semibold text-[28px] sm:text-[34px] leading-[1.2] tracking-[-0.4px] mb-8">인류 OS 업데이트 중…</h2>
+				<div class="space-y-5 text-[16px] text-stone-400 leading-[1.9] tracking-[-0.16px]">
+					<p>지금 당장 모든 것이 실현되지는 않는다. 앞으로 20~30년은 축적의 시간이다. 인재를 모으고, 미디어를 키우고, 해커하우스를 만들고, 학교를 세우고, 도시를 실험하고, 정당을 제도권에 넣고, 정책을 검증하고, 해외 네트워크를 심는 시간.</p>
+					<p>2049년의 목표는 조직적으로 다른 인류이다.</p>
+					<p>제3의 인류란 유전자가 바뀐 종이 아니다. AI와 공생하는 방식으로 사고하고, 협력하고, 통치하는 새로운 인간형이다. 혼자 똑똑한 인간이 아니라 연결되어 더 똑똑해지는 인간. 감정적으로 분열되는 대중이 아니라 데이터와 덕으로 공동선을 위한 문제를 푸는 시민. 낡은 관료제에 갇힌 국가가 아니라 실시간으로 학습하고 반응하는 공화국.</p>
+					<p>아틀라스는 지도를 그리는 작업이다.</p>
+					<p class="text-white font-medium">독점과 반독점. 독재와 공화정. 트랜스휴머니즘과 내츄럴휴머니즘.</p>
+					<p>AI 시대의 정치 전선은 낡은 좌우 구도로는 설명되지 않는다. 기술은 누가 소유하는가. 의사결정은 얼마나 집중되는가. 인간은 어디까지 강화되어야 하는가.</p>
+					<p>이 질문들을 회피하는 정치는 미래를 다룰 수 없다.</p>
+					<p>AIP는 모든 세부적인 요소들에 대해 정해놓은 답을 강요하는 정당이 아니라, 이 질문들을 공개적으로 깔아놓고 사람들이 토론하고 결정하게 만드는 장이어야 한다. 좋은 국가는 갈등이 없는 국가가 아니다. 좋은 정당은 이 갈등을 발판삼아 고차원의 의사결정을 하고 사회를 나아가게 만든다.</p>
+					<p>AIP는 AI 시대에 인간을 잃지 않기 위한 노력. AI를 우리 안에 들이되, 인간의 핵을 잃지 않는 것이다. 이 시대에 한국이 제3의 길을 만들 수 있는지에 대한 거대한 실험이다.</p>
+					<p>우리가 만들려는 것은 <strong class="text-white font-semibold">더 유능하고, 더 자유롭고, 덕있는 신공화국</strong>이다.</p>
 				</div>
 
 				<div class="mt-16 flex flex-wrap gap-3">
