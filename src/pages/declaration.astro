@@ -80,7 +80,7 @@ const sections = [
 ];
 ---
 
-<Layout title="창당선언문 · 과학기술이 곧 애국이다 | AI People Party">
+<Layout title="창당선언문 · 과학기술이 곧 애국이다 | AI People Party" bodyClass="luma-shell luma-declaration antialiased overflow-x-hidden">
 	<Fragment slot="head">
 		<meta name="description" content="AI People Party 창당선언문. 과학기술이 곧 애국이다. 국민 한 사람 한 사람이 AI로 가능성을 확장하는 기술국가 대한민국을 선언합니다." />
 		<link rel="canonical" href="https://aiparty.kr/declaration" />
@@ -96,35 +96,35 @@ const sections = [
 	</Fragment>
 
 	<!-- 상단 바 -->
-	<header class="fixed top-0 left-0 right-0 z-50 h-[64px] bg-[#0e0e0d]/90 backdrop-blur-xl border-b border-white/10">
-		<div class="h-full max-w-2xl mx-auto px-6 flex items-center justify-between">
-			<a href="/" class="font-semibold text-[15.84px] text-white tracking-[-0.32px]">AIP · AI Party</a>
-			<a href="/" class="text-[13px] text-stone-400 hover:text-white transition-colors tracking-[-0.14px]">← 홈으로</a>
+	<header class="declaration-header backdrop-blur-xl">
+		<div class="c-container h-full flex items-center justify-between">
+			<a href="/" class="font-semibold text-[15px] tracking-[-0.32px]">AIP · AI Party</a>
+			<a href="/" class="c-muted text-[12px] transition-colors tracking-[-0.14px]">← 홈으로</a>
 		</div>
 	</header>
 
-	<main class="pt-[64px]">
+	<main class="declaration-page">
 
 		<!-- 표제 -->
-		<section class="bg-[#0e0e0d] pt-24 pb-20">
-			<div class="max-w-2xl mx-auto px-6">
-				<p class="text-[12px] font-medium text-stone-500 tracking-[0.14em] uppercase mb-3">AIPP · Artificial Intelligence People Party</p>
-				<p class="text-[13px] text-stone-400 tracking-[-0.14px] mb-6">에이아이국민당 · 애국당</p>
-				<p class="text-[13px] text-stone-400 tracking-[-0.14px] mb-3">창당선언문</p>
-				<h1 class="text-white font-semibold text-[32px] sm:text-[40px] leading-[1.25] tracking-[-0.4px]">과학기술이<br/>곧 애국이다.</h1>
+		<section class="declaration-intro c-container">
+			<div>
+				<p class="text-[12px] font-medium text-stone-500 dark:text-stone-600 tracking-[0.14em] uppercase mb-3">AIPP · Artificial Intelligence People Party</p>
+				<p class="text-[13px] text-stone-400 dark:text-stone-500 tracking-[-0.14px] mb-6">에이아이국민당 · 애국당</p>
+				<p class="text-[13px] text-stone-400 dark:text-stone-500 tracking-[-0.14px] mb-3">창당선언문</p>
+				<h1 class="c-heading">과학기술이<br/>곧 애국이다.</h1>
 			</div>
 		</section>
 
 		<!-- 본문 -->
-		<article class="bg-white py-20">
-			<div class="max-w-2xl mx-auto px-6">
+		<article class="declaration-article c-container">
+			<div>
 				{sections.map((s, i) => (
-					<div class={i === 0 ? "" : "mt-16"}>
-						<h2 class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mb-7">{s.title}</h2>
-						<div class="space-y-5 text-[16px] text-stone-600 leading-8 tracking-[-0.16px]">
-							{s.lead && <p class="text-stone-900 font-medium text-[17px]">{s.lead}</p>}
+					<div class="declaration-chapter c-card">
+						<h2>{s.title}</h2>
+						<div class="declaration-copy space-y-5">
+							{s.lead && <p class="text-stone-900 dark:text-stone-100 font-medium text-[17px]">{s.lead}</p>}
 							{s.body.map((p) => Array.isArray(p) ? <p set:html={p.join("<br/>")} /> : <p>{p}</p>)}
-							{s.emphasis && <p class="text-stone-900 font-medium">{s.emphasis}</p>}
+							{s.emphasis && <p class="text-stone-900 dark:text-stone-100 font-medium">{s.emphasis}</p>}
 						</div>
 					</div>
 				))}
@@ -132,22 +132,43 @@ const sections = [
 		</article>
 
 		<!-- 선언 -->
-		<section class="bg-[#0e0e0d] py-24">
-			<div class="max-w-2xl mx-auto px-6">
-				<p class="text-[12px] font-medium text-stone-500 tracking-[0.14em] uppercase mb-7">선언</p>
-				<div class="space-y-6 text-[16px] text-stone-300 leading-8 tracking-[-0.16px]">
-					<p class="text-white font-semibold text-[22px] sm:text-[26px] leading-[1.4] tracking-[-0.32px]">오늘 우리는 대한민국을<br/>기술중심국으로 바꾸겠다고 선언합니다.</p>
+		<section class="declaration-closing c-container c-card">
+			<div>
+				<p class="text-[12px] font-medium text-stone-500 dark:text-stone-600 tracking-[0.14em] uppercase mb-7">선언</p>
+				<div class="declaration-copy space-y-6">
+					<p class="declaration-statement">오늘 우리는 대한민국을<br/>기술중심국으로 바꾸겠다고 선언합니다.</p>
 					<p set:html={"국민 한 사람 한 사람이 AI로 자신의 가능성을 확장하는 나라.<br/>기업이 세계 시장으로 뻗어나가는 나라.<br/>학교가 질문하는 인간을 키우는 나라.<br/>군대가 AI 기술을 전력화하는 나라.<br/>연구소가 실패를 두려워하지 않는 나라.<br/>과학기술인이 존경받고, 창업가가 도전하고, 시민이 기본적 삶을 보장받는 나라."} />
 					<p set:html={"우리는 과거의 일자리를 붙잡아두기 위해<br/>기업을 낡은 고용 구조에 묶어두지 않겠습니다.<br/>국가가 미래로 나아갈 수 있는 정치를 하겠습니다."} />
-					<p class="text-white font-semibold text-[22px] sm:text-[26px] leading-[1.4] tracking-[-0.32px] py-2">창업가와 연구자가 국가의 미래입니다.</p>
+					<p class="declaration-statement py-2">창업가와 연구자가 국가의 미래입니다.</p>
 				</div>
 
-				<div class="mt-12 flex flex-wrap gap-3">
-					<a href="/#founding-members" class="inline-flex items-center h-10 px-4 text-sm font-medium text-stone-900 bg-white rounded-full hover:bg-stone-200 transition-colors tracking-[-0.14px]">공동창당하기 →</a>
-					<a href="/" class="inline-flex items-center h-10 px-4 text-sm font-medium text-stone-200 border border-stone-600 rounded-full hover:bg-white/10 transition-colors tracking-[-0.14px]">홈으로 →</a>
+				<div class="mt-8 flex flex-wrap gap-3">
+					<a href="/#founding-members" class="c-button">공동창당하기 →</a>
+					<a href="/" class="c-button c-button-secondary">홈으로 →</a>
 				</div>
 			</div>
 		</section>
 
 	</main>
+
+	<style>
+		.declaration-header { min-height:60px; display:flex; align-items:center; color:var(--c-text); }
+		.declaration-header > div { min-height:60px; }
+		.declaration-page { padding-bottom:64px; }
+		.declaration-intro { padding-block:40px 32px; }
+		.declaration-intro h1 { margin-top:20px; }
+		.declaration-intro p { color:var(--c-muted); font-size:12px; margin-bottom:8px; }
+		.declaration-article > div { display:grid; gap:16px; }
+		.declaration-chapter { padding:28px; }
+		.declaration-chapter h2 { font-size:21px; margin-bottom:20px; }
+		.declaration-copy { color:var(--c-muted); font-size:15px; line-height:1.9; letter-spacing:-.15px; }
+		.declaration-copy p[class] { color:var(--c-text); font-size:15px; }
+		.declaration-closing { margin-top:16px; padding:28px; }
+		.declaration-copy .declaration-statement { color:var(--c-text); font-size:22px; font-weight:600; line-height:1.45; letter-spacing:-.5px; }
+		@media(max-width:640px) {
+			.declaration-intro { padding-top:24px; }
+			.declaration-chapter,.declaration-closing { padding:20px; }
+			.declaration-copy .declaration-statement { font-size:20px; }
+		}
+	</style>
 </Layout>

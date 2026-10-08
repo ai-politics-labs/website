@@ -246,6 +246,14 @@ const legalPrioritiesJson = JSON.stringify(LEGAL_PRIORITIES);
 
     // ── Dashboard ─────────────────────────────────────────────────────────────
     async function showDashboard() {
+      const { data: allowed, error: permissionError } = await supabase.rpc('is_site_admin');
+      if (permissionError || allowed !== true) {
+        loginError.textContent = '운영자 계정으로 로그인해 주세요. 일반 계정은 관리자 자료를 조회할 수 없습니다.';
+        loginError.classList.remove('hidden');
+        dataSection.classList.add('hidden');
+        loginSection.classList.remove('hidden');
+        return;
+      }
       loginSection.classList.add('hidden');
       dataSection.classList.remove('hidden');
       await Promise.all([loadStats(), populateRepFilters(), loadSignatures(), loadSidoFilter()]);

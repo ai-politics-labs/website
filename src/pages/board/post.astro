@@ -1,0 +1,52 @@
+---
+import CommunityLayout from '../../layouts/CommunityLayout.astro';
+---
+
+<CommunityLayout title="게시글 — AI정치연구소" description="AI정치연구소 자유게시판의 이야기를 읽어 보세요." active="board">
+  <section class="c-page c-narrow" aria-label="게시글">
+    <a class="c-link" href="/board">← 자유게시판</a>
+    <p id="post-message" class="c-message post-message" role="status" aria-live="polite">게시글을 불러오는 중입니다.</p>
+    <article id="post-article" class="c-card post-article" hidden>
+      <header class="post-header">
+        <p class="c-eyebrow">자유게시판</p>
+        <h1 id="post-heading" class="c-heading post-heading"></h1>
+        <div class="c-meta post-meta">
+          <span id="post-author"></span>
+          <time id="post-created"></time>
+          <span id="post-updated" hidden>수정됨</span>
+        </div>
+      </header>
+      <div id="post-content" class="post-content"></div>
+      <div class="c-actions post-actions">
+        <a class="c-button c-button-secondary" href="/board">목록으로</a>
+        <div id="post-owner-actions" class="c-actions" hidden>
+          <a id="post-edit" class="c-button c-button-secondary" href="/board/write">수정</a>
+          <button id="post-delete" class="c-button c-button-secondary" type="button">삭제</button>
+        </div>
+      </div>
+    </article>
+    <aside id="post-join" class="c-card post-join" hidden aria-label="게시판 참여 안내">
+      <p class="post-join-title">나누고 싶은 이야기가 있나요?</p>
+      <p class="c-muted">가입하고 이메일을 인증하면 직접 글을 쓸 수 있어요.</p>
+      <a id="post-join-link" class="c-button" href="/auth?mode=signup&amp;next=%2Fboard%2Fwrite">가입하고 글쓰기</a>
+    </aside>
+    <noscript><p class="c-message">게시글을 보려면 브라우저에서 자바스크립트를 켜 주세요.</p></noscript>
+  </section>
+  <script type="module" src="/community/post.js" is:inline></script>
+</CommunityLayout>
+
+<style>
+  .c-page { max-width: 760px; }
+  .post-message { margin-top: 28px; }
+  .post-article { margin-top: 28px; padding: 28px; }
+  .post-header { padding-bottom: 22px; }
+  .post-header .c-eyebrow { margin-bottom: 10px; font-size: 12px; letter-spacing: 0; }
+  .post-heading { font-size: clamp(24px, 4vw, 30px); font-weight: 600; letter-spacing: -.6px; line-height: 1.4; overflow-wrap: anywhere; }
+  .post-meta { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 16px; font-size: 13px; }
+  .post-content { padding: 8px 0 36px; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 16px; line-height: 1.9; }
+  .post-actions { justify-content: space-between; padding-top: 18px; border-top: 1px solid var(--c-border, #e7e5e4); }
+  .post-join { margin-top: 22px; }
+  .post-join-title { font-weight: 600; font-size: 18px; margin: 0; }
+  .post-join .c-button { margin-top: 8px; }
+  @media(max-width: 600px) { .post-article { padding: 20px; } }
+</style>

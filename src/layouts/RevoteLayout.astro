@@ -12,7 +12,7 @@ const {
   title,
   description = "투표용지 부족 및 선거관리 부실로 침해된 시민의 선거권 회복을 위한 100만 서명운동.",
   active = "",
-  bodyClass = "bg-white text-stone-900 antialiased overflow-x-hidden",
+  bodyClass = "antialiased overflow-x-hidden",
 } = Astro.props;
 
 const nav = [
@@ -22,7 +22,7 @@ const nav = [
 ];
 ---
 
-<Layout title={title} bodyClass={bodyClass}>
+<Layout title={title} bodyClass={`luma-shell revote-shell ${bodyClass}`}>
   <Fragment slot="head">
     <meta name="description" content={description} />
     <meta property="og:type" content="website" />
@@ -36,28 +36,25 @@ const nav = [
 
   <a
     href="#main"
-    class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:bg-stone-900 focus:text-white focus:px-4 focus:py-2 focus:rounded-full focus:text-sm"
+    class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:bg-stone-900 focus:text-white dark:focus:bg-stone-100 dark:focus:text-stone-900 focus:px-4 focus:py-2 focus:rounded-full focus:text-sm"
     >본문으로 건너뛰기</a
   >
 
   <!-- 상단 바 -->
   <header
-    class="sticky top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-stone-200"
+    class="revote-header sticky top-0 left-0 right-0 z-50 backdrop-blur-xl"
   >
-    <div class="max-w-[1146px] mx-auto px-6 flex flex-col items-center gap-1.5 py-2.5 sm:flex-row sm:justify-between sm:gap-2 sm:py-0 sm:h-[60px]">
-      <a href="/revote" class="font-semibold text-[15px] sm:text-[15.84px] text-stone-900 tracking-[-0.32px] whitespace-nowrap">
-        선거권 회복 <span class="text-stone-400 font-normal">100만 서명운동</span>
+    <div class="c-container flex flex-col items-start gap-1.5 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2 sm:py-0 sm:min-h-[60px]">
+      <a href="/revote" class="revote-wordmark font-semibold text-[14px] tracking-[-0.32px] whitespace-nowrap">
+        선거권 회복 <span class="text-stone-400 dark:text-stone-500 font-normal">100만 서명운동</span>
       </a>
       <nav class="flex items-center gap-1 sm:gap-2" aria-label="주요 메뉴">
         {
           nav.map((item) => (
             <a
               href={item.href}
-              class={`px-2.5 sm:px-3 py-1.5 text-[13px] sm:text-[14px] rounded-full transition-colors tracking-[-0.14px] whitespace-nowrap ${
-                active === item.key
-                  ? "text-stone-900 font-medium bg-stone-100"
-                  : "text-stone-500 hover:text-stone-900"
-              }`}
+              class="revote-nav-link px-2.5 sm:px-3 py-1.5 text-[12px] rounded-md transition-colors tracking-[-0.14px] whitespace-nowrap"
+              aria-current={active === item.key ? "page" : undefined}
             >
               {item.label}
             </a>
@@ -67,38 +64,49 @@ const nav = [
     </div>
   </header>
 
-  <main id="main">
+  <main id="main" class="revote-main">
     <slot />
   </main>
 
   <FloatingShare />
 
   <!-- 푸터 -->
-  <footer class="mt-24 border-t border-stone-200 bg-stone-50">
-    <div class="max-w-[1146px] mx-auto px-6 py-12">
+  <footer class="revote-footer c-container mt-12 border-t border-stone-200 dark:border-white/10">
+    <div class="py-8">
       <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
         <div>
-          <p class="text-[15px] font-semibold text-stone-800 tracking-[-0.16px]">
+          <p class="text-[15px] font-semibold text-stone-800 dark:text-stone-300 tracking-[-0.16px]">
             선거권 회복 100만 서명운동
           </p>
-          <p class="mt-2 text-[13px] text-stone-500 leading-6 tracking-[-0.14px] max-w-md">
+          <p class="mt-2 text-[13px] text-stone-500 dark:text-stone-400 leading-6 tracking-[-0.14px] max-w-md">
             투표용지 부족 및 선거관리 부실로 침해된 시민의 선거권 회복을 위한 시민행동입니다.
             제보 내용과 첨부자료는 기본적으로 외부에 공개되지 않습니다.
           </p>
         </div>
         <nav class="flex flex-col gap-2 text-[13px] tracking-[-0.14px]" aria-label="푸터">
-          <a href="/revote/sign" class="text-stone-600 hover:text-stone-900">서명하기</a>
-          <a href="/revote/report" class="text-stone-600 hover:text-stone-900">피해 제보하기</a>
-          <a href="/revote/privacy" class="text-stone-600 hover:text-stone-900">개인정보처리방침</a>
+          <a href="/revote/sign" class="text-stone-600 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100">서명하기</a>
+          <a href="/revote/report" class="text-stone-600 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100">피해 제보하기</a>
+          <a href="/revote/privacy" class="text-stone-600 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100">개인정보처리방침</a>
           <a href="/revote/delete-request" class="text-stone-600 hover:text-stone-900"
             >개인정보 삭제 요청</a
           >
         </nav>
       </div>
-      <div class="mt-10 pt-6 border-t border-stone-200 flex items-center justify-between">
-        <p class="text-xs text-stone-400">&copy; 2026 선거권 회복 100만 서명운동</p>
-        <a href="/" class="text-xs text-stone-400 hover:text-stone-600">AIP · AI Party →</a>
+      <div class="mt-10 pt-6 border-t border-stone-200 dark:border-white/10 flex items-center justify-between">
+        <p class="text-xs text-stone-400 dark:text-stone-500">&copy; 2026 선거권 회복 100만 서명운동</p>
+        <a href="/" class="text-xs text-stone-400 hover:text-stone-600 dark:text-stone-500 dark:hover:text-stone-300">AIP · AI Party →</a>
       </div>
     </div>
   </footer>
+
+  <style>
+    .revote-header { background:color-mix(in srgb,var(--c-bg) 48%,transparent); }
+    .revote-wordmark { color:var(--c-text); }
+    .revote-nav-link { color:var(--c-muted); }
+    .revote-nav-link:hover,.revote-nav-link[aria-current="page"] { color:var(--c-text); }
+    .revote-nav-link[aria-current="page"] { background:var(--c-surface); font-weight:600; }
+    .revote-footer { border-color:var(--c-border); }
+    .revote-footer p,.revote-footer a { font-size:12px; }
+    .revote-footer a:hover { color:var(--c-text); }
+  </style>
 </Layout>

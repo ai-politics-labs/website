@@ -5,7 +5,7 @@ import vaultData from "../../data/atlas2049-vault.json";
 const noteCount = vaultData.notes.length;
 ---
 
-<Layout title="ATLAS 2049 · Vault | AI Party" bodyClass="bg-[#0e0e0d] text-stone-200 antialiased overflow-hidden h-screen">
+<Layout title="ATLAS 2049 · Vault | AI Party" bodyClass="luma-shell luma-vault antialiased overflow-hidden">
 	<Fragment slot="head">
 		<meta name="description" content="ATLAS 2049 Vault — 최동인의 역사관·인간론·국가론·AI론에서 AIP 창당·전략·긴장까지를 Obsidian식 노트 네트워크(위키링크 그래프)로 탐색한다." />
 		<link rel="canonical" href="https://aiparty.kr/atlas2049/vault" />
@@ -23,25 +23,25 @@ const noteCount = vaultData.notes.length;
 	<!-- seed 데이터: 클라이언트로 전달 -->
 	<script type="application/json" id="atlas-vault-seed" set:html={JSON.stringify(vaultData.notes)}></script>
 
-	<div class="flex flex-col h-screen">
+	<div class="vault-frame flex flex-col">
 		<!-- 상단 헤더 -->
-		<header class="shrink-0 h-[56px] bg-[#0e0e0d] border-b border-white/10 flex items-center justify-between px-4 sm:px-6">
+		<header class="vault-header shrink-0 h-[60px] flex items-center justify-between">
 			<div class="flex items-baseline gap-2">
-				<a href="/" class="font-semibold text-[14px] text-white tracking-[0.16em]">ATLAS<span class="text-stone-500">2049</span></a>
-				<span class="text-stone-600 text-[13px]">/</span>
-				<span class="text-[13px] text-stone-400 tracking-[0.02em]">Vault</span>
+				<a href="/" class="font-semibold text-[14px] text-stone-900 dark:text-white tracking-[0.16em]">ATLAS<span class="text-stone-500">2049</span></a>
+				<span class="text-stone-400 dark:text-stone-600 text-[13px]">/</span>
+				<span class="text-[13px] text-stone-600 dark:text-stone-400 tracking-[0.02em]">Vault</span>
 			</div>
 			<div class="flex items-center gap-4 text-[12.5px]">
-				<a href="/atlas2049" class="text-stone-400 hover:text-white transition-colors tracking-[-0.14px]">← 소개</a>
-				<a href="/" class="text-stone-400 hover:text-white transition-colors tracking-[-0.14px]">AIP ↗</a>
+				<a href="/atlas2049" class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors tracking-[-0.14px]">← 소개</a>
+				<a href="/" class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors tracking-[-0.14px]">AIP ↗</a>
 			</div>
 		</header>
 
 		<!-- 툴바 -->
-		<div class="shrink-0 h-[46px] bg-[#0e0e0d] border-b border-white/10 flex items-center gap-2 px-3 sm:px-4 overflow-x-auto">
-			<div class="flex items-center rounded-full border border-white/15 overflow-hidden shrink-0">
+		<div class="vault-toolbar shrink-0 min-h-[46px] flex items-center gap-2 px-3 overflow-x-auto">
+			<div class="flex items-center rounded-lg border border-stone-200 dark:border-white/15 overflow-hidden shrink-0">
 				<button id="btn-global" class="mode-btn px-3 h-7 text-[12px] tracking-[-0.1px]">Global</button>
-				<button id="btn-local" class="mode-btn px-3 h-7 text-[12px] tracking-[-0.1px] border-l border-white/15">Local</button>
+				<button id="btn-local" class="mode-btn px-3 h-7 text-[12px] tracking-[-0.1px] border-l border-stone-200 dark:border-white/15">Local</button>
 			</div>
 			<button id="btn-relayout" class="tool-btn">↻ 레이아웃</button>
 			<button id="btn-export" class="tool-btn">↧ Export</button>
@@ -56,21 +56,21 @@ const noteCount = vaultData.notes.length;
 		</div>
 
 		<!-- 본문 3분할 -->
-		<div class="flex-1 flex min-h-0 relative">
+		<div class="vault-workspace flex-1 flex min-h-0 relative">
 			<!-- 모바일 오버레이 배경 -->
 			<div id="scrim" class="hidden absolute inset-0 z-20 bg-black/50 sm:!hidden"></div>
 
 			<!-- 좌: Vault 리스트 -->
-			<aside id="pane-list" class="w-[248px] shrink-0 border-r border-white/10 flex flex-col min-h-0 bg-[#0f0f0e]">
-				<div class="p-3 border-b border-white/10">
+			<aside id="pane-list" class="vault-panel w-[228px] shrink-0 flex flex-col min-h-0">
+				<div class="p-3 border-b border-stone-200 dark:border-white/10">
 					<input id="search" type="text" placeholder="노트 검색…"
-						class="w-full h-8 px-3 bg-white/[0.04] border border-white/10 rounded-md text-[13px] text-stone-200 placeholder:text-stone-500 focus:outline-none focus:border-white/25" />
+						class="w-full h-8 px-3 bg-stone-100 dark:bg-white/[0.04] border border-stone-200 dark:border-white/10 rounded-md text-[13px] text-stone-800 dark:text-stone-200 placeholder:text-stone-500 focus:outline-none focus:border-stone-400 dark:focus:border-white/25" />
 				</div>
 				<div id="note-list" class="flex-1 overflow-y-auto px-1.5 py-2 space-y-0.5"></div>
 			</aside>
 
 			<!-- 가운데: 그래프 -->
-			<main class="flex-1 min-w-0 relative bg-[#0e0e0d]">
+			<main class="vault-graph flex-1 min-w-0 relative">
 				<svg id="graph" class="w-full h-full block touch-none select-none">
 					<g id="viewport">
 						<g id="edges"></g>
@@ -80,22 +80,22 @@ const noteCount = vaultData.notes.length;
 				<div id="graph-hint" class="absolute bottom-3 left-3 text-[11px] text-stone-500 pointer-events-none tracking-[-0.1px]">
 					드래그 이동 · 휠/핀치 확대 · 노드 클릭 선택
 				</div>
-				<div id="local-hint" class="absolute top-3 left-3 hidden text-[11px] text-stone-400 border border-white/15 rounded-full px-3 h-6 items-center bg-[#0e0e0d]/80 tracking-[-0.1px]">
+				<div id="local-hint" class="absolute top-3 left-3 hidden text-[11px] text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-white/15 rounded-full px-3 h-6 items-center bg-white/80 dark:bg-[#0e0e0d]/80 tracking-[-0.1px]">
 					Local — 선택 노트 + 1-hop
 				</div>
 			</main>
 
 			<!-- 우: 노트 패널 -->
-			<aside id="pane-note" class="w-[320px] shrink-0 border-l border-white/10 flex flex-col min-h-0 bg-[#0f0f0e]">
+			<aside id="pane-note" class="vault-panel w-[300px] shrink-0 flex flex-col min-h-0">
 				<div id="panel-empty" class="flex-1 flex items-center justify-center px-8 text-center">
 					<p class="text-[13px] text-stone-500 leading-6">노트를 선택하면<br/>본문·아웃링크·백링크가<br/>여기 표시됩니다.</p>
 				</div>
 				<div id="panel-body" class="hidden flex-1 flex flex-col min-h-0">
 					<!-- 헤더 -->
-					<div class="p-4 border-b border-white/10">
+					<div class="p-4 border-b border-stone-200 dark:border-white/10">
 						<div class="flex items-start justify-between gap-2">
-							<h2 id="n-title" class="text-[17px] font-semibold text-white leading-snug tracking-[-0.2px]"></h2>
-							<button id="btn-delete" title="노트 삭제" class="shrink-0 text-stone-500 hover:text-white transition-colors text-[15px] leading-none mt-0.5">✕</button>
+							<h2 id="n-title" class="text-[17px] font-semibold text-stone-900 dark:text-white leading-snug tracking-[-0.2px]"></h2>
+							<button id="btn-delete" title="노트 삭제" class="shrink-0 text-stone-500 hover:text-stone-900 dark:hover:text-white transition-colors text-[15px] leading-none mt-0.5">✕</button>
 						</div>
 						<div class="mt-2 flex flex-wrap items-center gap-1.5">
 							<span id="n-group" class="badge"></span>
@@ -113,15 +113,15 @@ const noteCount = vaultData.notes.length;
 					<div class="flex-1 overflow-y-auto min-h-0">
 						<div id="n-preview" class="prose-note px-4 py-4"></div>
 						<div id="n-edit" class="hidden h-full flex flex-col p-3">
-							<textarea id="n-textarea" class="flex-1 w-full resize-none bg-white/[0.03] border border-white/10 rounded-md p-3 text-[13px] leading-6 text-stone-200 focus:outline-none focus:border-white/25 font-mono"></textarea>
+							<textarea id="n-textarea" class="flex-1 w-full resize-none bg-stone-100 dark:bg-white/[0.03] border border-stone-200 dark:border-white/10 rounded-md p-3 text-[13px] leading-6 text-stone-800 dark:text-stone-200 focus:outline-none focus:border-stone-400 dark:focus:border-white/25 font-mono"></textarea>
 							<div class="mt-2 flex gap-2">
-								<button id="btn-save" class="tool-btn !bg-white !text-stone-900 !border-white">저장</button>
+								<button id="btn-save" class="tool-btn !bg-stone-900 !text-white !border-stone-900 dark:!bg-white dark:!text-stone-900 dark:!border-white">저장</button>
 								<button id="btn-cancel" class="tool-btn">취소</button>
 							</div>
 						</div>
 					</div>
 					<!-- 링크 -->
-					<div class="shrink-0 border-t border-white/10 max-h-[38%] overflow-y-auto">
+					<div class="shrink-0 border-t border-stone-200 dark:border-white/10 max-h-[38%] overflow-y-auto">
 						<div class="px-4 pt-3 pb-2">
 							<p class="link-head">Outlinks <span id="out-count" class="text-stone-500"></span></p>
 							<div id="n-out" class="mt-1.5 space-y-0.5"></div>
@@ -137,100 +137,159 @@ const noteCount = vaultData.notes.length;
 	</div>
 
 	<style is:global>
+		.luma-vault { --vault-canvas:#fbfcfe; }
+		.dark .luma-vault { --vault-canvas:#21232a; }
+		.vault-frame { height:100dvh; max-width:1280px; margin:0 auto; padding:0 20px; }
+		.vault-header { color:var(--c-text); }
+		.vault-toolbar { background:var(--c-bg); border:1px solid var(--c-border); border-radius:10px; }
+		.vault-workspace { gap:12px; padding-block:12px 16px; }
+		.vault-panel { border:1px solid var(--c-border); border-radius:14px; background:var(--c-bg); overflow:hidden; }
+		.vault-graph { border:1px solid var(--c-border); border-radius:14px; background:var(--vault-canvas); overflow:hidden; }
+		.vault-panel input,.vault-panel textarea { border-radius:8px; background:var(--c-surface); border-color:var(--c-border); color:var(--c-text); }
+		.vault-panel input { height:36px; }
+		.vault-toolbar button { border-radius:6px; }
 		/* 툴바/버튼 (무채색) */
 		.tool-btn {
 			height: 1.75rem; padding: 0 0.6rem; font-size: 12px; letter-spacing: -0.1px;
-			color: #d6d3d1; border: 1px solid rgba(255,255,255,0.14); border-radius: 9999px;
-			background: transparent; white-space: nowrap; transition: background .15s, color .15s;
+			color:var(--c-text); border:1px solid var(--c-border); border-radius:6px;
+			background:var(--c-surface); white-space:nowrap; transition:background .15s,color .15s;
 		}
-		.tool-btn:hover { background: rgba(255,255,255,0.08); color:#fff; }
+		.dark .tool-btn { color:#d6d3d1; border-color:rgba(255,255,255,0.14); }
+		.tool-btn:hover { background: rgba(0,0,0,0.06); color:#1c1917; }
+		.dark .tool-btn:hover { background: rgba(255,255,255,0.08); color:#fff; }
 		.tool-btn:disabled { opacity:0.4; cursor:default; }
-		.tool-btn:disabled:hover { background:transparent; color:#d6d3d1; }
-		.mode-btn { color:#a8a29e; background:transparent; transition:background .15s,color .15s; }
-		.mode-btn:hover { color:#fff; }
-		.mode-btn.active { background:#fafaf9; color:#0e0e0d; font-weight:600; }
+		.tool-btn:disabled:hover { background:transparent; color:#44403c; }
+		.dark .tool-btn:disabled:hover { background:transparent; color:#d6d3d1; }
+		.mode-btn { color:#57534e; background:transparent; transition:background .15s,color .15s; }
+		.dark .mode-btn { color:#a8a29e; }
+		.mode-btn:hover { color:#1c1917; }
+		.dark .mode-btn:hover { color:#fff; }
+		.mode-btn.active { background:var(--c-solid); color:var(--c-inverse); font-weight:600; }
+		.dark .mode-btn.active { background:var(--c-solid); color:var(--c-inverse); }
 		.seg-btn {
-			height:1.6rem; padding:0 0.7rem; border-radius:6px; color:#a8a29e;
+			height:1.6rem; padding:0 0.7rem; border-radius:6px; color:#57534e;
 			border:1px solid transparent; transition:all .15s;
 		}
-		.seg-btn:hover { color:#fff; }
-		.seg-btn.active { color:#fafaf9; border-color:rgba(255,255,255,0.2); background:rgba(255,255,255,0.05); }
+		.dark .seg-btn { color:#a8a29e; }
+		.seg-btn:hover { color:#1c1917; }
+		.dark .seg-btn:hover { color:#fff; }
+		.seg-btn.active { color:#1c1917; border-color:rgba(0,0,0,0.2); background:rgba(0,0,0,0.05); }
+		.dark .seg-btn.active { color:#fafaf9; border-color:rgba(255,255,255,0.2); background:rgba(255,255,255,0.05); }
 
 		/* 배지 */
 		.badge {
 			display:inline-flex; align-items:center; height:18px; padding:0 7px; border-radius:4px;
-			font-size:10.5px; letter-spacing:0.02em; color:#a8a29e; border:1px solid rgba(255,255,255,0.14);
+			font-size:10.5px; letter-spacing:0.02em; color:#57534e; border:1px solid rgba(0,0,0,0.14);
 		}
-		.badge.vis-public { color:#e7e5e4; border-color:rgba(255,255,255,0.28); }
-		.badge.vis-inner  { color:#a8a29e; border-color:rgba(255,255,255,0.16); }
-		.badge.vis-risk   { color:#d6d3d1; border-color:rgba(255,255,255,0.22); border-style:dashed; }
+		.dark .badge { color:#a8a29e; border-color:rgba(255,255,255,0.14); }
+		.badge.vis-public { color:#292524; border-color:rgba(0,0,0,0.28); }
+		.dark .badge.vis-public { color:#e7e5e4; border-color:rgba(255,255,255,0.28); }
+		.badge.vis-inner  { color:#57534e; border-color:rgba(0,0,0,0.16); }
+		.dark .badge.vis-inner  { color:#a8a29e; border-color:rgba(255,255,255,0.16); }
+		.badge.vis-risk   { color:#44403c; border-color:rgba(0,0,0,0.22); border-style:dashed; }
+		.dark .badge.vis-risk   { color:#d6d3d1; border-color:rgba(255,255,255,0.22); }
 		.tag { display:inline-flex; align-items:center; height:18px; padding:0 6px; font-size:10.5px; color:#78716c; }
-		.tag::before { content:"#"; color:#57534e; margin-right:1px; }
+		.tag::before { content:"#"; color:#a8a29e; margin-right:1px; }
+		.dark .tag::before { color:#57534e; }
 
 		.link-head { font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:#78716c; }
 
 		/* 리스트 아이템 */
-		.nl-group { font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:#57534e; padding:10px 10px 4px; }
+		.nl-group { font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:#a8a29e; padding:10px 10px 4px; }
+		.dark .nl-group { color:#57534e; }
 		.nl-item {
 			display:flex; align-items:center; gap:7px; width:100%; text-align:left;
-			padding:5px 10px; border-radius:6px; font-size:13px; color:#d6d3d1;
+			padding:5px 10px; border-radius:6px; font-size:13px; color:#44403c;
 			cursor:pointer; transition:background .12s, color .12s; line-height:1.3;
 		}
-		.nl-item:hover { background:rgba(255,255,255,0.05); color:#fff; }
-		.nl-item.sel { background:rgba(255,255,255,0.1); color:#fff; }
-		.nl-dot { width:5px; height:5px; border-radius:9999px; background:#57534e; flex:none; }
+		.dark .nl-item { color:#d6d3d1; }
+		.nl-item:hover { background:rgba(0,0,0,0.05); color:#1c1917; }
+		.dark .nl-item:hover { background:rgba(255,255,255,0.05); color:#fff; }
+		.nl-item.sel { background:rgba(0,0,0,0.08); color:#1c1917; }
+		.dark .nl-item.sel { background:rgba(255,255,255,0.1); color:#fff; }
+		.nl-dot { width:5px; height:5px; border-radius:9999px; background:#78716c; flex:none; }
+		.dark .nl-dot { background:#57534e; }
 		.nl-item.risk .nl-dot { background:transparent; border:1px dashed #78716c; width:6px; height:6px; }
 
 		/* 본문 프리뷰 */
-		.prose-note { font-size:14px; line-height:1.72; color:#c4c0bd; letter-spacing:-0.1px; }
+		.prose-note { font-size:14px; line-height:1.72; color:#44403c; letter-spacing:-0.1px; }
+		.dark .prose-note { color:#c4c0bd; }
 		.prose-note p { margin:0 0 0.85em; }
-		.prose-note strong { color:#f5f5f4; font-weight:600; }
+		.prose-note strong { color:#1c1917; font-weight:600; }
+		.dark .prose-note strong { color:#f5f5f4; }
 		.prose-note blockquote {
-			margin:0.6em 0; padding:0.4em 0.9em; border-left:2px solid rgba(255,255,255,0.2);
-			color:#e7e5e4; font-style:normal;
+			margin:0.6em 0; padding:0.4em 0.9em; border-left:2px solid rgba(0,0,0,0.2);
+			color:#292524; font-style:normal;
 		}
+		.dark .prose-note blockquote { border-left-color:rgba(255,255,255,0.2); color:#e7e5e4; }
 		.prose-note ul { margin:0 0 0.85em; padding-left:1.1em; list-style:disc; }
 		.prose-note li { margin:0.15em 0; }
-		.prose-note a.lk { color:#fafaf9; text-decoration:underline; text-decoration-color:rgba(255,255,255,0.35); text-underline-offset:2px; cursor:pointer; }
-		.prose-note a.lk:hover { text-decoration-color:#fff; }
-		.prose-note a.lk.missing { color:#a8a29e; text-decoration-style:dashed; text-decoration-color:rgba(255,255,255,0.25); opacity:0.8; }
+		.prose-note a.lk { color:#1c1917; text-decoration:underline; text-decoration-color:rgba(0,0,0,0.4); text-underline-offset:2px; cursor:pointer; }
+		.dark .prose-note a.lk { color:#fafaf9; text-decoration-color:rgba(255,255,255,0.35); }
+		.prose-note a.lk:hover { text-decoration-color:#000; }
+		.dark .prose-note a.lk:hover { text-decoration-color:#fff; }
+		.prose-note a.lk.missing { color:#78716c; text-decoration-style:dashed; text-decoration-color:rgba(0,0,0,0.25); opacity:0.8; }
+		.dark .prose-note a.lk.missing { color:#a8a29e; text-decoration-color:rgba(255,255,255,0.25); }
 
 		/* 링크 리스트 항목 */
-		.lk-item { display:flex; align-items:center; gap:7px; padding:3px 6px; border-radius:5px; font-size:12.5px; color:#d6d3d1; cursor:pointer; line-height:1.3; }
-		.lk-item:hover { background:rgba(255,255,255,0.06); color:#fff; }
-		.lk-item .lk-arrow { color:#57534e; font-size:11px; flex:none; }
+		.lk-item { display:flex; align-items:center; gap:7px; padding:3px 6px; border-radius:5px; font-size:12.5px; color:#44403c; cursor:pointer; line-height:1.3; }
+		.dark .lk-item { color:#d6d3d1; }
+		.lk-item:hover { background:rgba(0,0,0,0.05); color:#1c1917; }
+		.dark .lk-item:hover { background:rgba(255,255,255,0.06); color:#fff; }
+		.lk-item .lk-arrow { color:#a8a29e; font-size:11px; flex:none; }
+		.dark .lk-item .lk-arrow { color:#57534e; }
 		.lk-item.missing { color:#8a8785; }
-		.lk-item.missing .lk-label { text-decoration:underline dashed rgba(255,255,255,0.25); text-underline-offset:2px; }
+		.lk-item.missing .lk-label { text-decoration:underline dashed rgba(0,0,0,0.3); text-underline-offset:2px; }
+		.dark .lk-item.missing .lk-label { text-decoration-color:rgba(255,255,255,0.25); }
 		.empty-note { font-size:12px; color:#78716c; padding:2px 6px; }
 
 		/* 그래프 SVG */
 		#graph { cursor:grab; }
 		#graph.panning { cursor:grabbing; }
-		.edge { stroke:rgba(255,255,255,0.13); stroke-width:1; }
-		.edge.hl { stroke:rgba(255,255,255,0.5); stroke-width:1.4; }
-		.node-circle { fill:#3f3c3a; stroke:#0e0e0d; stroke-width:1.5; transition:fill .12s; }
+		.edge { stroke:rgba(0,0,0,0.16); stroke-width:1; }
+		.dark .edge { stroke:rgba(255,255,255,0.13); }
+		.edge.hl { stroke:rgba(0,0,0,0.45); stroke-width:1.4; }
+		.dark .edge.hl { stroke:rgba(255,255,255,0.5); }
+		.node-circle { fill:var(--c-muted); stroke:var(--vault-canvas); stroke-width:1.5; transition:fill .12s; }
+		.dark .node-circle { fill:#777b8c; stroke:var(--vault-canvas); }
 		.node.risk .node-circle { stroke:#8a8785; stroke-dasharray:2 2; }
-		.node:hover .node-circle { fill:#78716c; }
-		.node.sel .node-circle { fill:#fafaf9; stroke:#fff; }
-		.node.neighbor .node-circle { fill:#8a8785; }
-		.node-label { fill:#e7e5e4; font-size:10.5px; letter-spacing:-0.2px; pointer-events:none; paint-order:stroke; stroke:#0e0e0d; stroke-width:3.5px; opacity:0; transition:opacity .12s; }
+		.node:hover .node-circle { fill:#57534e; }
+		.dark .node:hover .node-circle { fill:#78716c; }
+		.node.sel .node-circle { fill:#1c1917; stroke:#000; }
+		.dark .node.sel .node-circle { fill:#fafaf9; stroke:#fff; }
+		.node.neighbor .node-circle { fill:#57534e; }
+		.dark .node.neighbor .node-circle { fill:#8a8785; }
+		.node-label { fill:var(--c-text); font-size:10.5px; letter-spacing:-0.2px; pointer-events:none; paint-order:stroke; stroke:var(--vault-canvas); stroke-width:3.5px; opacity:0; transition:opacity .12s; }
+		.dark .node-label { fill:var(--c-text); stroke:var(--vault-canvas); }
 		.node.hub .node-label { opacity:0.85; }
 		#nodes.labels-all .node-label { opacity:0.9; }
 		.node.neighbor .node-label { opacity:1; }
-		.node:hover .node-label { opacity:1; fill:#fff; }
-		.node.sel .node-label { opacity:1; fill:#fff; font-weight:600; }
+		.node:hover .node-label { opacity:1; fill:#000; }
+		.dark .node:hover .node-label { fill:#fff; }
+		.node.sel .node-label { opacity:1; fill:#000; font-weight:600; }
+		.dark .node.sel .node-label { fill:#fff; }
 		.node.dim { opacity:0.12; }
 		.edge.dim { opacity:0.09; }
 		.node-hit { fill:transparent; cursor:pointer; }
 
 		#note-list::-webkit-scrollbar, .overflow-y-auto::-webkit-scrollbar { width:8px; }
-		#note-list::-webkit-scrollbar-thumb, .overflow-y-auto::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.1); border-radius:8px; }
+		#note-list::-webkit-scrollbar-thumb, .overflow-y-auto::-webkit-scrollbar-thumb { background:rgba(0,0,0,0.15); border-radius:8px; }
+		.dark #note-list::-webkit-scrollbar-thumb, .dark .overflow-y-auto::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.1); }
 
+		@media (min-width:641px) and (max-width:1000px) {
+			#pane-list { width:200px; }
+			#pane-note { width:260px; }
+			.vault-workspace { gap:8px; }
+		}
 		/* 모바일: 사이드 패널을 오버레이로 */
 		@media (max-width: 640px) {
+			.vault-frame { padding:0 12px; }
+			.vault-workspace { padding-bottom:12px; }
+			.vault-header { gap:12px; }
+			.vault-header > div:last-child { gap:12px; }
 			#pane-list, #pane-note {
 				position:absolute; top:0; bottom:0; z-index:30; width:82%; max-width:340px;
-				transition:transform .2s ease; box-shadow:0 0 40px rgba(0,0,0,0.6);
+				background:var(--vault-canvas); transition:transform .2s ease; box-shadow:0 10px 32px rgba(22,27,44,.18);
 			}
 			#pane-list { left:0; transform:translateX(-102%); }
 			#pane-note { right:0; transform:translateX(102%); }

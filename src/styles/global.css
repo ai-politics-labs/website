@@ -1,7 +1,20 @@
 @import "tailwindcss";
 
+/* 다크 모드: .dark 클래스 기반 (시스템 기본값 + 수동 토글은 JS에서 처리) */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --color-stone-50: #f7f8fa;
+  --color-stone-100: #f0f2f5;
+  --color-stone-200: #e3e5ea;
+  --color-stone-300: #ced1d9;
+  --color-stone-400: #999da9;
+  --color-stone-500: #7b808d;
+  --color-stone-600: #606571;
+  --color-stone-700: #484d58;
+  --color-stone-800: #353943;
+  --color-stone-900: #27292f;
 }
 
 html { scroll-behavior: smooth; }
@@ -18,5 +31,25 @@ section { scroll-margin-top: 80px; }
 }
 
 .toc-link { color: #78716c; transition: color 0.15s; }
-.toc-link:hover { color: #d6d3d1; }
-.toc-link.active { color: #fafaf9; font-weight: 500; }
+.toc-link:hover { color: #292524; }
+.toc-link.active { color: #0c0a09; font-weight: 500; }
+.dark .toc-link:hover { color: #d6d3d1; }
+.dark .toc-link.active { color: #fafaf9; }
+
+/* Shared legacy forms follow the same surfaces as the new community screens. */
+.luma-shell input:not([type="checkbox"]):not([type="radio"]),
+.luma-shell textarea, .luma-shell select {
+  border-color: var(--c-border);
+  border-radius: 8px;
+  background-color: var(--c-bg);
+  color: var(--c-text);
+}
+.luma-shell button.rounded-full, .luma-shell a.rounded-full { border-radius: 8px; }
+.luma-shell .bg-stone-100.rounded-2xl,
+.luma-shell .bg-stone-50.rounded-2xl {
+  background: var(--c-bg);
+  border: 1px solid var(--c-border);
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgb(27 31 46 / .025);
+}
+.luma-shell #theme-toggle { border-radius: 50%; }

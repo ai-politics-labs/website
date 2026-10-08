@@ -1,0 +1,26 @@
+---
+import Layout from './Layout.astro';
+interface Props { title: string; description?: string; active?: string; variant?: 'default' | 'auth' }
+const { title, description = 'AIP에서 생각을 나누고, 새로운 시작을 함께 만드는 사람들을 초대하세요.', active = '', variant = 'default' } = Astro.props;
+---
+<Layout title={title} bodyClass={`luma-shell ${variant === 'auth' ? 'luma-auth' : ''} antialiased`}>
+  <Fragment slot="head">
+    <meta name="description" content={description} />
+    <slot name="head" />
+  </Fragment>
+  <a href="#community-main" class="c-skip">본문으로 건너뛰기</a>
+  <header class="c-header">
+    <div class="c-container c-nav-inner">
+      <a class="c-brand" href="/" aria-label="AIP · AI Party 홈"><img src="/favicon.svg" width="28" height="28" alt="" /><span>AIP · AI Party</span></a>
+      <nav class="c-nav" aria-label="주 메뉴">
+        <a href="/dashboard" aria-current={active === 'dashboard' ? 'page' : undefined}><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M3 3h14v14H3zM6 13V9m4 4V6m4 7v-3" /></svg>발기인 현황</a>
+        <a href="/board" aria-current={active === 'board' ? 'page' : undefined}><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M3 3h14v11H7l-4 3V3zM6 7h8m-8 3h5" /></svg>자유게시판</a>
+        <a href="/account" aria-current={active === 'account' ? 'page' : undefined}><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="m11 3 6 7-6 7M17 10H3" /></svg>내 초대 현황</a>
+        <a href="/auth" data-community-auth>로그인 / 가입</a>
+      </nav>
+    </div>
+  </header>
+  <main id="community-main" class="c-container"><slot /></main>
+  <footer class="c-container c-footer"><img src="/favicon.svg" width="20" height="20" alt="" /><span>AIP · AI Party</span><a href="/community/privacy">계정과 추천 정보 안내</a><a href="/#founding-members">발기인 참여 ↗</a></footer>
+  <script type="module" src="/community/nav.js" is:inline></script>
+</Layout>

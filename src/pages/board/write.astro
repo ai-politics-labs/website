@@ -1,0 +1,49 @@
+---
+import CommunityLayout from '../../layouts/CommunityLayout.astro';
+---
+
+<CommunityLayout title="글쓰기 — AI정치연구소" description="자유게시판에 함께 나누고 싶은 이야기를 남겨 주세요." active="board">
+  <section class="c-page c-narrow" aria-labelledby="write-heading">
+    <a class="c-link" href="/board">← 자유게시판</a>
+    <h1 id="write-heading" class="c-heading">글쓰기</h1>
+    <p class="c-muted">서로를 존중하며 생각을 나눠 주세요. 글은 모든 방문자에게 공개됩니다.</p>
+
+    <p id="write-message" class="c-message" role="status" aria-live="polite">회원 정보를 확인하는 중입니다.</p>
+    <div id="write-access" class="c-card" hidden>
+      <p id="write-access-message" class="c-muted"></p>
+      <a class="c-button c-button-secondary" href="/account">내 계정으로 이동</a>
+    </div>
+    <form id="write-form" class="c-card c-form write-form" hidden>
+      <fieldset id="write-fields" disabled>
+        <label class="c-field" for="post-title">
+          <span>제목</span>
+          <input id="post-title" class="c-input" name="title" type="text" required maxlength="120" placeholder="이야기의 제목을 적어 주세요" />
+        </label>
+        <label class="c-field" for="post-body">
+          <span>내용</span>
+          <textarea id="post-body" class="c-input c-textarea" name="body" required maxlength="10000" rows="16" aria-describedby="post-body-help" placeholder="함께 나누고 싶은 생각을 적어 주세요"></textarea>
+          <span id="post-body-help" class="c-muted write-help">최대 10,000자 · 서식 없는 일반 텍스트로 게시됩니다. 연락처 등 개인정보는 적지 마세요.</span>
+        </label>
+        <div class="c-actions">
+          <button id="write-submit" class="c-button" type="submit">게시하기</button>
+          <a id="write-cancel" class="c-button c-button-secondary" href="/board">취소</a>
+        </div>
+      </fieldset>
+    </form>
+    <noscript><p class="c-message">글을 쓰려면 브라우저에서 자바스크립트를 켜 주세요.</p></noscript>
+  </section>
+  <script type="module" src="/community/write-post.js" is:inline></script>
+</CommunityLayout>
+
+<style>
+  .c-page { max-width: 760px; }
+  .c-heading { margin: 28px 0 10px; font-size: 32px; font-weight: 650; letter-spacing: -.8px; }
+  .write-form { margin-top: 26px; padding: 28px; }
+  .write-form fieldset { display: grid; gap: 24px; min-width: 0; border: 0; padding: 0; margin: 0; }
+  .write-help { font-size: 13px; line-height: 1.6; }
+  .write-form textarea { resize: vertical; min-height: 280px; }
+  @media(max-width: 600px) {
+    .c-heading { font-size: 27px; }
+    .write-form { padding: 20px; }
+  }
+</style>

@@ -1,0 +1,14 @@
+---
+import CommunityLayout from '../../layouts/CommunityLayout.astro';
+---
+<CommunityLayout title="계정과 추천 정보 안내 | AIP · AI Party">
+  <article class="c-page privacy-text">
+    <p class="c-eyebrow">AIP / 계정과 추천 정보</p><h1 class="c-heading">내 정보는 어떻게 쓰이나요?</h1>
+    <p class="c-muted">발기인 동의서 제출과 함께 사이트 계정을 만듭니다. 여기서는 계정, 자유게시판, 추천 링크에 쓰이는 정보를 안내합니다. 발기인 동의서와 선거권 회복 캠페인 자료의 보관·이용은 각 접수 안내를 함께 따릅니다.</p>
+    <section><h2>계정과 게시판</h2><p>동의서에 입력한 성명·주소·생년월일·성별·직업·전화번호·서명은 발기인 등록에, 이메일·아이디·닉네임은 사이트 계정에 사용합니다. 비밀번호 인증은 Supabase Auth가 처리하며, 동의서나 게시판 데이터에 비밀번호를 저장하지 않습니다.</p><p>작성한 게시글의 제목·본문, 작성일, 닉네임과 아이디는 누구나 볼 수 있습니다. 이메일과 동의서의 개인정보는 게시판에 표시하지 않습니다. 공개하고 싶지 않은 개인 정보는 글에 적지 마세요.</p></section>
+    <section><h2>추천 링크와 가입</h2><p>내 초대 링크에는 추천인 아이디와 채널별 UTM 값이 포함됩니다. 방문을 집계하기 위해 브라우저에 임의의 식별자를 저장합니다. IP 주소나 기기 지문을 수집하는 기능은 추가하지 않습니다.</p><p>추천 링크로 처음 방문한 뒤 30일 안에 가입하면 해당 추천인에 연결합니다. 가입할 때 추천인 아이디를 직접 입력한 경우에는 입력한 추천인이 우선합니다. 추천인은 방문·인증 완료 가입의 집계 수만 볼 수 있고, 내가 가입할 때 쓴 이메일이나 연락처는 볼 수 없습니다.</p></section>
+    <section><h2>보관과 삭제 요청</h2><p>계정과 추천 연결 정보는 계정 서비스 운영에 사용하며, 브라우저의 추천 경로는 첫 방문 후 30일 동안 유지됩니다. 게시글을 삭제하면 공개 게시판에서 숨겨집니다.</p><p>계정과 연결된 정보의 삭제를 원하면 <a href="/account" class="c-link">내 초대 현황</a>에서 ‘계정 삭제 요청’을 누르세요. 운영자가 요청을 확인해 처리합니다. 이 기능은 사이트 회원 계정에 대한 요청이며, 별도로 제출한 발기인 동의서나 캠페인 자료는 해당 접수 절차에 따라 요청해야 합니다.</p></section>
+    <p class="c-muted">안내 버전 · 2026년 10월 9일</p>
+  </article>
+</CommunityLayout>
+<style>.privacy-text{max-width:760px;margin-inline:auto;font-size:15px;line-height:1.9}.privacy-text section{margin:36px 0}.privacy-text h2{font-size:20px;font-weight:600;margin-bottom:12px}.privacy-text p+p{margin-top:12px}</style>
