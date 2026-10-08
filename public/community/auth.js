@@ -32,7 +32,10 @@ function navigateTo(value) {
   if (next !== '/account') url.searchParams.set('next', next);
   window.history.replaceState(null, '', url.pathname + url.search);
   setMessage(message, '');
-  showMode(value, true);
+  if (value === 'verify') {
+    pendingEmail = byId('login-email').value.trim() || pendingEmail || byId('resend-email').value.trim();
+    showVerification(true);
+  } else showMode(value, true);
 }
 
 function setBusy(form, busy) {
@@ -66,26 +69,35 @@ byId('login-form').addEventListener('submit', (event) => {
   event.preventDefault();
   const form = event.currentTarget;
   void submit(form, async () => {
+    const email = byId('login-email').value.trim();
     const { error } = await supabase.auth.signInWithPassword({
-      email: byId('login-email').value.trim(), password: byId('login-password').value,
+      email, password: byId('login-password').value,
     });
+    if (error?.code === 'email_not_confirmed' || /email not confirmed/i.test(error?.message || '')) {
+      pendingEmail = email;
+      byId('login-password').value = '';
+      showVerification(true);
+      setMessage(message, '이메일 인증이 필요합니다. 메일함을 확인하거나 아래에서 인증 메일을 다시 요청해 주세요.', true);
+      return;
+    }
     if (error) throw error;
     const { data, error: userError } = await supabase.auth.getUser();
     if (userError) throw userError;
     if (!data.user?.email_confirmed_at) {
+      pendingEmail = email;
+      byId('login-password').value = '';
+      showVerification(true);
       setMessage(message, '가입한 이메일의 인증 링크를 열어 이메일 인증을 완료해 주세요.', true);
-      pendingEmail = byId('login-email').value.trim();
-      showVerification();
       return;
     }
     window.location.assign(next);
   });
 });
 
-function showVerification() {
-  byId('verification-email').textContent = pendingEmail;
+function showVerification(focus = false) {
+  byId('verification-email').textContent = pendingEmail || '가입한 이메일';
   byId('resend-email').value = pendingEmail;
-  showMode('verify');
+  showMode('verify', focus);
 }
 
 byId('resend-form').addEventListener('submit', (event) => {
@@ -143,7 +155,7 @@ byId('recovery-form').addEventListener('submit', (event) => {
   });
 });
 
-// A recovery form needs a validated recovery event or a successful code exchange.
+// A recovery form needs a validated PASSWORD_RECOVERY event.
 // Merely adding ?mode=recovery to an address never authorizes a password change.
 supabase.auth.onAuthStateChange((event, session) => {
   if (event === 'PASSWORD_RECOVERY' && session?.user?.id) {
@@ -163,25 +175,29 @@ async function initialize() {
     return;
   }
   const fragment = new URLSearchParams(window.location.hash.slice(1));
-  if (params.has('error') || fragment.has('error')) {
-    showMode(requestedMode === 'recovery' ? 'reset' : 'login');
+  if (['error', 'error_code', 'error_description'].some((key) => params.has(key) || fragment.has(key))) {
+    navigateTo(requestedMode === 'recovery' ? 'reset' : 'verify');
     setMessage(message, '인증 링크가 만료되었거나 유효하지 않습니다. 메일을 다시 요청해 주세요.', true);
-    window.history.replaceState(null, '', `/auth?mode=${requestedMode === 'recovery' ? 'reset' : 'login'}`);
     return;
   }
   // Wait for the SDK's automatic URL handling before attempting a PKCE fallback.
-  await supabase.auth.getSession();
+  // initialize() also reports URL verification errors that getSession() omits.
+  const { error: initializationError } = await supabase.auth.initialize();
+  if (initializationError) {
+    navigateTo(requestedMode === 'recovery' ? 'reset' : 'verify');
+    setMessage(message, '인증 링크를 확인하지 못했습니다. 아래에서 새 메일을 요청해 주세요.', true);
+    return;
+  }
   const code = new URLSearchParams(window.location.search).get('code');
   if (code) {
-    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
     // The SDK may have already exchanged the URL code during initialization.
     // Only its PASSWORD_RECOVERY event can authorize that recovery path.
     if (error && !recoveryUserId) {
-      showMode(requestedMode === 'recovery' ? 'reset' : 'login');
+      navigateTo(requestedMode === 'recovery' ? 'reset' : 'verify');
       setMessage(message, '인증 링크를 확인하지 못했습니다. 같은 브라우저에서 새 링크를 요청해 주세요.', true);
       return;
     }
-    if (!error && requestedMode === 'recovery' && data.session?.user?.id) recoveryUserId = data.session.user.id;
   }
   const { data, error } = await supabase.auth.getUser();
   if (requestedMode === 'recovery' || recoveryUserId) {
@@ -199,15 +215,18 @@ async function initialize() {
       window.location.replace(next);
       return;
     }
-    showMode('verify');
+    showVerification();
     setMessage(message, '인증 링크를 확인하지 못했습니다. 인증 메일을 다시 요청하거나 로그인해 주세요.', true);
     return;
   }
-  if (!error && data.user?.email_confirmed_at && requestedMode === 'login') {
+  if (!error && data.user?.email_confirmed_at && ['login', 'verify'].includes(requestedMode)) {
     window.location.replace(next);
     return;
   }
-  showMode(requestedMode);
+  if (requestedMode === 'verify') {
+    pendingEmail = data.user?.email || '';
+    showVerification();
+  } else showMode(requestedMode);
   setMessage(message, '');
 }
 

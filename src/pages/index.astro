@@ -43,7 +43,6 @@ const toc = [
 			<nav aria-label="커뮤니티" class="c-nav home-nav">
 				<button id="toc-toggle" type="button" class="home-toc-toggle" aria-label="목차 열기" aria-expanded="false" aria-controls="toc-overlay">소개 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></button>
 				<a href="/dashboard">발기인 현황</a>
-				<a href="/board">게시판</a>
 				<a href="/auth" data-community-auth>로그인</a>
 			</nav>
 		</div>
@@ -331,7 +330,7 @@ const toc = [
 				</h1>
 				<p class="text-[15px] text-stone-500 dark:text-stone-400 leading-6 tracking-[-0.16px] max-w-xl">
 					에이아이당(가칭) 창당준비위원회 발기인에 동의합니다.<br/>
-					동의서를 제출하면 사이트 계정도 함께 만들어집니다.<br/>이메일 인증 후 게시판과 나의 초대 현황을 이용할 수 있습니다.
+					동의서를 제출하면 사이트 계정도 함께 만들어집니다.<br/>이메일 인증 후 나의 초대 현황을 이용할 수 있습니다.
 				</p>
 				<a href="/dashboard" class="inline-flex items-center min-h-10 mt-3 text-[13px] text-stone-700 dark:text-stone-300 underline underline-offset-4">전체 발기인 수와 지역별 참여 현황 보기 →</a>
 
@@ -339,7 +338,7 @@ const toc = [
 					<p class="text-[14px] text-stone-700 dark:text-stone-300 tracking-[-0.14px]"><span class="font-semibold text-stone-800 dark:text-stone-300">발기인이란?</span> 새로운 정당의 시작을 응원해 주신다는 상징적인 의미입니다.</p>
 					<ul class="space-y-1.5 text-[13px] text-stone-600 dark:text-stone-400 leading-[20px] tracking-[-0.14px]">
 						<li><span class="font-medium text-stone-700 dark:text-stone-300">부담 ZERO :</span> 당비 납부, 행사 참석 의무가 전혀 없습니다.</li>
-						<li><span class="font-medium text-stone-700 dark:text-stone-300">정보 보호 :</span> 발기인 서류와 계정 정보를 구분해 관리하며, 실명·주소·서명은 게시판에 공개하지 않습니다.</li>
+						<li><span class="font-medium text-stone-700 dark:text-stone-300">정보 보호 :</span> 발기인 서류와 계정 정보를 구분해 관리하며, 실명·주소·서명은 다른 회원에게 공개하지 않습니다.</li>
 						<li><span class="text-amber-700">⚠️</span> <span class="font-medium text-stone-700 dark:text-stone-300">가입 불가 :</span> 정당법에 따라 현직 공무원, 교원, 군인, 사회복무요원 등 <span class="text-[12px] text-stone-500 dark:text-stone-400">(산업기능요원·전문연구요원은 가능)</span></li>
 					</ul>
 				</div>
@@ -363,7 +362,7 @@ const toc = [
 									<p class="field-error hidden text-[12px] text-red-500"></p>
 								</div>
 								<div class="c-field">
-									<label for="signup-display-name">게시판 닉네임 <span class="c-help">(선택)</span></label>
+									<label for="signup-display-name">사이트 닉네임 <span class="c-help">(선택)</span></label>
 									<input id="signup-display-name" name="display_name" type="text" class="c-input" maxlength="40" autocomplete="nickname" aria-describedby="signup-display-help" placeholder="공개할 닉네임" />
 									<small id="signup-display-help">비워 두면 아이디를 사용합니다. 동의서의 성명은 자동으로 공개되지 않습니다.</small>
 									<p class="field-error hidden text-[12px] text-red-500"></p>
@@ -564,7 +563,7 @@ const toc = [
 								본인은 에이아이당(가칭) 창당준비위원회 발기인에 동의하며, 개인정보 수집 및 이용에 동의합니다.
 								성명, 주소, 생년월일, 성별, 직업, 전화번호, 서명 정보를 창당 발기인 등록 목적으로 수집하며,
 								창당 절차 완료 후 관련 법령에 따라 보관 또는 파기합니다.
-								이메일·아이디·닉네임은 계정 운영, 로그인, 게시판 및 초대 현황 제공에 사용합니다.
+								이메일·아이디·닉네임은 계정 운영, 로그인 및 초대 현황 제공에 사용합니다.
 								<a href="/community/privacy" class="c-link">개인정보 수집·이용 안내</a>
 							</label>
 						</div>
@@ -1071,8 +1070,8 @@ const toc = [
 						? '발기인 동의와 가입이 완료되었습니다'
 						: result.alreadyRegistered ? '이미 발기인 동의서가 접수되어 있습니다' : '발기인 동의서가 접수되었습니다';
 					document.getElementById('founder-success-detail').textContent = needsVerification
-						? '동의서와 계정은 함께 저장되었습니다. 가입한 이메일의 인증 링크를 열면 게시판과 나의 초대 현황을 이용할 수 있습니다. 메일이 없으면 스팸함을 확인하거나 인증 메일을 다시 받아 주세요.'
-						: '함께해 주셔서 감사합니다. 이제 게시판에서 생각을 나누고, 나의 링크로 사람들을 초대해 보세요.';
+						? '동의서와 계정은 함께 저장되었습니다. 가입한 이메일의 인증 링크를 열면 나의 초대 현황을 이용할 수 있습니다. 메일이 없으면 스팸함을 확인하거나 인증 메일을 다시 받아 주세요.'
+						: '함께해 주셔서 감사합니다. 이제 나의 링크로 사람들을 초대해 보세요.';
 					const successLink = document.getElementById('founder-success-link');
 					successLink.href = needsVerification ? '/auth' : '/account';
 					successLink.textContent = needsVerification ? '로그인하기' : '나의 초대 현황 보기';

@@ -8,4 +8,6 @@ Preserve: pale blue/lavender top wash and pale pink/peach auth wash, transparent
 
 Product requirements override literal Luma content: preserve founder statistics, original manifesto, actual calendar/vault content, privacy boundaries, one founder-consent/account flow, and recommendation/UTM metrics. Do not add fake Google/phone authentication or event booking controls.
 
-Scope: homepage, founderform, declaration, atlas/vault, revote/campaign, admin, dashboard, account, auth, board. Shared tokens live in public/community/community.css loaded by base Layout. Page-specific layout remains local. Visual QA after each rendered iteration, with saved verdicts under .omx/state/*luma*/.
+Scope: homepage, founderform, declaration, atlas/vault, revote/campaign, admin, dashboard, account, auth. Shared tokens live in public/community/community.css loaded by base Layout. Page-specific layout remains local. Visual QA after each rendered iteration, with saved verdicts under .omx/state/*luma*/.
+
+Board removed at user request on2026-10-09. Its reference screenshot remains historical design research; no board routes or client assets are published. Database RPCs disabled without dropping recoverable post records.

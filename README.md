@@ -39,15 +39,16 @@ AI는 얻을 것도, 잃을 것도 없기에 가장 투명하고 바르게 정�
    - `public/revote/kakao.js` → `KAKAO_JS_KEY` (카카오 공유)
    - `public/revote/analytics.js` → `GA_MEASUREMENT_ID`, `POSTHOG_KEY` (분석)
 
-## 계정·자유게시판·추천 링크
+## 계정·추천 링크
 
 - `/#founding-members`: 발기인 동의서와 로그인용 이메일·아이디·비밀번호를 한 번 제출합니다. 사이트 계정과 발기인 등록은 함께 저장됩니다. 아이디가 추천인 ID입니다.
 - `/auth`: 기존 계정 로그인, 이메일 인증 재전송, 비밀번호 찾기. 별도 회원가입 양식은 없으며 가입 링크는 발기인 동의서로 연결됩니다.
-- `/board`: 공개 글 목록·검색·상세. 인증된 회원은 본인 글을 쓰고 수정·삭제할 수 있습니다. 삭제는 공개 목록에서 숨기는 방식입니다.
 - `/account`: 기본 초대 링크, UTM 채널별 링크, 방문 브라우저·인증 완료 가입·추천인 ID 가입 수. 추천받은 회원의 이메일은 제공하지 않습니다.
-- `/community/privacy`: 계정·게시판·추천 정보 안내 및 계정 삭제 요청 경로.
+- `/community/privacy`: 계정·추천 정보 안내 및 계정 삭제 요청 경로.
 
-운영 순서: `db/2026-10-09_founding_member_stats.sql`, `db/2026-10-09_community.sql`, **마지막으로** `db/2026-10-09_founding_signup.sql`을 DB 소유자로 적용합니다. 앞선 community 파일만 다시 실행하면 가입 트리거가 구형으로 돌아가므로 반드시 founding_signup 후속 파일도 다시 적용하세요. 운영자 UUID 하나만 명시적으로 초기 등록하며 새 가입자는 운영자가 되지 않습니다. PostgreSQL15 이상이 필요합니다.
+운영 순서: `db/2026-10-09_founding_member_stats.sql` → `db/2026-10-09_community.sql` → `db/2026-10-09_founding_signup.sql` → **마지막으로** `db/2026-10-09_disable_board.sql`을 DB 소유자로 적용합니다. 앞선 community 파일을 다시 실행하면 가입 트리거와 게시판 권한이 구형으로 돌아가므로 두 후속 파일도 순서대로 다시 적용하세요. 운영자 UUID 하나만 명시적으로 초기 등록하며 새 가입자는 운영자가 되지 않습니다. PostgreSQL15 이상이 필요합니다.
+
+게시판은 현재 운영하지 않습니다. 화면·메뉴·클라이언트 스크립트는 제거하고, 네 개의 게시판 RPC 실행 권한도 차단합니다. 기존 게시글 테이블과 데이터는 복구할 수 있도록 삭제하지 않습니다.
 
 Supabase Auth의 Site URL은 `https://aiparty.kr`, Redirect URL은 `https://aiparty.kr/auth**`로 설정합니다. 이메일 확인을 유지하며 공개 가입의 인증·비밀번호 재설정 이메일에는 별도 SMTP 서비스를 연결해야 합니다.
 
@@ -57,8 +58,14 @@ Supabase Auth의 Site URL은 `https://aiparty.kr`, Redirect URL은 `https://aipa
 
 디자인은 사용자 지정 Refero Luma site400의 인증 카드·날짜 목록·캘린더 패널을 기준으로 통일하며, AIP 로고 원본은 유지합니다. 세부 기준은 `docs/community-design.md`를 참조하세요.
 
-검증: `node --experimental-strip-types --test tests/*.test.mjs`, `tests/run-community-db.sh`, `tests/run-founding-signup-db.sh`, `npm run build`. SQL 회귀 테스트는 운영 DB가 아닌 전용 임시 클러스터에서 실행하세요.
+검증: `node --experimental-strip-types --test tests/*.test.mjs`, `tests/run-community-db.sh`, `tests/run-founding-signup-db.sh`, `tests/run-disable-board-db.sh`, `npm run build`. SQL 회귀 테스트는 운영 DB가 아닌 전용 임시 클러스터에서 실행하세요.
 
 회원 삭제 요청은 `community_admin_deletion_requests()`를 운영자 인증으로 호출해 조회합니다. 자동 삭제는 수행하지 않습니다. 기존 법적 동의서와 캠페인 자료는 별도 보관·삭제 절차를 따릅니다.
 
 공식 API 근거: [Supabase signup](https://supabase.com/docs/reference/javascript/auth-signup), [사용자 프로필·RLS](https://supabase.com/docs/guides/auth/managing-user-data), [이메일·비밀번호 인증](https://supabase.com/docs/guides/auth/passwords).
+
+## 인증 메일
+
+인증·비밀번호 재설정 메일 템플릿은 `supabase/templates/confirmation.html`, `supabase/templates/recovery.html`입니다. Supabase Authentication → Emails → Templates에서 각각 사용합니다. 제목은 ‘AIP 이메일 주소 확인’, ‘AIP 비밀번호 재설정’입니다. `{{ .ConfirmationURL }}`은 Supabase가 생성하는 일회용 링크이므로 하드코딩하거나 로그인 토큰을 직접 넣지 않습니다.
+
+SMTP 비밀번호/API 키는 Supabase의 암호화된 SMTP 설정에만 저장하고 저장소·클라이언트·로그에 넣지 않습니다. 실제 발송은 검증된 발송 도메인과 SMTP 계정 연결 후 확인해야 합니다. 공급자 클릭 추적은 인증 링크가 변형되지 않도록 사용하지 않습니다.

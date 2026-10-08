@@ -38,5 +38,5 @@ test('safeNext rejects external and backslash redirects while preserving local r
   const start=source.indexOf('export function safeNext');const end=source.indexOf('\nexport function authError');
   const context={URL,location:{origin:'https://aiparty.kr'}};runInNewContext(source.slice(start,end).replace('export ','')+'\nglobalThis.safe=safeNext;',context);
   for(const path of ['//evil.test','/\\evil.test','https://evil.test','/\n/evil.test','/x/..//evil.test','/x/%2e%2e//evil.test',null])assert.equal(context.safe(path),'/account');
-  assert.equal(context.safe('/board/write?id=abc'),'/board/write?id=abc');
+  assert.equal(context.safe('/account?tab=links'),'/account?tab=links');
 });

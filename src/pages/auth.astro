@@ -2,7 +2,7 @@
 import CommunityLayout from '../layouts/CommunityLayout.astro';
 ---
 
-<CommunityLayout title="로그인 · AI정당" description="AI정당 사이트에 가입하고 자유게시판과 나의 초대 링크를 이용하세요." active="auth" variant="auth">
+<CommunityLayout title="로그인 · AI정당" description="발기인으로 참여하고 나의 초대 링크와 추천 현황을 확인하세요." active="auth" variant="auth">
   <div class="auth-stage">
   <div class="auth-shell" id="auth-root" aria-busy="true">
     <header class="auth-heading">
@@ -33,6 +33,7 @@ import CommunityLayout from '../layouts/CommunityLayout.astro';
       </form>
       <div class="c-actions auth-secondary-actions">
         <a class="c-link" href="/#founding-members">발기인 동의하고 가입하기</a>
+        <a class="c-link" href="/auth?mode=verify" data-auth-mode="verify">인증 메일 다시 받기</a>
         <a class="c-link" href="/auth?mode=reset" data-auth-mode="reset">비밀번호 찾기</a>
       </div>
     </section>
@@ -74,7 +75,7 @@ import CommunityLayout from '../layouts/CommunityLayout.astro';
 
     <section id="verify-panel" class="auth-panel" aria-labelledby="verify-heading" hidden>
       <h2 id="verify-heading">이메일을 확인해 주세요</h2>
-      <p class="c-muted"><span id="verification-email"></span> 메일함에서 인증 링크를 눌러 가입을 마무리하세요.</p>
+      <p class="c-muted"><span id="verification-email">가입한 이메일</span>로 받은 인증 메일의 링크를 열어 가입을 마무리하세요.</p>
       <p class="c-muted">메일이 오지 않으면 스팸함을 확인하거나 아래에서 다시 요청할 수 있습니다. 이미 가입한 이메일이라면 로그인 또는 비밀번호 찾기를 이용하세요.</p>
       <form id="resend-form" class="c-form" method="post">
         <div class="c-field">
