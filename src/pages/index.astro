@@ -11,6 +11,8 @@ const toc = [
 	{ id: "join", label: "06 함께 바꿔봅시다" },
 ];
 
+// 얼굴 이미지를 받은 뒤 프로필을 재확인하고 공개합니다.
+const showOrganizerProfiles = false;
 // 2026-10-09 Supabase 조회: 공개 동의 발기인의 마스킹 이름과 사용자 요청에 따른 등록 직업입니다.
 const organizers = publicFounders.map(person => ({
 	name: person.name,
@@ -143,7 +145,7 @@ const organizerTotal = organizers.length;
 					<p>이제 그 사람들이 나라의 규칙을 만들 차례입니다.</p>
 					<p class="text-stone-800 dark:text-stone-300 font-medium">AIP는 직접 창업하고 연구해본 사람들이 만듭니다.</p>
 				</div>
-				{organizers.length > 0 && (
+				{showOrganizerProfiles && organizers.length > 0 && (
 					<div class="organizer-carousel" role="region" aria-roledescription="캐러셀" aria-label="정당을 만드는 사람들">
 						{organizers.length > 1 && (
 							<div class="organizer-controls">
@@ -177,7 +179,7 @@ const organizerTotal = organizers.length;
 						</ul>
 					</div>
 				)}
-				{organizerTotal !== null && <p class="mt-8 text-[15px] text-stone-600 dark:text-stone-400">공개 동의한 발기인 <strong class="text-stone-900 dark:text-stone-100">{organizerTotal}명</strong></p>}
+				{showOrganizerProfiles && organizerTotal > 0 && <p class="mt-8 text-[15px] text-stone-600 dark:text-stone-400">공개 동의한 발기인 <strong class="text-stone-900 dark:text-stone-100">{organizerTotal}명</strong></p>}
 			</div>
 		</section>
 
