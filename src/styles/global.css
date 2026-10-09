@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source not "../../archive";
 
 /* 다크 모드: .dark 클래스 기반 (시스템 기본값 + 수동 토글은 JS에서 처리) */
 @custom-variant dark (&:where(.dark, .dark *));

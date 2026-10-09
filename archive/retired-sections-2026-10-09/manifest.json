@@ -1,0 +1,137 @@
+[
+  {
+    "path": "src/pages/declaration.astro",
+    "sha256": "0940e92a3dd435e08cadf4805f36abe03366889317c2dd0c3f8c18075545eebc",
+    "bytes": 17618
+  },
+  {
+    "path": "src/pages/atlas2049.astro",
+    "sha256": "2e436aa77d462c09a8b45b3e2c36e339f52417b1c5e818190eba5d3d5d298ae1",
+    "bytes": 41403
+  },
+  {
+    "path": "src/pages/atlas2049/vault.astro",
+    "sha256": "ba42f845db99879aa7f6272ec7b12a76e55823b103269b5428a87f4f13361958",
+    "bytes": 52891
+  },
+  {
+    "path": "src/pages/revote/admin.astro",
+    "sha256": "617bb114f69621e1f8ab8f921afd3fd11287c8168ee095860cd9399d2ceb0063",
+    "bytes": 39526
+  },
+  {
+    "path": "src/pages/revote/delegation.astro",
+    "sha256": "8b92cb9b39ddbedd88d3813587cf32e30e6c02539d1a9a15e6dd26ba9f6b2fd2",
+    "bytes": 21414
+  },
+  {
+    "path": "src/pages/revote/delete-request.astro",
+    "sha256": "f55f2c0d801aa14b3a8d2409b55b44766a15401776ac7fb86686ee7c6e79f64c",
+    "bytes": 10526
+  },
+  {
+    "path": "src/pages/revote/index.astro",
+    "sha256": "f18afb196dd01ff968ead0882175f0fd4b4be75062ff6875a2a4e7de915224a9",
+    "bytes": 19531
+  },
+  {
+    "path": "src/pages/revote/privacy.astro",
+    "sha256": "084f1d483c6790218c0a15da65c58f071b01f915868da611abc3a062060b20eb",
+    "bytes": 10841
+  },
+  {
+    "path": "src/pages/revote/report.astro",
+    "sha256": "950d46e7c8abdb3fe17ac21ad5fc721a625fc1dff0d0ad01a776aefa74e46d72",
+    "bytes": 34694
+  },
+  {
+    "path": "src/pages/revote/sign.astro",
+    "sha256": "6a925aa923329817ebe6b502f902fff13b6ffd8d8c77af4cba000c0982847331",
+    "bytes": 33490
+  },
+  {
+    "path": "src/pages/revote/terms.astro",
+    "sha256": "7a1584c54b45123c22a3c3209a68f194df954d995fe0135c01a104277877d77b",
+    "bytes": 12660
+  },
+  {
+    "path": "src/layouts/RevoteLayout.astro",
+    "sha256": "adf72ddf73fb953ed3bc5e83d55d7de57656f2c89bbf2d3b600d43d5ef957859",
+    "bytes": 5178
+  },
+  {
+    "path": "src/components/revote/FloatingShare.astro",
+    "sha256": "8092f7c6d81af4baebc7577bba800e1cf555e64c013372a2daddd661d1d5da5b",
+    "bytes": 8138
+  },
+  {
+    "path": "src/components/revote/LiveCounter.astro",
+    "sha256": "b64cdce7c80bb3da6355f83c1d32fc26ae8e0a54cdbdff22674ce37d09a38395",
+    "bytes": 3149
+  },
+  {
+    "path": "src/components/revote/ShareBar.astro",
+    "sha256": "2487206c53b971d15b5752c87ee1a8a722ee0a8a598505b54de6bf7ea9317701",
+    "bytes": 6645
+  },
+  {
+    "path": "src/lib/revote/constants.ts",
+    "sha256": "4caae19463b403528d29a0a03927b002a3079c36a72f5ed6c996991d38100d32",
+    "bytes": 4350
+  },
+  {
+    "path": "src/lib/revote/incident-types.ts",
+    "sha256": "cc557869ce532b7a5417a27387d73604e02067d58c961757e774ad3c19ebe8ff",
+    "bytes": 1673
+  },
+  {
+    "path": "src/lib/revote/regions.ts",
+    "sha256": "875dc929da2c815c11f2a32aedb25cba355215252ac3dfc47c045418f063ad2f",
+    "bytes": 4272
+  },
+  {
+    "path": "src/data/atlas2049-vault.json",
+    "sha256": "2197b1ee89896e8359c94bdedd176cb5413dcfc918d269fb77806d7371e18728",
+    "bytes": 132917
+  },
+  {
+    "path": "public/atlas2049/s1-mitochondria.png",
+    "sha256": "bdb95a933b545d1c1fba768a9452a1a23edd60fa997c8f43aa683a940ae4ec0a",
+    "bytes": 156795
+  },
+  {
+    "path": "public/atlas2049/s2-leviathan.jpg",
+    "sha256": "92d0c0abd74d0e8b08d6a3711c0afc124e1d65036f6aedadbeca2f4845647094",
+    "bytes": 111165
+  },
+  {
+    "path": "public/atlas2049/s3-neanderthal.png",
+    "sha256": "0f6419a86aee7e6b45e92bc8b9022b01669c212b41b719d160fb5c99f55ebb1c",
+    "bytes": 145254
+  },
+  {
+    "path": "public/atlas2049/s4-cavalry.jpeg",
+    "sha256": "8017df5732561be87cc981cf67bbc4718c7ce8b474af22e962c3eab8c71a7399",
+    "bytes": 33335
+  },
+  {
+    "path": "public/revote/analytics.js",
+    "sha256": "da3ea08fa762740f132970ae75f6ee1a55f810e9ce252df9518408607ba55039",
+    "bytes": 5132
+  },
+  {
+    "path": "public/revote/kakao.js",
+    "sha256": "62086238e54ba854bd33ff91cbe591742e3947c202e1e23b4b80b892372b6ccb",
+    "bytes": 1591
+  },
+  {
+    "path": "public/revote/revote-client.js",
+    "sha256": "d4450d685b85e28f38091298bc46b78eea1036c33e9eeb1afa67d6530369f85d",
+    "bytes": 7057
+  },
+  {
+    "path": "public/revote/voting-shortage.jpg",
+    "sha256": "011376507b1c5579c500c4314dd7beb2637f2e6f881f49dfc31595dfbe2e9574",
+    "bytes": 160934
+  }
+]

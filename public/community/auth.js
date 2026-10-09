@@ -21,7 +21,15 @@ function showMode(value, focus = false) {
   mode = panels.includes(value) ? value : 'login';
   for (const panel of panels) byId(`${panel}-panel`).hidden = panel !== mode;
   const titles = { login: '로그인', signup: '발기인 동의로 가입하기', reset: '비밀번호 찾기', recovery: '새 비밀번호 설정', verify: '이메일 인증' };
+  const descriptions = {
+    login: '발기인 동의로 가입한 계정으로 로그인하세요.',
+    signup: '발기인 동의와 사이트 가입을 한 번에 진행합니다.',
+    reset: '가입한 이메일로 비밀번호 재설정 링크를 받으세요.',
+    recovery: '계정에 사용할 새 비밀번호를 설정하세요.',
+    verify: '이메일 인증을 마치면 계정을 이용할 수 있습니다.',
+  };
   byId('auth-title').textContent = titles[mode];
+  byId('auth-description').textContent = descriptions[mode];
   root.setAttribute('aria-busy', 'false');
   if (focus) byId('auth-title').focus();
 }

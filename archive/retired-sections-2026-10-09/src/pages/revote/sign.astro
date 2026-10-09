@@ -10,27 +10,27 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
 
   <section class="max-w-[640px] mx-auto px-4 sm:px-6 py-12">
     <div class="mb-8">
-      <p class="text-[12px] font-medium text-stone-500 tracking-[0.14em] uppercase mb-3">선거권 회복 100만 서명운동</p>
-      <h1 class="font-semibold text-[28px] sm:text-[32px] text-stone-900 leading-[1.25] tracking-[-0.32px] mb-3">
+      <p class="text-[12px] font-medium text-stone-500 tracking-[0.14em] uppercase mb-3 dark:text-stone-400">선거권 회복 100만 서명운동</p>
+      <h1 class="font-semibold text-[28px] sm:text-[32px] text-stone-900 leading-[1.25] tracking-[-0.32px] mb-3 dark:text-stone-100">
         30초 서명으로<br/>선거권 회복에 함께해주세요
       </h1>
-      <p class="text-[15px] text-stone-500 leading-7 tracking-[-0.16px]">
+      <p class="text-[15px] text-stone-500 leading-7 tracking-[-0.16px] dark:text-stone-400">
         투표용지 부족 및 선거관리 부실로 침해된 시민의 선거권 회복을 요구합니다.
       </p>
     </div>
 
     <!-- 서명 폼 -->
     <form id="sign-form" novalidate>
-      <div class="bg-stone-100 rounded-2xl p-6 sm:p-8 space-y-5">
+      <div class="bg-stone-100 rounded-2xl p-6 sm:p-8 space-y-5 dark:bg-white/[0.03]">
 
         <!-- 이름 -->
         <div>
-          <label for="name" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <label for="name" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             이름 <span class="text-red-500" aria-hidden="true">*</span>
           </label>
           <input
             type="text" id="name" name="name" required autocomplete="name"
-            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
             placeholder="홍길동"
           />
           <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
@@ -38,12 +38,12 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
 
         <!-- 휴대폰 번호 -->
         <div>
-          <label for="phone" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <label for="phone" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             휴대폰 번호 <span class="text-red-500" aria-hidden="true">*</span>
           </label>
           <input
             type="tel" id="phone" name="phone" required autocomplete="tel"
-            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
             placeholder="010-0000-0000"
           />
           <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
@@ -51,12 +51,12 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
 
         <!-- 이메일 (선택) -->
         <div>
-          <label for="email" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <label for="email" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             이메일 <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
           </label>
           <input
             type="email" id="email" name="email" autocomplete="email"
-            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
             placeholder="example@email.com"
           />
           <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
@@ -65,12 +65,12 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
         <!-- 시/도 + 시/군/구 -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label for="region_sido" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            <label for="region_sido" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
               시/도 <span class="text-red-500" aria-hidden="true">*</span>
             </label>
             <select
               id="region_sido" name="region_sido" required
-              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px]"
+              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px] dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
             >
               <option value="">선택해주세요</option>
               {SIDO_LIST.map((sido) => (
@@ -80,13 +80,13 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
             <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
           </div>
           <div>
-            <label for="region_sigungu" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            <label for="region_sigungu" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
               시/군/구 <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
             </label>
             <select
               id="region_sigungu" name="region_sigungu"
               disabled
-              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px] disabled:bg-stone-50 disabled:text-stone-400"
+              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px] disabled:bg-stone-50 disabled:text-stone-400 dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
             >
               <option value="">시/도 먼저 선택</option>
             </select>
@@ -96,12 +96,12 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
 
         <!-- 연령대 (선택) -->
         <div>
-          <label for="age_range" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <label for="age_range" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             연령대 <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
           </label>
           <select
             id="age_range" name="age_range"
-            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px]"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px] dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
           >
             <option value="">선택 안 함</option>
             {AGE_RANGES.map((r) => (
@@ -112,12 +112,12 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
 
         <!-- 의견 한마디 -->
         <div>
-          <label for="comment" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <label for="comment" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             의견 한마디 <span class="text-[11px] text-stone-400 font-normal">(선택 · 공개)</span>
           </label>
           <textarea
             id="comment" name="comment" rows="3" maxlength="300"
-            class="w-full px-3 py-2.5 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] resize-none"
+            class="w-full px-3 py-2.5 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] resize-none dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
             placeholder="동의합니다"
           >동의합니다</textarea>
           <div class="mt-1 flex justify-between text-[11px] text-stone-400 tracking-[-0.14px]">
@@ -132,13 +132,13 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
             type="checkbox" id="consent_all"
             class="mt-0.5 accent-[#222222] size-4 shrink-0"
           />
-          <label for="consent_all" class="text-[14px] font-medium text-stone-800 leading-5 tracking-[-0.14px] cursor-pointer">
+          <label for="consent_all" class="text-[14px] font-medium text-stone-800 leading-5 tracking-[-0.14px] cursor-pointer dark:text-stone-200">
             아래 내용에 전체 동의합니다. <span class="text-[11px] text-stone-400 font-normal">(선택 항목 포함)</span>
           </label>
         </div>
 
         <!-- 구분선 -->
-        <div class="h-px bg-stone-200"></div>
+        <div class="h-px bg-stone-200 dark:bg-white/10"></div>
 
         <!-- 소식 수신 동의 -->
         <div class="space-y-3 pt-1">
@@ -147,7 +147,7 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
               type="checkbox" id="wants_legal_updates" name="wants_legal_updates"
               class="mt-0.5 accent-[#222222] size-4 shrink-0"
             />
-            <label for="wants_legal_updates" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px] cursor-pointer">
+            <label for="wants_legal_updates" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px] cursor-pointer dark:text-stone-400">
               <span class="text-[11px] text-stone-400">(선택)</span> 법적 대응 및 소송 진행 소식을 받겠습니다.
             </label>
           </div>
@@ -156,14 +156,14 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
               type="checkbox" id="wants_campaign_updates" name="wants_campaign_updates"
               class="mt-0.5 accent-[#222222] size-4 shrink-0"
             />
-            <label for="wants_campaign_updates" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px] cursor-pointer">
+            <label for="wants_campaign_updates" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px] cursor-pointer dark:text-stone-400">
               <span class="text-[11px] text-stone-400">(선택)</span> 캠페인 주요 소식 및 서명 현황을 받겠습니다.
             </label>
           </div>
         </div>
 
         <!-- 구분선 -->
-        <div class="h-px bg-stone-200"></div>
+        <div class="h-px bg-stone-200 dark:bg-white/10"></div>
 
         <!-- 제3자 제공 동의 (선택) -->
         <div class="flex items-start gap-3">
@@ -171,7 +171,7 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
             type="checkbox" id="third_party_consent" name="third_party_consent"
             class="mt-0.5 accent-[#222222] size-4 shrink-0"
           />
-          <label for="third_party_consent" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px] cursor-pointer">
+          <label for="third_party_consent" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px] cursor-pointer dark:text-stone-400">
             <span class="text-[11px] text-stone-400">(선택)</span>
             법률대리인, 공익단체 등 제3자에게 개인정보를 제공하는 것에 동의합니다.
             (보유 기간: 제공 목적 달성 시까지)
@@ -184,12 +184,12 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
             type="checkbox" id="privacy_consent" name="privacy_consent" required
             class="mt-0.5 accent-[#222222] size-4 shrink-0"
           />
-          <label for="privacy_consent" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px] cursor-pointer">
+          <label for="privacy_consent" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px] cursor-pointer dark:text-stone-400">
             <span class="text-red-500" aria-hidden="true">*</span>
             개인정보 수집·이용에 동의합니다.
             수집 항목: 이름, 휴대폰 번호, 이메일(선택), 지역.
             수집 목적: 서명운동 참여 확인, 중복 방지, 법적·정치적 대응 자료 활용.
-            보유 기간: 캠페인 종료 후 1년. (<a href="/revote/privacy" class="underline hover:text-stone-900">개인정보처리방침</a>)
+            보유 기간: 캠페인 종료 후 1년. (<a href="/revote/privacy" class="underline hover:text-stone-900 dark:hover:text-stone-100">개인정보처리방침</a>)
           </label>
         </div>
         <p class="field-error hidden mt-1 text-[12px] text-red-500" id="privacy-consent-error"></p>
@@ -200,7 +200,7 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
             type="checkbox" id="sensitive_info_notice" name="sensitive_info_notice" required
             class="mt-0.5 accent-[#222222] size-4 shrink-0"
           />
-          <label for="sensitive_info_notice" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px] cursor-pointer">
+          <label for="sensitive_info_notice" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px] cursor-pointer dark:text-stone-400">
             <span class="text-red-500" aria-hidden="true">*</span>
             아래 고지를 확인하였습니다: 본 서명은 공익적 시민행동 참여 기록으로, 정치적 의사 표현으로 해석될 수 있습니다.
             운영팀은 참여자의 개인정보를 서명운동 목적 외로 사용하지 않으며, 동의 없는 외부 공개 또는 제3자 제공을 하지 않습니다.
@@ -214,7 +214,7 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
         <button
           type="submit"
           id="submit-btn"
-          class="inline-flex items-center justify-center h-10 px-6 text-sm font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px] disabled:opacity-40 disabled:cursor-not-allowed"
+          class="inline-flex items-center justify-center h-10 px-6 text-sm font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px] disabled:opacity-40 disabled:cursor-not-allowed dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200"
         >
           서명하기
         </button>
@@ -259,29 +259,29 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
         </div>
       </div>
 
-      <div class="bg-stone-100 rounded-2xl p-6 sm:p-8 text-center">
-        <p class="text-[22px] font-semibold text-stone-900 tracking-[-0.32px] mb-2">
+      <div class="bg-stone-100 rounded-2xl p-6 sm:p-8 text-center dark:bg-white/[0.03]">
+        <p class="text-[22px] font-semibold text-stone-900 tracking-[-0.32px] mb-2 dark:text-stone-100">
           서명이 완료되었습니다.
         </p>
-        <p class="text-[15px] text-stone-500 leading-7 tracking-[-0.16px] mb-5">
+        <p class="text-[15px] text-stone-500 leading-7 tracking-[-0.16px] mb-5 dark:text-stone-400">
           이제 법률대응에도 참여할 수 있습니다.
         </p>
-        <p id="signature-count" class="text-[17px] font-semibold text-stone-800 tracking-[-0.24px] mb-1">
+        <p id="signature-count" class="text-[17px] font-semibold text-stone-800 tracking-[-0.24px] mb-1 dark:text-stone-200">
           현재까지 집계 중...
         </p>
-        <p class="text-[14px] text-stone-500 tracking-[-0.14px] mb-8">이제 3명에게 공유해주세요.</p>
+        <p class="text-[14px] text-stone-500 tracking-[-0.14px] mb-8 dark:text-stone-400">이제 3명에게 공유해주세요.</p>
 
         <!-- 개인 추천 링크 -->
         <div id="referral-link-box" class="hidden mb-6">
-          <p class="text-[13px] text-stone-500 tracking-[-0.14px] mb-2">나만의 공유 링크</p>
+          <p class="text-[13px] text-stone-500 tracking-[-0.14px] mb-2 dark:text-stone-400">나만의 공유 링크</p>
           <div class="flex items-center gap-2">
             <input
               type="text" id="referral-link" readonly
-              class="flex-1 h-10 px-3 text-[13px] text-stone-700 bg-white border border-stone-200 rounded-xl focus:outline-none tracking-[-0.14px]"
+              class="min-w-0 flex-1 h-10 px-3 text-[13px] text-stone-700 bg-white border border-stone-200 rounded-xl focus:outline-none tracking-[-0.14px] dark:text-stone-300 dark:border-white/10"
             />
             <button
               type="button" id="copy-referral-btn"
-              class="h-10 px-4 text-[13px] font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px] shrink-0"
+              class="h-10 px-4 text-[13px] font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px] shrink-0 dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200"
             >
               복사
             </button>
@@ -298,13 +298,13 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
 
   <!-- 의견 목록 -->
   <section class="max-w-[640px] mx-auto px-4 sm:px-6 pb-20">
-    <div class="rounded-2xl border border-stone-200 overflow-hidden">
-      <div class="px-5 sm:px-6 py-4 border-b border-stone-200 bg-stone-50">
-        <p class="text-[15px] font-semibold text-stone-800 tracking-[-0.16px]">
-          의견이 총 <span id="comments-total" class="text-stone-900">0</span>건 있습니다.
+    <div class="rounded-2xl border border-stone-200 overflow-hidden dark:border-white/10">
+      <div class="px-5 sm:px-6 py-4 border-b border-stone-200 bg-stone-50 dark:bg-white/[0.03] dark:border-white/10">
+        <p class="text-[15px] font-semibold text-stone-800 tracking-[-0.16px] dark:text-stone-200">
+          의견이 총 <span id="comments-total" class="text-stone-900 dark:text-stone-100">0</span>건 있습니다.
         </p>
       </div>
-      <ul id="comments-list" class="divide-y divide-stone-100">
+      <ul id="comments-list" class="divide-y divide-stone-100 dark:divide-white/10">
         <li class="px-5 sm:px-6 py-8 text-center text-[14px] text-stone-400">불러오는 중...</li>
       </ul>
     </div>
@@ -312,7 +312,8 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
 </RevoteLayout>
 
 <script>
-  import {
+  const clientUrl = new URL("/revote/revote-client.js", window.location.origin).href;
+  void import(/* @vite-ignore */ clientUrl).then(({
     supabase,
     phoneHash,
     formatMobile,
@@ -326,7 +327,7 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
     track,
     copyShareLink,
     SITE_URL,
-  } from "/revote/revote-client.js";
+  }) => {
 
   // ── SIGUNGU 동적 로드 ──────────────────────────────────────────────────────
   const sigunguData = JSON.parse(
@@ -696,7 +697,7 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
       const head = document.createElement("div");
       head.className = "flex items-center gap-2 mb-1";
       const nameEl = document.createElement("span");
-      nameEl.className = "text-[14px] font-semibold text-stone-800 tracking-[-0.14px]";
+      nameEl.className = "text-[14px] font-semibold text-stone-800 tracking-[-0.14px] dark:text-stone-200";
       nameEl.textContent = item.name || "익명";
       const dateEl = document.createElement("span");
       dateEl.className = "text-[12px] text-stone-400 tracking-[-0.14px]";
@@ -705,7 +706,7 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
       head.appendChild(dateEl);
 
       const msgEl = document.createElement("p");
-      msgEl.className = "text-[14px] text-stone-600 leading-6 tracking-[-0.14px] break-words whitespace-pre-wrap";
+      msgEl.className = "text-[14px] text-stone-600 leading-6 tracking-[-0.14px] break-words whitespace-pre-wrap dark:text-stone-400";
       msgEl.textContent = item.comment || "";
 
       body.appendChild(head);
@@ -717,4 +718,5 @@ import { SIDO_LIST, SIGUNGU, AGE_RANGES } from "../../lib/revote/regions";
   }
 
   loadComments();
+  });
 </script>

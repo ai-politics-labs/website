@@ -1,21 +1,10 @@
-# AIP · AI Party
+# AI Politics Labs
 
-연구자와 창업가가 제대로 대우받는 나라를 위한 창당 사이트입니다.
+민주적으로 선출된 최초의 AI 정치인을 만듭니다.
 
 https://aiparty.kr
 
-## 현재 사이트 구조
-
-| 경로 | 내용 |
-| --- | --- |
-| `/` | 소개, 공개 동의 발기인 카드, 발기인 동의·가입 |
-| `/auth` | 로그인, 이메일 인증, 비밀번호 찾기 |
-| `/account` | 초대 링크, 추천 현황, 계정 삭제 요청 |
-| `/dashboard` | 전체 발기인 수, 지역별 집계 |
-| `/community/privacy` | 계정·추천 정보 안내 |
-| `/admin` | 발기인 운영자 화면 |
-
-선언문·ATLAS2049·Vault·선거권 회복 캠페인 화면은 사이트에서 제거했습니다. 원본은 `archive/retired-sections-2026-10-09/`에 보관하며 빌드·배포·스타일 검색 대상에서 제외합니다. 기존 Supabase 접수 데이터와 SQL 이력은 보존합니다.
+AI는 얻을 것도, 잃을 것도 없기에 가장 투명하고 바르게 정치합니다. 국민과 당원에게 배운 규칙을 토대로 인간 정치인과 토론하고 정책을 제안하며, 인간을 대리인으로 삼아 26년 6월 지방선거에 출마합니다.
 
 ## Development
 
@@ -39,6 +28,16 @@ https://aiparty.kr
 배포 전 Supabase SQL Editor에서 `db/2026-10-09_founding_member_stats.sql`을 실행하세요. 기존 `public.founding_members` 테이블이 필요하며, 기존 접수 데이터와 조회 정책은 변경하지 않습니다. 집계 함수가 없거나 요청에 실패하면 0명으로 표시하지 않고 연결 오류를 안내합니다.
 
 검증: `node --experimental-strip-types --test tests/founding-stats.test.mjs`, `npm run build`. PostgreSQL 회귀 검증은 임시 테스트 DB에서 `tests/founding-member-stats.sql`을 실행합니다. 이 테스트는 입력 테이블을 만들므로 운영 DB에서 실행하지 마세요.
+
+## 선거권 회복 100만 서명운동 (`/revote`) 운영자 설정
+
+`/revote/*` 하위 사이트는 aiparty.kr 와 동일한 Supabase 프로젝트를 사용합니다. 배포 전 아래를 반드시 수행하세요.
+
+1. **DB 스키마 적용** — Supabase 대시보드 → SQL Editor 에서 `db/2026-06-06_revote_schema.sql` 전체를 실행합니다. `revote_` 테이블·RLS·RPC·Storage 버킷(`revote-evidence`, 비공개)이 생성됩니다. 이후 `db/2026-06-06_revote_comments.sql` 도 실행하면 서명 의견(멘트) 컬럼과 공개 의견 목록 RPC(`revote_recent_comments`)가 추가됩니다. 마지막으로 `db/2026-06-07_revote_legal_delegation.sql` 을 실행하면 서명 완료 후 2단계(법률대응 위임장) 데이터를 저장하는 `revote_legal_delegations` 테이블·RLS 가 추가됩니다.
+2. **관리자 계정** — 일반 회원과 운영자는 별도입니다. `db/2026-10-09_community.sql` 적용 후에는 `private.site_admins`에 등록된 운영자 UUID만 관리자 자료와 증빙 파일에 접근합니다. 사용자 metadata로 운영자 권한을 부여하지 마세요.
+3. **연동 키 입력 (선택)** — 미입력 시 해당 기능은 자동으로 비활성화(no-op)됩니다.
+   - `public/revote/kakao.js` → `KAKAO_JS_KEY` (카카오 공유)
+   - `public/revote/analytics.js` → `GA_MEASUREMENT_ID`, `POSTHOG_KEY` (분석)
 
 ## 계정·추천 링크
 
@@ -73,6 +72,6 @@ SMTP 비밀번호/API 키는 Supabase의 암호화된 SMTP 설정에만 저장�
 
 ## 공개 동의 발기인 카드
 
-홈의 인물 카드는 `src/data/public-founders.json`의 마스킹된 이름과 DB에 등록한 직업을 사용합니다. 2026-10-09 Supabase에서 `public_consent = true`, `privacy_agreed = true`인 발기인 19명을 조회한 현재 명단입니다. 원래 이름·연락처·주소·서명은 이 파일에 저장하지 않습니다. 직업은 사용자의 명시적인 요청에 따라 등록값 그대로 표시합니다. 확인되지 않은 사진·성과·소개 문장도 만들지 않습니다.
+홈의 인물 카드는 `src/data/public-founders.json`의 마스킹된 이름을 사용합니다. 2026-10-09 Supabase에서 `public_consent = true`, `privacy_agreed = true`인 발기인 19명을 조회한 현재 명단입니다. 원래 이름·연락처·주소·서명·직업은 이 파일에 저장하지 않습니다. 확인되지 않은 사진·경력·소개 문장도 만들지 않습니다.
 
-갱신할 때는 `db/queries/public-founders-masked.sql`을 실행해 반환된 `profiles` 배열만 교체합니다. 이름은 데이터베이스에서 먼저 가리며, 가린 이름이 같아도 서로 다른 발기인일 수 있어 중복 제거하지 않습니다. 이 명단은 정적 스냅샷이므로 공개 동의 변경·철회 시 다시 조회해 반영해야 합니다. 테이블 조회 권한이나 RLS 정책은 변경하지 않았습니다.
+갱신할 때는 `db/queries/public-founders-masked.sql`을 실행해 반환된 `names` 배열만 교체합니다. 이름은 데이터베이스에서 먼저 가리며, 가린 이름이 같아도 서로 다른 발기인일 수 있어 중복 제거하지 않습니다. 이 명단은 정적 스냅샷이므로 공개 동의 변경·철회 시 다시 조회해 반영해야 합니다. 테이블 조회 권한이나 RLS 정책은 변경하지 않았습니다.

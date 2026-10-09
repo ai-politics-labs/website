@@ -36,16 +36,6 @@ import CommunityLayout from '../layouts/CommunityLayout.astro';
           <p class="total-number"><span id="stat-total">—</span><span class="unit">명</span></p>
           <p class="card-note">온라인 발기인 동의서 누적 접수</p>
         </div>
-        <div class="summary-card">
-          <h2>참여 지역</h2>
-          <p class="secondary-number"><span id="stat-region-count">—</span><span class="unit"> / 17</span></p>
-          <p class="card-note">전국 시·도 기준</p>
-        </div>
-        <div class="summary-card">
-          <h2>가장 많은 참여 지역</h2>
-          <p id="stat-leading-region" class="secondary-number leading-region">—</p>
-          <p id="stat-leading-share" class="card-note">전체 발기인 대비</p>
-        </div>
       </div>
 
       <section class="region-panel" aria-labelledby="region-title">
@@ -85,7 +75,7 @@ import CommunityLayout from '../layouts/CommunityLayout.astro';
 
 <script>
   import { parseFoundingStats, regionPercentage, sortRegions, type FoundingStats } from '../lib/founding-stats';
-  import { SUPABASE_URL, SUPABASE_ANON_KEY } from '../lib/revote/constants';
+  import { SUPABASE_URL, SUPABASE_ANON_KEY } from '../lib/supabase';
 
   const refresh = document.querySelector<HTMLButtonElement>('#refresh-stats')!;
   const sort = document.querySelector<HTMLSelectElement>('#region-sort')!;
@@ -141,12 +131,7 @@ import CommunityLayout from '../layouts/CommunityLayout.astro';
       });
       if (!response.ok) throw new Error('Statistics unavailable');
       current = parseFoundingStats(await response.json());
-      const known = current.regions.filter((row) => row.region !== '기타' && row.count > 0);
-      const leaders = known.filter((row) => row.count === Math.max(...known.map((item) => item.count)));
       setText('stat-total', number.format(current.total));
-      setText('stat-region-count', number.format(known.length));
-      setText('stat-leading-region', leaders.length === 0 ? '—' : leaders.length > 1 ? `공동 ${leaders.length}개 지역` : leaders[0].region);
-      setText('stat-leading-share', leaders.length ? `${leaders.length > 1 ? '각 ' : ''}${percent.format(regionPercentage(leaders[0].count, current.total))}% · ${number.format(leaders[0].count)}명` : '참여를 기다리고 있습니다.');
       document.getElementById('stats-empty')!.hidden = current.total !== 0;
       document.getElementById('region-columns')!.hidden = false;
       document.getElementById('regions-loading')!.hidden = true;
@@ -176,15 +161,13 @@ import CommunityLayout from '../layouts/CommunityLayout.astro';
   button:disabled { opacity: .5; cursor: wait; }
   a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
   a:hover { opacity: .75; }
-  .summary-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 16px; }
+  .summary-grid { display: grid; grid-template-columns: 1fr; }
   .summary-card { border:1px solid rgba(255,255,255,.65);border-radius:14px;padding:22px;background:var(--c-bg);display:flex;flex-direction:column;min-height:170px;box-shadow:0 2px 8px rgba(27,31,46,.025); }
   .summary-card h2 { font-size: 13px; font-weight: 500; color: #78716c; }
   .total-card { color:var(--c-text); }
   .total-card h2, .total-card .card-note { color:var(--c-muted); }
   .total-number { margin:14px 0 20px;font-size:44px;line-height:1.1;letter-spacing:-1.5px;font-weight:500;font-variant-numeric:tabular-nums; }
   .unit { font-size: 16px; font-weight: 400; letter-spacing: 0; margin-left: 6px; }
-  .secondary-number { font-size:32px;line-height:1.3;margin:14px 0 20px;font-weight:500;letter-spacing:-1px;font-variant-numeric:tabular-nums; }
-  .leading-region { font-size: 32px; }
   .card-note { font-size: 12px; color: #78716c; margin-top: auto; }
   .region-panel { margin-top:24px;border:1px solid rgba(255,255,255,.65);border-radius:14px;padding:24px;background:var(--c-bg);box-shadow:0 2px 8px rgba(27,31,46,.025); }
   .panel-heading { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
@@ -225,12 +208,9 @@ import CommunityLayout from '../layouts/CommunityLayout.astro';
     .page-heading { padding-top:0; }
     .toolbar { margin-top: 28px; align-items: flex-start; }
     .toolbar p { line-height: 1.8; }
-    .summary-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
     .summary-card { padding: 20px; min-height: 170px; }
-    .total-card { grid-column:1 / -1;min-height:164px; }
+    .total-card { min-height:164px; }
     .total-number { font-size: 52px; }
-    .secondary-number { font-size: 32px; }
-    .leading-region { font-size: 24px; }
     .region-panel { padding: 20px; }
     .panel-heading { align-items: flex-start; flex-direction: column; }
     .region-columns { grid-template-columns: 1fr; row-gap: 20px; }

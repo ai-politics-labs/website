@@ -2,6 +2,7 @@ import { supabase, requireUser, getProfile, authError, el, setMessage } from './
 import { buildReferralUrl } from './referral.js';
 
 const message = document.getElementById('account-message');
+const statsMessage = document.getElementById('referral-stats-message');
 const number = new Intl.NumberFormat('ko-KR');
 let profile;
 
@@ -13,6 +14,7 @@ async function copyLink(value) {
 async function loadStats() {
   const refresh = document.getElementById('refresh-referrals');
   refresh.disabled = true;
+  setMessage(statsMessage, '추천 현황을 불러오는 중입니다.');
   try {
     const { data, error } = await supabase.rpc('community_my_referrals');
     if (error || !data || !Array.isArray(data.links)) throw error || new Error('Invalid statistics');
@@ -43,7 +45,12 @@ async function loadStats() {
       row.append(meta, linkText, actions);
       list.append(row);
     }
-  } catch (error) { setMessage(message, '추천 현황을 불러오지 못했습니다. 새로고침해 주세요.', true); }
+    setMessage(statsMessage, '');
+    return true;
+  } catch (error) {
+    setMessage(statsMessage, '추천 현황을 불러오지 못했습니다. 새로고침해 주세요.', true);
+    return false;
+  }
   finally { refresh.disabled = false; }
 }
 
@@ -81,7 +88,10 @@ document.getElementById('link-form').addEventListener('submit', async (event) =>
   try {
     const { error } = await supabase.rpc('community_create_link', { p_source: document.getElementById('utm-source').value.trim(), p_medium: document.getElementById('utm-medium').value.trim(), p_campaign: document.getElementById('utm-campaign').value.trim() });
     if (error) throw error;
-    await loadStats(); setMessage(message, '새 초대 링크를 만들었습니다. 아래에서 복사해 공유하세요.');
+    const refreshed = await loadStats();
+    setMessage(message, refreshed
+      ? '새 초대 링크를 만들었습니다. 아래에서 복사해 공유하세요.'
+      : '새 초대 링크를 만들었습니다.');
   } catch (error) { setMessage(message, authError(error), true); }
   finally { button.disabled = false; }
 });

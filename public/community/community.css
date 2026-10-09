@@ -50,12 +50,14 @@
 .luma-auth .c-footer { max-width:440px;border-top:0;justify-content:center;margin-top:8px; }
 .luma-auth .c-footer span { margin-right:0; }
 .luma-shell #theme-toggle { height:34px;width:34px;bottom:20px;right:20px;border-color:var(--c-border);box-shadow:none; }
-.revote-shell #theme-toggle { bottom:82px; }
 .c-footer span { margin-right: auto; }
 .c-skip { position: fixed; top: -100px; left: 16px; z-index: 200; background: var(--c-solid); color: var(--c-inverse); padding: 12px; }
 .c-skip:focus { top: 12px; }
 a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid var(--c-text); outline-offset: 3px; }
 @media(min-width:721px) and (max-width:1100px) { .c-nav-inner { display:flex;align-items:center;justify-content:space-between; }.c-nav { flex:1;max-width:650px; }.c-brand { margin-right:20px; } }
+@media(max-width:720px), (pointer:coarse) {
+  .luma-shell :is(input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]), select, textarea) { font-size:16px; }
+}
 @media(max-width:720px) {
   .c-container { width: calc(100% - 32px); }
   .c-nav-inner { display:grid;grid-template-columns:1fr auto;align-items:center;gap:7px;padding-top:12px;padding-bottom:6px; }

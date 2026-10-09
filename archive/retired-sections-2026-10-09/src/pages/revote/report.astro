@@ -6,20 +6,20 @@ import { SIDO_LIST, SIGUNGU } from "../../lib/revote/regions";
 
 <RevoteLayout title="피해 제보 · 선거권 회복 100만 서명운동" active="report">
   <section class="max-w-2xl mx-auto px-4 sm:px-6 pt-10 pb-24">
-    <h1 class="font-semibold text-[28px] sm:text-[32px] text-stone-900 leading-[1.3] tracking-[-0.32px] mb-2">
+    <h1 class="font-semibold text-[28px] sm:text-[32px] text-stone-900 leading-[1.3] tracking-[-0.32px] mb-2 dark:text-stone-100">
       피해 제보
     </h1>
-    <p class="text-[15px] text-stone-500 leading-6 tracking-[-0.14px] mb-8">
+    <p class="text-[15px] text-stone-500 leading-6 tracking-[-0.14px] mb-8 dark:text-stone-400">
       투표소에서 겪은 일을 제보해 주세요. 제보 내용은 검토 후 법률 대응과 피해지역 분석에 활용됩니다.<br />
-      <strong class="text-stone-700">제보는 자동으로 외부에 공개되지 않습니다.</strong>
+      <strong class="text-stone-700 dark:text-stone-300">제보는 자동으로 외부에 공개되지 않습니다.</strong>
     </p>
 
     <form id="report-form" novalidate>
-      <div class="bg-stone-100 rounded-2xl p-6 sm:p-8 space-y-5">
+      <div class="bg-stone-100 rounded-2xl p-6 sm:p-8 space-y-5 dark:bg-white/[0.03]">
 
         <!-- 피해 유형 (상단 강조) -->
         <fieldset>
-          <legend class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <legend class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             피해 유형 <span class="text-red-500" aria-hidden="true">*</span>
             <span class="text-[12px] font-normal text-stone-400 ml-1">(해당하는 항목 모두 선택)</span>
           </legend>
@@ -32,7 +32,7 @@ import { SIDO_LIST, SIGUNGU } from "../../lib/revote/regions";
                   value={t.code}
                   class="mt-0.5 accent-[#222222] size-4 shrink-0"
                 />
-                <span class="text-[14px] text-stone-700 tracking-[-0.14px] leading-5">{t.label}</span>
+                <span class="text-[14px] text-stone-700 tracking-[-0.14px] leading-5 dark:text-stone-300">{t.label}</span>
               </label>
             ))}
           </div>
@@ -42,23 +42,23 @@ import { SIDO_LIST, SIGUNGU } from "../../lib/revote/regions";
         <!-- 제보자 정보 -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label for="reporter_name" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            <label for="reporter_name" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
               이름 <span class="text-red-500" aria-hidden="true">*</span>
             </label>
             <input
               type="text" id="reporter_name" name="reporter_name" required autocomplete="name"
-              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
               placeholder="홍길동"
             />
             <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
           </div>
           <div>
-            <label for="phone" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            <label for="phone" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
               연락처 <span class="text-red-500" aria-hidden="true">*</span>
             </label>
             <input
               type="tel" id="phone" name="phone" required autocomplete="tel"
-              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
               placeholder="010-0000-0000"
             />
             <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
@@ -67,12 +67,12 @@ import { SIDO_LIST, SIGUNGU } from "../../lib/revote/regions";
 
         <!-- 이메일 -->
         <div>
-          <label for="email" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <label for="email" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             이메일 <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
           </label>
           <input
             type="email" id="email" name="email" autocomplete="email"
-            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
             placeholder="example@email.com"
           />
           <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
@@ -80,12 +80,12 @@ import { SIDO_LIST, SIGUNGU } from "../../lib/revote/regions";
 
         <!-- 피해 발생일 -->
         <div>
-          <label for="incident_date" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <label for="incident_date" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             피해 발생일 <span class="text-red-500" aria-hidden="true">*</span>
           </label>
           <input
             type="date" id="incident_date" name="incident_date" required
-            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px]"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px] dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
           />
           <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
         </div>
@@ -93,12 +93,12 @@ import { SIDO_LIST, SIGUNGU } from "../../lib/revote/regions";
         <!-- 지역 -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label for="sido" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            <label for="sido" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
               시/도 <span class="text-red-500" aria-hidden="true">*</span>
             </label>
             <select
               id="sido" name="sido" required
-              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px]"
+              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px] dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
             >
               <option value="">시/도 선택</option>
               {SIDO_LIST.map((sido) => (
@@ -108,12 +108,12 @@ import { SIDO_LIST, SIGUNGU } from "../../lib/revote/regions";
             <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
           </div>
           <div>
-            <label for="sigungu" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            <label for="sigungu" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
               시/군/구 <span class="text-red-500" aria-hidden="true">*</span>
             </label>
             <select
               id="sigungu" name="sigungu" required disabled
-              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px] disabled:bg-stone-50 disabled:text-stone-400"
+              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px] disabled:bg-stone-50 disabled:text-stone-400 dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
             >
               <option value="">먼저 시/도를 선택해주세요</option>
             </select>
@@ -123,12 +123,12 @@ import { SIDO_LIST, SIGUNGU } from "../../lib/revote/regions";
 
         <!-- 투표소명 -->
         <div>
-          <label for="polling_station_name" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <label for="polling_station_name" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             투표소명 <span class="text-red-500" aria-hidden="true">*</span>
           </label>
           <input
             type="text" id="polling_station_name" name="polling_station_name" required
-            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
             placeholder="예: 송파구청 제1투표소"
           />
           <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
@@ -137,21 +137,21 @@ import { SIDO_LIST, SIGUNGU } from "../../lib/revote/regions";
         <!-- 도착 시간 + 대기 시간 -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label for="arrival_time" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            <label for="arrival_time" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
               투표소 도착 시간 <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
             </label>
             <input
               type="time" id="arrival_time" name="arrival_time"
-              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px]"
+              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 tracking-[-0.14px] dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
             />
           </div>
           <div>
-            <label for="wait_time_minutes" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+            <label for="wait_time_minutes" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
               대기 시간 (분) <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
             </label>
             <input
               type="number" id="wait_time_minutes" name="wait_time_minutes" min="0" max="600"
-              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+              class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
               placeholder="예: 30"
             />
           </div>
@@ -159,17 +159,17 @@ import { SIDO_LIST, SIGUNGU } from "../../lib/revote/regions";
 
         <!-- 투표 완료 여부 -->
         <fieldset id="was-able-group" aria-describedby="was-able-error">
-          <legend class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <legend class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             투표를 완료하셨나요? <span class="text-red-500" aria-hidden="true">*</span>
           </legend>
           <div class="flex gap-5 h-10 items-center">
             <label class="flex items-center gap-2 cursor-pointer">
               <input type="radio" name="was_able_to_vote" value="true" required class="accent-[#222222] size-4" />
-              <span class="text-[15px] text-stone-700 tracking-[-0.14px]">예</span>
+              <span class="text-[15px] text-stone-700 tracking-[-0.14px] dark:text-stone-300">예</span>
             </label>
             <label class="flex items-center gap-2 cursor-pointer">
               <input type="radio" name="was_able_to_vote" value="false" required class="accent-[#222222] size-4" />
-              <span class="text-[15px] text-stone-700 tracking-[-0.14px]">아니오</span>
+              <span class="text-[15px] text-stone-700 tracking-[-0.14px] dark:text-stone-300">아니오</span>
             </label>
           </div>
           <p class="field-error hidden mt-1 text-[12px] text-red-500" id="was-able-error" role="alert"></p>
@@ -177,17 +177,17 @@ import { SIDO_LIST, SIGUNGU } from "../../lib/revote/regions";
 
         <!-- 투표 포기 여부 -->
         <fieldset id="gave-up-group" aria-describedby="gave-up-error">
-          <legend class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <legend class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             투표를 포기하셨나요? <span class="text-red-500" aria-hidden="true">*</span>
           </legend>
           <div class="flex gap-5 h-10 items-center">
             <label class="flex items-center gap-2 cursor-pointer">
               <input type="radio" name="gave_up_voting" value="true" required class="accent-[#222222] size-4" />
-              <span class="text-[15px] text-stone-700 tracking-[-0.14px]">예</span>
+              <span class="text-[15px] text-stone-700 tracking-[-0.14px] dark:text-stone-300">예</span>
             </label>
             <label class="flex items-center gap-2 cursor-pointer">
               <input type="radio" name="gave_up_voting" value="false" required class="accent-[#222222] size-4" />
-              <span class="text-[15px] text-stone-700 tracking-[-0.14px]">아니오</span>
+              <span class="text-[15px] text-stone-700 tracking-[-0.14px] dark:text-stone-300">아니오</span>
             </label>
           </div>
           <p class="field-error hidden mt-1 text-[12px] text-red-500" id="gave-up-error" role="alert"></p>
@@ -195,12 +195,12 @@ import { SIDO_LIST, SIGUNGU } from "../../lib/revote/regions";
 
         <!-- 현장 안내 내용 -->
         <div>
-          <label for="official_guidance" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <label for="official_guidance" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             현장 안내 내용 <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
           </label>
           <textarea
             id="official_guidance" name="official_guidance" rows="3"
-            class="w-full px-3 py-2.5 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] resize-none"
+            class="w-full px-3 py-2.5 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] resize-none dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
             style="min-height: 80px;"
             placeholder="현장 관계자에게 들은 안내 내용을 입력해 주세요"
           ></textarea>
@@ -208,12 +208,12 @@ import { SIDO_LIST, SIGUNGU } from "../../lib/revote/regions";
 
         <!-- 상세 진술 -->
         <div>
-          <label for="description" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <label for="description" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             상세 진술 <span class="text-red-500" aria-hidden="true">*</span>
           </label>
           <textarea
             id="description" name="description" required rows="6"
-            class="w-full px-3 py-2.5 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] resize-none"
+            class="w-full px-3 py-2.5 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] resize-none dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
             style="min-height: 140px;"
             placeholder="투표소에서 겪은 일을 구체적으로 적어주세요. 예) 몇 시에 도착했는데 투표용지가 부족하다는 안내를 받았고, 약 XX분을 기다린 후 투표하지 못하고 귀가했습니다."
           ></textarea>
@@ -222,41 +222,41 @@ import { SIDO_LIST, SIGUNGU } from "../../lib/revote/regions";
 
         <!-- 증인 유무 -->
         <fieldset id="witnesses-group">
-          <legend class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <legend class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             같이 있었던 증인이 있나요? <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
           </legend>
           <div class="flex gap-5 h-10 items-center">
             <label class="flex items-center gap-2 cursor-pointer">
               <input type="radio" name="witnesses" value="true" class="accent-[#222222] size-4" />
-              <span class="text-[15px] text-stone-700 tracking-[-0.14px]">예</span>
+              <span class="text-[15px] text-stone-700 tracking-[-0.14px] dark:text-stone-300">예</span>
             </label>
             <label class="flex items-center gap-2 cursor-pointer">
               <input type="radio" name="witnesses" value="false" class="accent-[#222222] size-4" />
-              <span class="text-[15px] text-stone-700 tracking-[-0.14px]">아니오</span>
+              <span class="text-[15px] text-stone-700 tracking-[-0.14px] dark:text-stone-300">아니오</span>
             </label>
           </div>
         </fieldset>
 
         <!-- 증인 연락 가능 여부 -->
         <fieldset id="witness-contact-group">
-          <legend class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <legend class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             증인 연락이 가능한가요? <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
           </legend>
           <div class="flex gap-5 h-10 items-center">
             <label class="flex items-center gap-2 cursor-pointer">
               <input type="radio" name="witness_contact_available" value="true" class="accent-[#222222] size-4" />
-              <span class="text-[15px] text-stone-700 tracking-[-0.14px]">예</span>
+              <span class="text-[15px] text-stone-700 tracking-[-0.14px] dark:text-stone-300">예</span>
             </label>
             <label class="flex items-center gap-2 cursor-pointer">
               <input type="radio" name="witness_contact_available" value="false" class="accent-[#222222] size-4" />
-              <span class="text-[15px] text-stone-700 tracking-[-0.14px]">아니오</span>
+              <span class="text-[15px] text-stone-700 tracking-[-0.14px] dark:text-stone-300">아니오</span>
             </label>
           </div>
         </fieldset>
 
         <!-- 파일 첨부 -->
         <div>
-          <label for="files" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <label for="files" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             증거 파일 첨부 <span class="text-[11px] text-stone-400 font-normal">(선택, 최대 10개 · 각 100MB)</span>
           </label>
           <p class="text-[12px] text-stone-400 tracking-[-0.14px] mb-2">허용 형식: JPG, PNG, HEIC, PDF, MP4, MOV, TXT</p>
@@ -277,12 +277,12 @@ import { SIDO_LIST, SIGUNGU } from "../../lib/revote/regions";
         </div>
 
         <!-- 구분선 -->
-        <div class="h-px bg-stone-200"></div>
+        <div class="h-px bg-stone-200 dark:bg-white/10"></div>
 
         <!-- 비공개 안내 반복 -->
-        <div class="bg-stone-200/60 rounded-xl px-4 py-3">
-          <p class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px]">
-            <strong class="text-stone-800">제보는 자동으로 외부에 공개되지 않습니다.</strong><br />
+        <div class="bg-stone-200/60 rounded-xl px-4 py-3 dark:bg-white/5">
+          <p class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px] dark:text-stone-400">
+            <strong class="text-stone-800 dark:text-stone-200">제보는 자동으로 외부에 공개되지 않습니다.</strong><br />
             제보 내용은 검토 후 피해지역 분석과 법률 대응 준비에만 활용되며, 확인 전까지 외부에 공개되지 않습니다.
           </p>
         </div>
@@ -293,11 +293,11 @@ import { SIDO_LIST, SIGUNGU } from "../../lib/revote/regions";
           <div class="flex items-start gap-3">
             <input
               type="checkbox" id="privacy_consent" name="privacy_consent" required
-              class="mt-0.5 size-4 rounded border-stone-300 accent-[#222222] shrink-0"
+              class="mt-0.5 size-4 rounded border-stone-300 accent-[#222222] shrink-0 dark:border-white/15"
             />
-            <label for="privacy_consent" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px]">
+            <label for="privacy_consent" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px] dark:text-stone-400">
               <span class="text-red-500" aria-hidden="true">*</span>
-              <strong class="text-stone-700">[필수] 개인정보 수집·이용 동의</strong><br />
+              <strong class="text-stone-700 dark:text-stone-300">[필수] 개인정보 수집·이용 동의</strong><br />
               수집 항목: 이름, 연락처, 투표소 정보, 피해 진술, 첨부파일.
               수집 목적: 피해 사실 확인, 법률 검토, 통계 분석, 공익적 문제 제기.
               보유 기간: 법률 대응 종료 후 1년 또는 삭제 요청 시까지.
@@ -309,11 +309,11 @@ import { SIDO_LIST, SIGUNGU } from "../../lib/revote/regions";
           <div class="flex items-start gap-3">
             <input
               type="checkbox" id="evidence_use_consent" name="evidence_use_consent" required
-              class="mt-0.5 size-4 rounded border-stone-300 accent-[#222222] shrink-0"
+              class="mt-0.5 size-4 rounded border-stone-300 accent-[#222222] shrink-0 dark:border-white/15"
             />
-            <label for="evidence_use_consent" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px]">
+            <label for="evidence_use_consent" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px] dark:text-stone-400">
               <span class="text-red-500" aria-hidden="true">*</span>
-              <strong class="text-stone-700">[필수] 증거 검토 활용 동의</strong><br />
+              <strong class="text-stone-700 dark:text-stone-300">[필수] 증거 검토 활용 동의</strong><br />
               제출한 제보 내용과 첨부 파일을 피해 분석 및 법률 검토 목적으로 활용하는 데 동의합니다.
             </label>
           </div>
@@ -323,11 +323,11 @@ import { SIDO_LIST, SIGUNGU } from "../../lib/revote/regions";
           <div class="flex items-start gap-3">
             <input
               type="checkbox" id="legal_contact_consent" name="legal_contact_consent"
-              class="mt-0.5 size-4 rounded border-stone-300 accent-[#222222] shrink-0"
+              class="mt-0.5 size-4 rounded border-stone-300 accent-[#222222] shrink-0 dark:border-white/15"
             />
-            <label for="legal_contact_consent" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px]">
+            <label for="legal_contact_consent" class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px] dark:text-stone-400">
               <span class="text-[11px] text-stone-400">(선택)</span>
-              <strong class="text-stone-700">[선택] 법률대리인·공익단체 제3자 제공 동의</strong><br />
+              <strong class="text-stone-700 dark:text-stone-300">[선택] 법률대리인·공익단체 제3자 제공 동의</strong><br />
               이름, 연락처, 피해 제보 내용, 첨부자료를 법률 검토 및 소송 참여 안내 목적으로 제공하는 데 동의합니다.
             </label>
           </div>
@@ -338,7 +338,7 @@ import { SIDO_LIST, SIGUNGU } from "../../lib/revote/regions";
           <button
             type="submit"
             id="submit-btn"
-            class="inline-flex items-center justify-center h-11 px-8 text-[15px] font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px] disabled:opacity-40 disabled:cursor-not-allowed"
+            class="inline-flex items-center justify-center h-11 px-8 text-[15px] font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px] disabled:opacity-40 disabled:cursor-not-allowed dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200"
           >
             제보 접수하기
           </button>
@@ -347,21 +347,21 @@ import { SIDO_LIST, SIGUNGU } from "../../lib/revote/regions";
     </form>
 
     <!-- 완료 화면 -->
-    <div id="success-screen" class="hidden bg-stone-100 rounded-2xl p-8 text-center" role="status">
-      <p class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mb-3">제보가 접수되었습니다</p>
-      <p class="text-[15px] text-stone-500 tracking-[-0.16px] mb-1">
-        접수번호: <strong id="receipt-no" class="text-stone-800 font-mono"></strong>
+    <div id="success-screen" class="hidden bg-stone-100 rounded-2xl p-8 text-center dark:bg-white/[0.03]" role="status">
+      <p class="text-[22px] font-semibold text-stone-800 tracking-[-0.32px] mb-3 dark:text-stone-200">제보가 접수되었습니다</p>
+      <p class="text-[15px] text-stone-500 tracking-[-0.16px] mb-1 dark:text-stone-400">
+        접수번호: <strong id="receipt-no" class="text-stone-800 font-mono dark:text-stone-200"></strong>
       </p>
-      <div class="mt-4 text-[14px] text-stone-600 leading-6 tracking-[-0.14px] space-y-1">
+      <div class="mt-4 text-[14px] text-stone-600 leading-6 tracking-[-0.14px] space-y-1 dark:text-stone-400">
         <p>제보 내용은 검토 후 피해지역 분석과 법률 대응 준비에 활용됩니다.</p>
-        <p><strong class="text-stone-800">확인 전까지는 외부에 공개되지 않습니다.</strong></p>
+        <p><strong class="text-stone-800 dark:text-stone-200">확인 전까지는 외부에 공개되지 않습니다.</strong></p>
         <p>필요한 경우 담당자가 연락드릴 수 있습니다.</p>
       </div>
       <div id="file-warning" class="hidden mt-4 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-[13px] text-amber-700 leading-5 text-left">
         <strong>일부 파일 업로드에 실패했습니다.</strong><br />
         제보 자체는 정상 접수되었습니다. 파일은 접수번호를 통해 다시 제출하실 수 있습니다. 문의: revote@aiparty.kr
       </div>
-      <a href="/revote" class="mt-6 inline-flex items-center h-10 px-5 text-[14px] font-medium text-stone-700 border border-stone-300 rounded-full hover:bg-stone-100 transition-colors tracking-[-0.14px]">
+      <a href="/revote" class="mt-6 inline-flex items-center h-10 px-5 text-[14px] font-medium text-stone-700 border border-stone-300 rounded-full hover:bg-stone-100 transition-colors tracking-[-0.14px] dark:text-stone-300 dark:border-white/15 dark:hover:bg-white/10">
         캠페인 홈으로
       </a>
     </div>
@@ -461,7 +461,7 @@ import { SIDO_LIST, SIGUNGU } from "../../lib/revote/regions";
     fileListEl.textContent = '';
     validFiles.forEach((f) => {
       const row = document.createElement('div');
-      row.className = 'flex items-center gap-2 text-[13px] text-stone-600 tracking-[-0.14px]';
+      row.className = 'flex items-center gap-2 text-[13px] text-stone-600 tracking-[-0.14px] dark:text-stone-400';
       const icon = document.createElement('span');
       icon.className = 'text-stone-400';
       icon.textContent = '📎';

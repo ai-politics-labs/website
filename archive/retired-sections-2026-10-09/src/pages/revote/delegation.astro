@@ -11,11 +11,11 @@ import {
 <RevoteLayout title="법률대응 위임장 · 선거권 회복 100만 서명운동" active="sign">
   <section class="max-w-[680px] mx-auto px-4 sm:px-6 py-12">
     <div class="mb-8">
-      <p class="text-[12px] font-medium text-stone-500 tracking-[0.14em] uppercase mb-3">법률대응 참여</p>
-      <h1 class="font-semibold text-[26px] sm:text-[30px] text-stone-900 leading-[1.25] tracking-[-0.32px] mb-3">
+      <p class="text-[12px] font-medium text-stone-500 tracking-[0.14em] uppercase mb-3 dark:text-stone-400">법률대응 참여</p>
+      <h1 class="font-semibold text-[26px] sm:text-[30px] text-stone-900 leading-[1.25] tracking-[-0.32px] mb-3 dark:text-stone-100">
         서명운동 참여 동의 및<br/>법률대응 위임장
       </h1>
-      <p class="text-[14px] text-stone-500 leading-7 tracking-[-0.16px]">
+      <p class="text-[14px] text-stone-500 leading-7 tracking-[-0.16px] dark:text-stone-400">
         2026년 6월 3일 지방선거 투표용지 부족 및 선거관리 부실로 인한 선거권 침해 관련
         100만 서명운동 참여, 선거소청·선거소송·헌법소원심판·국가배상청구·정보공개청구 및
         이에 부수하는 절차를 위한 위임장입니다.
@@ -23,10 +23,10 @@ import {
     </div>
 
     <!-- 수임인 정보 (고정) -->
-    <div class="mb-6 rounded-2xl border border-stone-200 bg-stone-50 p-5 sm:p-6">
+    <div class="mb-6 rounded-2xl border border-stone-200 bg-stone-50 p-5 sm:p-6 dark:bg-white/[0.03] dark:border-white/10">
       <p class="text-[12px] font-medium text-stone-400 tracking-[0.1em] uppercase mb-3">수임인 (대리인)</p>
-      <dl class="space-y-1.5 text-[14px] text-stone-700 tracking-[-0.14px]">
-        <div class="flex gap-3"><dt class="w-16 shrink-0 text-stone-400">성명</dt><dd class="font-medium text-stone-900">{LAWYER.name}</dd></div>
+      <dl class="space-y-1.5 text-[14px] text-stone-700 tracking-[-0.14px] dark:text-stone-300">
+        <div class="flex gap-3"><dt class="w-16 shrink-0 text-stone-400">성명</dt><dd class="font-medium text-stone-900 dark:text-stone-100">{LAWYER.name}</dd></div>
         <div class="flex gap-3"><dt class="w-16 shrink-0 text-stone-400">소속</dt><dd>{LAWYER.firm}</dd></div>
         <div class="flex gap-3"><dt class="w-16 shrink-0 text-stone-400">사무소</dt><dd>{LAWYER.office}</dd></div>
         <div class="flex gap-3"><dt class="w-16 shrink-0 text-stone-400">이메일</dt><dd>{LAWYER.email}</dd></div>
@@ -35,86 +35,86 @@ import {
     </div>
 
     <form id="deleg-form" novalidate>
-      <div class="bg-stone-100 rounded-2xl p-6 sm:p-8 space-y-5">
+      <div class="bg-stone-100 rounded-2xl p-6 sm:p-8 space-y-5 dark:bg-white/[0.03]">
         <p class="text-[12px] font-medium text-stone-400 tracking-[0.1em] uppercase">위임인 정보</p>
 
         <!-- 성명 -->
         <div>
-          <label for="name" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <label for="name" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             성명 <span class="text-red-500" aria-hidden="true">*</span>
           </label>
           <input type="text" id="name" name="name" required autocomplete="name"
-            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
             placeholder="홍길동" />
           <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
         </div>
 
         <!-- 생년월일 -->
         <div>
-          <label for="birth_date" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <label for="birth_date" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             생년월일 <span class="text-red-500" aria-hidden="true">*</span>
           </label>
           <input type="text" id="birth_date" name="birth_date" required inputmode="numeric"
-            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
             placeholder="1990-01-01" />
           <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
         </div>
 
         <!-- 주소 -->
         <div>
-          <label for="address" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <label for="address" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             주소 <span class="text-red-500" aria-hidden="true">*</span>
           </label>
           <input type="text" id="address" name="address" required autocomplete="street-address"
-            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
             placeholder="서울특별시 종로구 ..." />
           <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
         </div>
 
         <!-- 연락처 -->
         <div>
-          <label for="phone" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <label for="phone" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             연락처 <span class="text-red-500" aria-hidden="true">*</span>
           </label>
           <input type="tel" id="phone" name="phone" required autocomplete="tel"
-            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
             placeholder="010-0000-0000" />
           <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
         </div>
 
         <!-- 이메일 -->
         <div>
-          <label for="email" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <label for="email" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             이메일 <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
           </label>
           <input type="email" id="email" name="email" autocomplete="email"
-            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
             placeholder="example@email.com" />
         </div>
 
         <!-- 해당 선거구 -->
         <div>
-          <label for="electoral_district" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <label for="electoral_district" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             해당 선거구 <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
           </label>
           <input type="text" id="electoral_district" name="electoral_district"
-            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
             placeholder="예: 서울 종로구" />
         </div>
 
         <!-- 투표소명 -->
         <div>
-          <label for="polling_station" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <label for="polling_station" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             투표소명 <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
           </label>
           <input type="text" id="polling_station" name="polling_station"
-            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            class="w-full h-10 px-3 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
             placeholder="예: ○○동 제1투표소" />
         </div>
 
         <!-- 피해 유형 -->
         <div>
-          <p class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-2">
+          <p class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-2 dark:text-stone-300">
             겪으신 피해 <span class="text-[11px] text-stone-400 font-normal">(선택 · 복수 선택 가능)</span>
           </p>
           <div class="flex flex-wrap gap-2">
@@ -129,43 +129,43 @@ import {
 
         <!-- 피해 상세 -->
         <div>
-          <label for="damage_detail" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <label for="damage_detail" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             피해 상세 <span class="text-[11px] text-stone-400 font-normal">(선택)</span>
           </label>
           <textarea id="damage_detail" name="damage_detail" rows="3" maxlength="1000"
-            class="w-full px-3 py-2.5 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] resize-none"
+            class="w-full px-3 py-2.5 text-[15px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] resize-none dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
             placeholder="겪으신 상황을 자유롭게 적어주세요."></textarea>
         </div>
       </div>
 
       <!-- 특별수권사항 -->
-      <div class="mt-6 bg-stone-100 rounded-2xl p-6 sm:p-8">
-        <p class="text-[14px] font-semibold text-stone-800 tracking-[-0.14px] mb-1">특별수권사항</p>
+      <div class="mt-6 bg-stone-100 rounded-2xl p-6 sm:p-8 dark:bg-white/[0.03]">
+        <p class="text-[14px] font-semibold text-stone-800 tracking-[-0.14px] mb-1 dark:text-stone-200">특별수권사항</p>
         <p class="text-[12px] text-stone-400 mb-4 tracking-[-0.14px]">아래 권한 위임에 동의하는 항목을 선택하세요. (선택)</p>
         <div class="space-y-3">
           {SPECIAL_AUTHORITIES.map((a, i) => (
             <label class="flex items-start gap-3 cursor-pointer">
               <input type="checkbox" name="special_authority" value={a} class="mt-0.5 accent-[#222222] size-4 shrink-0" />
-              <span class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px]">{a}</span>
+              <span class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px] dark:text-stone-400">{a}</span>
             </label>
           ))}
         </div>
       </div>
 
       <!-- 동의사항 -->
-      <div class="mt-6 bg-stone-100 rounded-2xl p-6 sm:p-8">
-        <p class="text-[14px] font-semibold text-stone-800 tracking-[-0.14px] mb-4">동의사항 <span class="text-red-500">*</span></p>
+      <div class="mt-6 bg-stone-100 rounded-2xl p-6 sm:p-8 dark:bg-white/[0.03]">
+        <p class="text-[14px] font-semibold text-stone-800 tracking-[-0.14px] mb-4 dark:text-stone-200">동의사항 <span class="text-red-500">*</span></p>
 
-        <label class="flex items-start gap-3 pb-3 mb-1 border-b border-stone-200 cursor-pointer">
+        <label class="flex items-start gap-3 pb-3 mb-1 border-b border-stone-200 cursor-pointer dark:border-white/10">
           <input type="checkbox" id="consent_all" class="mt-0.5 accent-[#222222] size-4 shrink-0" />
-          <span class="text-[14px] font-medium text-stone-800 leading-5 tracking-[-0.14px]">아래 동의사항에 전체 동의합니다.</span>
+          <span class="text-[14px] font-medium text-stone-800 leading-5 tracking-[-0.14px] dark:text-stone-200">아래 동의사항에 전체 동의합니다.</span>
         </label>
 
         <div class="space-y-3 pt-2">
           {DELEGATION_CONSENTS.map((c, i) => (
             <label class="flex items-start gap-3 cursor-pointer">
               <input type="checkbox" name="consent" data-key={c.key} required class="deleg-consent mt-0.5 accent-[#222222] size-4 shrink-0" />
-              <span class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px]">
+              <span class="text-[13px] text-stone-600 leading-5 tracking-[-0.14px] dark:text-stone-400">
                 <span class="text-red-500" aria-hidden="true">*</span>
                 {c.text}
               </span>
@@ -176,18 +176,18 @@ import {
       </div>
 
       <!-- 서명 -->
-      <div class="mt-6 bg-stone-100 rounded-2xl p-6 sm:p-8 space-y-4">
-        <p class="text-[14px] font-semibold text-stone-800 tracking-[-0.14px]">전자서명</p>
-        <p class="text-[13px] text-stone-500 leading-6 tracking-[-0.14px]">
+      <div class="mt-6 bg-stone-100 rounded-2xl p-6 sm:p-8 space-y-4 dark:bg-white/[0.03]">
+        <p class="text-[14px] font-semibold text-stone-800 tracking-[-0.14px] dark:text-stone-200">전자서명</p>
+        <p class="text-[13px] text-stone-500 leading-6 tracking-[-0.14px] dark:text-stone-400">
           본인은 위 수임인을 대리인으로 선임함과 동시에, 본 문서 작성으로 선거권 회복 100만 서명운동 참여에 동의합니다.
           아래에 본인 성명을 직접 입력하면 전자서명으로 갈음합니다.
         </p>
         <div>
-          <label for="signature_name" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5">
+          <label for="signature_name" class="block text-[14px] font-medium text-stone-700 tracking-[-0.14px] mb-1.5 dark:text-stone-300">
             위임인 성명 (전자서명) <span class="text-red-500" aria-hidden="true">*</span>
           </label>
           <input type="text" id="signature_name" name="signature_name" required
-            class="w-full h-11 px-3 text-[16px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px]"
+            class="w-full h-11 px-3 text-[16px] text-stone-900 bg-white border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-300 placeholder:text-stone-400 tracking-[-0.14px] dark:text-stone-100 dark:border-white/10 dark:focus:ring-stone-600"
             placeholder="본인 성명 입력" />
           <p class="field-error hidden mt-1 text-[12px] text-red-500"></p>
         </div>
@@ -199,7 +199,7 @@ import {
 
       <div class="mt-6">
         <button type="submit" id="submit-btn"
-          class="inline-flex items-center justify-center h-11 px-6 text-sm font-semibold text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px] disabled:opacity-40 disabled:cursor-not-allowed">
+          class="inline-flex items-center justify-center h-11 px-6 text-sm font-semibold text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px] disabled:opacity-40 disabled:cursor-not-allowed dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">
           위임장 제출하기
         </button>
       </div>
@@ -207,12 +207,12 @@ import {
 
     <!-- 완료 화면 -->
     <div id="success-message" role="status" class="hidden">
-      <div class="bg-stone-100 rounded-2xl p-6 sm:p-8 text-center">
-        <p class="text-[22px] font-semibold text-stone-900 tracking-[-0.32px] mb-2">위임장이 제출되었습니다.</p>
-        <p class="text-[15px] text-stone-500 leading-7 tracking-[-0.16px] mb-6">
+      <div class="bg-stone-100 rounded-2xl p-6 sm:p-8 text-center dark:bg-white/[0.03]">
+        <p class="text-[22px] font-semibold text-stone-900 tracking-[-0.32px] mb-2 dark:text-stone-100">위임장이 제출되었습니다.</p>
+        <p class="text-[15px] text-stone-500 leading-7 tracking-[-0.16px] mb-6 dark:text-stone-400">
           박세준 변호사가 검토 후 법률대응 절차를 안내드립니다.<br/>소중한 참여 감사합니다.
         </p>
-        <a href="/revote" class="inline-flex items-center justify-center h-10 px-5 text-sm font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px]">
+        <a href="/revote" class="inline-flex items-center justify-center h-10 px-5 text-sm font-medium text-white bg-[#222222] rounded-full hover:bg-[#333333] transition-colors tracking-[-0.14px] dark:bg-white dark:text-stone-900 dark:hover:bg-stone-200">
           캠페인 홈으로 →
         </a>
       </div>
@@ -224,14 +224,15 @@ import {
 </RevoteLayout>
 
 <script>
-  import {
+  const clientUrl = new URL("/revote/revote-client.js", window.location.origin).href;
+  void import(/* @vite-ignore */ clientUrl).then(({
     supabase,
     phoneHash,
     formatMobile,
     isValidMobile,
     logConsents,
     track,
-  } from "/revote/revote-client.js";
+  }) => {
 
   // 작성일 표시
   const now = new Date();
@@ -397,4 +398,5 @@ import {
   });
 
   track("page_view_delegation");
+  });
 </script>

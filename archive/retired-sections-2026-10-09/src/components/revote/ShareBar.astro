@@ -46,12 +46,13 @@ const { class: cls = "", compact = false } = Astro.props;
 </div>
 
 <script>
-  import {
+  const clientUrl = new URL("/revote/revote-client.js", window.location.origin).href;
+  void import(/* @vite-ignore */ clientUrl).then(({
     copyShareLink,
     getStoredRef,
     track,
     SITE_URL,
-  } from "/revote/revote-client.js";
+  }) => {
 
   const SHARE_DESC =
     "투표용지가 부족했고, 일부 시민은 투표를 포기했습니다. 선거권 회복을 위한 100만 서명에 함께해주세요.";
@@ -80,7 +81,8 @@ const { class: cls = "", compact = false } = Astro.props;
   async function kakaoShare(btn: HTMLElement) {
     const ref = currentRef();
     try {
-      const mod = await import("/revote/kakao.js");
+      const kakaoUrl = new URL("/revote/kakao.js", window.location.origin).href;
+      const mod = await import(/* @vite-ignore */ kakaoUrl);
       if (mod && mod.shareKakao) {
         const ok = await mod.shareKakao({
           url: SITE_URL + (ref ? `/?ref=${ref}&ch=kakao` : "/?ch=kakao"),
@@ -168,5 +170,6 @@ const { class: cls = "", compact = false } = Astro.props;
       else if (kind === "instagram") shareInstagram();
       else doCopy("link");
     });
+  });
   });
 </script>
