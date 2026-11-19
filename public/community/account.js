@@ -103,7 +103,7 @@ document.getElementById('request-deletion').addEventListener('click', async () =
 try {
   const user = await requireUser('/account');
   if (user) {
-    if (!user.email_confirmed_at) setMessage(message, '이메일 인증을 완료해야 초대 링크와 추천 현황을 이용할 수 있습니다.', true);
+    if (!user.email_confirmed_at) setMessage(message, '이메일이 확인된 카카오 또는 Google 계정으로 로그인해야 초대 링크와 추천 현황을 이용할 수 있습니다.', true);
     else await showAccount();
   }
 } catch (error) { setMessage(message, authError(error), true); }
