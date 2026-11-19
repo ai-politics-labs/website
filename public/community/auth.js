@@ -73,6 +73,26 @@ for (const link of document.querySelectorAll('[data-auth-mode]')) {
   });
 }
 
+// Social sign-in returns to the same callback as the email link, so the
+// existing verified-user check decides where the visitor goes next.
+for (const button of document.querySelectorAll('[data-oauth]')) {
+  button.addEventListener('click', async () => {
+    const buttons = document.querySelectorAll('[data-oauth]');
+    buttons.forEach((item) => { item.disabled = true; });
+    setMessage(message, '로그인 화면으로 이동합니다.');
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: button.dataset.oauth,
+        options: { redirectTo: callbackUrl('callback') },
+      });
+      if (error) throw error;
+    } catch (error) {
+      buttons.forEach((item) => { item.disabled = false; });
+      setMessage(message, authError(error), true);
+    }
+  });
+}
+
 byId('login-form').addEventListener('submit', (event) => {
   event.preventDefault();
   const form = event.currentTarget;

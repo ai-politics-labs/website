@@ -22,6 +22,7 @@ export function authError(error) {
   if (/referrer|추천인/i.test(message)) return '추천인 아이디를 확인해 주세요.';
   if (/weak_password|password.*(short|length)/i.test(code + message)) return '비밀번호는 10자 이상으로 입력해 주세요.';
   if (/same_password/i.test(code)) return '기존과 다른 비밀번호를 입력해 주세요.';
+  if (/FOUNDING_REQUIRED/i.test(message)) return '발기인 동의서를 먼저 제출해 주세요. 첫 화면의 발기인 동의서에서 제출할 수 있습니다.';
   if (/not.*authenticated|not.*verified|인증/i.test(message)) return '로그인과 이메일 인증을 완료한 뒤 다시 시도해 주세요.';
   if (/not.*owner|forbidden|permission|권한/i.test(message)) return '이 작업을 할 수 있는 권한이 없습니다.';
   if (/fetch|network/i.test(message)) return '연결하지 못했습니다. 인터넷 연결을 확인하고 다시 시도해 주세요.';
