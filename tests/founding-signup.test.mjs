@@ -6,139 +6,75 @@ import { createFoundingSignup, foundingSignupError } from '../public/community/f
 const founder = {
   name: '비공개 성명', birth_date: '1990-01-01', address: '비공개 주소 상세', gender: '남',
   occupation: '비공개 직업', phone_home: null, phone_mobile: '010-1234-5678',
-  signature_data: 'data:image/png;base64,private-signature', agreed_at: '2026-10-09',
+  signature_data: 'data:image/png;base64,private-signature', agreed_at: '2026-11-20',
   privacy_agreed: true, public_consent: false,
 };
-const input = { email: 'Member@Example.com', password: 'long-private-password', username: 'member_1', displayName: '', referrerUsername: '', founder };
+const member = { id: 'member', email_confirmed_at: '2026-11-20' };
 
-function app({ user = null, authError = null, identities = [{}], completed = false, prepareError = null } = {}) {
+function app({ user = member, alreadyRegistered = false, submitError = null } = {}) {
   const calls = [];
   let currentUser = user;
-  let currentAuthError = authError;
-  let committed = completed;
-  let clock = 1000;
   const supabase = {
     rpc: async (name, payload) => {
       calls.push([name, payload]);
       if (name === 'community_referrer_exists') return { data: payload.p_username === 'inviter', error: null };
-      if (name === 'community_prepare_founding_signup') return { data: prepareError ? null : { token: 'private-receipt' }, error: prepareError };
-      if (name === 'community_founding_signup_status') return { data: { completed: committed }, error: null };
-      if (name === 'community_submit_founding_consent') return { data: { id: 7, already_registered: true }, error: null };
+      if (name === 'community_submit_founding_consent_referred') return { data: submitError ? null : { id: 7, already_registered: alreadyRegistered }, error: submitError };
       throw new Error(`Unexpected RPC ${name}`);
     },
-    auth: {
-      async getUser() { calls.push(['getUser']); return { data: { user: currentUser }, error: null }; },
-      async signUp(payload) {
-        calls.push(['signUp', payload]);
-        return { data: currentAuthError ? null : { user: { id: 'user-id', identities }, session: null }, error: currentAuthError };
-      },
-    },
+    auth: { async getUser() { calls.push(['getUser']); return { data: { user: currentUser }, error: null }; } },
   };
-  const submit = createFoundingSignup(supabase, {
-    origin: 'https://aiparty.kr',
-    referralData: () => ({ visitor_id: 'visitor-id', referrer_username: 'must-not-copy' }),
-    now: () => clock,
-  });
-  return { calls, submit, setUser(value) { currentUser = value; }, setAuthError(value) { currentAuthError = value; }, setCompleted(value) { committed = value; }, advance(ms) { clock += ms; } };
+  const submit = createFoundingSignup(supabase, { referralData: () => ({ visitor_id: 'visitor-id', referrer_username: 'must-not-copy' }) });
+  return { calls, submit, setUser(value) { currentUser = value; } };
 }
 
-test('one consent creates the profile and founder through prepare before signup, without sensitive metadata', async () => {
+test('a signed-in member submits consent with the visit that brought them', async () => {
   const state = app();
-  assert.deepEqual(await state.submit(input), { kind: 'created', verificationRequired: true });
-  assert.deepEqual(state.calls.map(([name]) => name), ['getUser', 'community_prepare_founding_signup', 'signUp']);
-  const prepared = state.calls[1][1];
-  assert.equal(prepared.p_founder, founder);
-  assert.equal(prepared.p_display_name, 'member_1');
-  assert.equal(prepared.p_referrer_username, null);
-  assert.equal(prepared.p_email, 'member@example.com');
-  const signedUp = state.calls[2][1];
-  assert.deepEqual(signedUp.options.data, { community_signup: true, founding_signup_token: 'private-receipt', privacy_version: '2026-10-09' });
-  assert.equal(signedUp.options.emailRedirectTo, 'https://aiparty.kr/auth?mode=callback');
-  assert.equal(signedUp.password, input.password);
-  assert.doesNotMatch(JSON.stringify(signedUp.options.data), /비공개|1234|signature|password|birth_date|address/);
+  assert.deepEqual(await state.submit({ referrerUsername: '', founder }), { kind: 'existing', alreadyRegistered: false });
+  assert.deepEqual(state.calls.map(([name]) => name), ['getUser', 'community_submit_founding_consent_referred']);
+  assert.deepEqual(state.calls[1][1], { p_founder: founder, p_referrer_username: null, p_visitor_id: 'visitor-id' });
 });
 
-test('preparation failure prevents any account creation', async () => {
-  const state = app({ prepareError: new Error('prepare failed') });
-  await assert.rejects(state.submit(input));
-  assert.equal(state.calls.some(([name]) => name === 'signUp'), false);
-});
-
-test('reserved usernames cannot create a signup draft', async () => {
+test('an entered referrer is normalized and validated before consent is sent', async () => {
   const state = app();
-  await assert.rejects(state.submit({ ...input, username: 'moderator' }), /invalid_username/);
-  assert.equal(state.calls.some(([name]) => name === 'community_prepare_founding_signup'), false);
+  await state.submit({ referrerUsername: ' Inviter ', founder });
+  assert.deepEqual(state.calls.map(([name]) => name), ['getUser', 'community_referrer_exists', 'community_submit_founding_consent_referred']);
+  assert.equal(state.calls[2][1].p_referrer_username, 'inviter');
+  await assert.rejects(app().submit({ referrerUsername: 'nobody', founder }), /invalid_referrer/);
+  const malformed = app();
+  await assert.rejects(malformed.submit({ referrerUsername: 'Not Valid!', founder }), /invalid_referrer/);
+  assert.deepEqual(malformed.calls.map(([name]) => name), ['getUser']);
 });
 
-test('only an explicitly entered and validated referrer reaches the prepare RPC', async () => {
-  const state = app();
-  await state.submit({ ...input, referrerUsername: ' INVITER ' });
-  assert.equal(state.calls.find(([name]) => name === 'community_prepare_founding_signup')[1].p_referrer_username, 'inviter');
-  const missing = app();
-  await assert.rejects(missing.submit({ ...input, referrerUsername: 'missing' }), /invalid_referrer/);
-  assert.equal(missing.calls.some(([name]) => name === 'signUp'), false);
-  const self = app();
-  await assert.rejects(self.submit({ ...input, referrerUsername: 'member_1' }), /invalid_referrer/);
-});
-
-test('mail or network failure reports success only after the receipt confirms a committed founder', async () => {
-  const committed = app({ authError: new Error('SMTP failure'), completed: true });
-  assert.deepEqual(await committed.submit(input), { kind: 'created', verificationRequired: true, recovered: true });
-  const uncommitted = app({ authError: new Error('network failure') });
-  await assert.rejects(uncommitted.submit(input), /network failure/);
-  uncommitted.setAuthError(null);
-  await uncommitted.submit(input);
-  assert.equal(uncommitted.calls.filter(([name]) => name === 'community_prepare_founding_signup').length, 1);
-  assert.equal(uncommitted.calls.filter(([name]) => name === 'signUp').length, 2);
-});
-
-test('retry recovers a previous committed request without creating an account twice', async () => {
-  const state = app({ authError: new Error('network failure') });
-  await assert.rejects(state.submit(input));
-  state.setCompleted(true);
-  assert.equal((await state.submit(input)).recovered, true);
-  assert.equal(state.calls.filter(([name]) => name === 'signUp').length, 1);
-});
-
-test('an uncommitted draft is renewed before expiry only after checking its receipt', async () => {
-  const state = app({ authError: new Error('network failure') });
-  await assert.rejects(state.submit(input));
-  state.advance(14 * 60 * 1000);
-  state.setAuthError(null);
-  await state.submit(input);
-  assert.equal(state.calls.filter(([name]) => name === 'community_prepare_founding_signup').length, 2);
-  const secondPrepare = state.calls.findLastIndex(([name]) => name === 'community_prepare_founding_signup');
-  assert.equal(state.calls[secondPrepare - 1][0], 'community_founding_signup_status');
-});
-
-test('an existing email reports success only if this request receipt confirms account and consent', async () => {
-  const state = app({ identities: [] });
-  await assert.rejects(state.submit(input), /existing_email/);
-  assert.equal(state.calls.some(([name]) => name === 'community_founding_signup_status'), true);
-  assert.match(foundingSignupError({ code: 'existing_email' }), /로그인/);
-  const recovered = app({ identities: [], completed: true });
-  assert.equal((await recovered.submit(input)).recovered, true);
-});
-
-test('verified existing members submit only consent; current auth state is rechecked on every submission', async () => {
-  const state = app({ user: { id: 'member', email_confirmed_at: '2026-10-09' } });
-  assert.deepEqual(await state.submit(input), { kind: 'existing', alreadyRegistered: true });
-  assert.deepEqual(state.calls.map(([name]) => name), ['getUser', 'community_submit_founding_consent']);
-  assert.deepEqual(state.calls[1][1], { p_founder: founder });
+test('visitors who are not signed in or not confirmed cannot submit, and state is rechecked every time', async () => {
+  const state = app({ user: null });
+  await assert.rejects(state.submit({ founder }), /login_required/);
   state.setUser({ id: 'member', email_confirmed_at: null });
-  await assert.rejects(state.submit(input), /verification_required/);
-  assert.equal(state.calls.filter(([name]) => name === 'community_submit_founding_consent').length, 1);
+  await assert.rejects(state.submit({ founder }), /verification_required/);
+  assert.equal(state.calls.some(([name]) => name === 'community_submit_founding_consent_referred'), false);
+  state.setUser(member);
+  await state.submit({ founder });
+  assert.equal(state.calls.filter(([name]) => name === 'getUser').length, 3);
 });
 
-test('client and form never write founder data to browser storage or perform a raw insert', async () => {
+test('a repeated submission reports the existing consent instead of a new one', async () => {
+  assert.deepEqual(await app({ alreadyRegistered: true }).submit({ founder }), { kind: 'existing', alreadyRegistered: true });
+});
+
+test('server errors surface as actionable messages', async () => {
+  await assert.rejects(app({ submitError: { code: '22023', message: 'COMMUNITY_SELF_REFERRAL' } }).submit({ founder }));
+  assert.match(foundingSignupError({ code: 'login_required' }), /카카오나 Google/);
+  assert.match(foundingSignupError({ message: 'COMMUNITY_AUTH_REQUIRED' }), /로그인/);
+  assert.match(foundingSignupError({ message: 'COMMUNITY_SELF_REFERRAL' }), /내 아이디/);
+  assert.match(foundingSignupError({ message: 'COMMUNITY_REFERRER_INVALID' }), /추천인/);
+});
+
+test('the form collects no password and never writes founder data to storage or a raw insert', async () => {
   const module = await readFile(new URL('../public/community/founding-signup.js', import.meta.url), 'utf8');
   const page = await readFile(new URL('../src/pages/index.astro', import.meta.url), 'utf8');
-  assert.doesNotMatch(module, /localStorage|sessionStorage|console\./);
+  assert.doesNotMatch(module, /localStorage|sessionStorage|console\.|signUp|password/);
   assert.doesNotMatch(page, /\.from\('founding_members'\)\.insert|console\.error/);
-  assert.match(page, /id="signup-email"/);
-  assert.match(page, /id="signup-password"/);
-  assert.match(page, /id="signup-username"/);
-  assert.match(page, /발기인 동의하고 가입하기/);
+  assert.doesNotMatch(page, /id="signup-email"|id="signup-password"|id="signup-username"|type="password"/);
+  assert.match(page, /href="\/auth\?next=%2F%23founding-members"/);
   assert.match(page, /href="\/community\/privacy"/);
   assert.match(page, /<form id="founding-member-form" method="post" inert[^>]*aria-busy="true"/);
   assert.match(page, /id="submit-btn"\s+disabled/);
