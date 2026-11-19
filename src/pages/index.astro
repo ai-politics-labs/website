@@ -205,7 +205,7 @@ const organizerTotal = organizers.length;
 				</h2>
 				<p class="text-[15px] text-stone-500 dark:text-stone-400 leading-6 tracking-[-0.16px] max-w-xl">
 					에이아이당(가칭) 창당준비위원회 발기인에 동의합니다.<br/>
-					동의서를 제출하면 사이트 계정도 함께 만들어집니다.<br/>이메일 인증 후 나의 초대 현황을 이용할 수 있습니다.
+					카카오나 Google로 로그인한 뒤 동의서를 제출합니다.<br/>제출 후 나의 초대 현황을 이용할 수 있습니다.
 				</p>
 				<a href="/dashboard" class="inline-flex items-center min-h-10 mt-3 text-[13px] text-stone-700 dark:text-stone-300 underline underline-offset-4">전체 발기인 수와 지역별 참여 현황 보기 →</a>
 
@@ -223,32 +223,17 @@ const organizerTotal = organizers.length;
 		<section class="mt-12 founder-form-section">
 			<div class="max-w-4xl mx-auto px-6">
 				<p id="founder-form-loading" class="c-message" role="status">가입 양식을 준비하고 있습니다. 계속 이 문구가 보이면 인터넷 연결을 확인하고 새로고침해 주세요.</p>
-				<noscript><p class="c-message is-error">안전한 발기인 동의와 계정 생성을 위해 브라우저의 JavaScript를 켜고 새로고침해 주세요.</p></noscript>
+				<noscript><p class="c-message is-error">안전한 발기인 동의를 위해 브라우저의 JavaScript를 켜고 새로고침해 주세요.</p></noscript>
 				<form id="founding-member-form" method="post" inert novalidate aria-busy="true">
 					<div class="founder-card bg-stone-100 dark:bg-white/[0.03] rounded-2xl p-6 sm:p-8 space-y-5">
 						<fieldset id="founder-account-fields" class="founder-account-fields">
-							<legend class="founder-fieldset-title">로그인할 계정</legend>
-							<p class="c-help">발기인 동의와 사이트 가입을 한 번에 진행합니다. <a href="/auth?next=%2F%23founding-members" class="c-link">카카오나 Google 계정으로 로그인</a>하면 비밀번호와 인증 메일 없이 동의서만 제출할 수 있습니다. 이미 계정이 있는 분도 로그인 후 동의서만 제출해 주세요.</p>
-							<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-								<div class="c-field sm:col-span-2">
-									<label for="signup-username">아이디 <span class="text-red-500" aria-hidden="true">*</span></label>
-									<input id="signup-username" name="username" type="text" class="c-input" required minlength="3" maxlength="24" autocomplete="username" autocapitalize="none" spellcheck="false" aria-describedby="signup-username-help" placeholder="my_aip_id" />
-									<small id="signup-username-help">영문 소문자로 시작하는 3~24자의 영문·숫자·밑줄. 나의 추천인 ID로도 사용합니다.</small>
-									<p class="field-error hidden text-[12px] text-red-500"></p>
-								</div>
-
-								<div class="c-field">
-									<label for="signup-email">이메일 <span class="text-red-500" aria-hidden="true">*</span></label>
-									<input id="signup-email" name="email" type="email" class="c-input" required maxlength="254" autocomplete="email" inputmode="email" placeholder="you@example.com" />
-									<small>로그인과 인증 메일 수신에 사용합니다.</small>
-									<p class="field-error hidden text-[12px] text-red-500"></p>
-								</div>
-								<div class="c-field">
-									<label for="signup-password">비밀번호 <span class="text-red-500" aria-hidden="true">*</span></label>
-									<input id="signup-password" name="password" type="password" class="c-input" required minlength="10" maxlength="128" autocomplete="new-password" aria-describedby="signup-password-help" placeholder="10자 이상" />
-									<small id="signup-password-help">10자 이상으로 설정해 주세요.</small>
-									<p class="field-error hidden text-[12px] text-red-500"></p>
-								</div>
+							<legend class="founder-fieldset-title">먼저 로그인해 주세요</legend>
+							<p class="c-help">카카오나 Google 계정으로 로그인하면 비밀번호와 인증 메일 없이 바로 동의서를 제출할 수 있습니다. 로그인한 뒤 이 화면으로 돌아옵니다.</p>
+							<div id="founder-login">
+							<div class="founder-login-actions">
+								<a class="founder-login-button founder-login-kakao" href="/auth?next=%2F%23founding-members">카카오 또는 Google로 로그인하기</a>
+							</div>
+							<p class="field-error hidden mt-2 text-[12px] text-red-500" id="founder-login-error" role="alert"></p>
 							</div>
 						</fieldset>
 						<p id="founder-signed-in" class="c-message" hidden>로그인한 계정으로 발기인 동의서를 제출합니다. 별도의 가입은 필요하지 않습니다.</p>
@@ -470,9 +455,9 @@ const organizerTotal = organizers.length;
 						접수가 완료되었습니다
 					</p>
 					<p id="founder-success-detail" class="text-[15px] text-stone-500 dark:text-stone-400 leading-6 tracking-[-0.16px]">
-						발기인 동의서와 사이트 가입이 함께 접수되었습니다. 가입한 이메일의 인증 링크를 열어 주세요.
+						함께해 주셔서 감사합니다. 이제 나의 링크로 사람들을 초대해 보세요.
 					</p>
-					<div class="c-actions justify-center mt-5"><a id="founder-success-link" href="/auth" class="c-button">로그인하기</a><a href="/auth?mode=verify" class="c-link">인증 메일 다시 받기</a></div>
+					<div class="c-actions justify-center mt-5"><a id="founder-success-link" href="/account" class="c-button">나의 초대 현황 보기</a></div>
 				</div>
 
 				<!-- 에러 메시지 -->
@@ -536,6 +521,11 @@ const organizerTotal = organizers.length;
 			#founding-members > div > div { background: var(--c-surface); border-color: var(--c-border); }
 			.home-content .founder-form-section { margin-top: 24px; }
 			.founder-card { background: var(--c-bg); border: 1px solid rgba(255,255,255,.65); border-radius: 14px; box-shadow: 0 2px 8px rgba(27,31,46,.025); }
+			.founder-login-actions { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+			.founder-login-button { min-height: 44px; display: flex; justify-content: center; align-items: center; border: 1px solid #dcdcde; border-radius: 10px; background: #fff; color: #27272a; font-size: 14px; font-weight: 500; text-decoration: none; }
+			.founder-login-button:hover { background: #f7f7f8; }
+			.founder-login-kakao { background: #fee500; border-color: #fee500; color: #191919; }
+			.founder-login-kakao:hover { background: #f5dc00; }
 			.founder-account-fields { display: grid; gap: 20px; padding-bottom: 24px; margin-bottom: 24px; border-bottom: 1px solid var(--c-border); }
 			.founder-fieldset-title { margin: 0 0 8px; padding: 0; font-size: 18px; font-weight: 600; letter-spacing: -.4px; color: var(--c-text); }
 			.home-content h2.founder-fieldset-title { font-size: 18px; }
@@ -646,9 +636,9 @@ const organizerTotal = organizers.length;
 		<script type="module">
 			import { supabase } from '/community/client.js';
 			import { getReferral, signupReferralData } from '/community/referral.js';
-			import { createFoundingSignup, foundingSignupError, validFoundingUsername } from '/community/founding-signup.js';
+			import { createFoundingSignup, foundingSignupError } from '/community/founding-signup.js';
 			import SignaturePad from 'https://esm.sh/signature_pad@5';
-			const submitFoundingSignup = createFoundingSignup(supabase, { origin: location.origin, referralData: signupReferralData });
+			const submitFoundingSignup = createFoundingSignup(supabase, { referralData: signupReferralData });
 			let signedInUser = null;
 			const scrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
 
@@ -797,15 +787,9 @@ const organizerTotal = organizers.length;
 			function validateForm(form) {
 				const errors = [];
 				const fd = new FormData(form);
-				if (!signedInUser) {
-					const username = fd.get('username')?.trim().toLowerCase() || '';
-					if (!validFoundingUsername(username)) errors.push({ field: 'signup-username', message: '아이디는 영문 소문자로 시작하는 3~24자의 영문·숫자·밑줄로 입력해 주세요.' });
-					if (!document.getElementById('signup-email').validity.valid || !fd.get('email')?.trim()) errors.push({ field: 'signup-email', message: '인증 메일을 받을 수 있는 이메일을 입력해 주세요.' });
-					const password = fd.get('password') || '';
-					if (password.length < 10 || password.length > 128) errors.push({ field: 'signup-password', message: '비밀번호는 10~128자로 입력해 주세요.' });
-					const referrer = fd.get('referrer')?.trim().toLowerCase() || '';
-					if (referrer && (!/^[a-z][a-z0-9_]{2,23}$/.test(referrer) || referrer === username)) errors.push({ field: 'referrer', message: '추천인의 사이트 아이디를 입력해 주세요. 내 아이디는 입력할 수 없습니다.' });
-				}
+				if (!signedInUser) errors.push({ field: 'founder-login', message: '먼저 카카오나 Google로 로그인해 주세요.', isLogin: true });
+				const referrer = fd.get('referrer')?.trim().toLowerCase() || '';
+				if (referrer && !/^[a-z][a-z0-9_]{2,23}$/.test(referrer)) errors.push({ field: 'referrer', message: '추천인의 사이트 아이디를 영문 소문자로 입력해 주세요.' });
 
 				const name = fd.get('name')?.trim();
 				if (!name || name.length < 2) {
@@ -927,20 +911,17 @@ const organizerTotal = organizers.length;
 			const accountFields = document.getElementById('founder-account-fields');
 			const signedInNotice = document.getElementById('founder-signed-in');
 			const automaticReferral = document.getElementById('founder-automatic-referral');
-			const getSubmitLabel = () => signedInUser ? '발기인 동의서 제출하기' : '발기인 동의하고 가입하기';
+			const getSubmitLabel = () => signedInUser ? '발기인 동의서 제출하기' : '로그인하고 발기인 동의서 제출하기';
 
 			async function refreshAccountState() {
 				const { data, error } = await supabase.auth.getUser();
 				if (error && !/AuthSessionMissingError|session.*missing|session_not_found/i.test(`${error.name || ''} ${error.code || ''} ${error.message || ''}`)) throw error;
 				signedInUser = data?.user || null;
 				accountFields.hidden = Boolean(signedInUser);
-				accountFields.disabled = Boolean(signedInUser);
 				signedInNotice.hidden = !signedInUser;
 				signedInNotice.textContent = signedInUser?.email_confirmed_at
 					? '로그인한 계정으로 발기인 동의서를 제출합니다. 별도의 가입은 필요하지 않습니다.'
-					: '가입한 이메일의 인증 링크를 먼저 열어 주세요. 로그인 화면에서 인증 메일을 다시 받을 수 있습니다.';
-				document.getElementById('founder-referrer-field').hidden = Boolean(signedInUser);
-				document.getElementById('referrer').disabled = Boolean(signedInUser);
+					: '이메일이 확인된 카카오 또는 Google 계정으로 다시 로그인해 주세요.';
 				submitBtn.textContent = getSubmitLabel();
 				const referral = getReferral();
 				automaticReferral.hidden = !referral;
@@ -992,27 +973,11 @@ const organizerTotal = organizers.length;
 						privacy_agreed: true,
 						public_consent: form.querySelector('#public_consent').checked,
 					};
-					const result = await submitFoundingSignup({
-						email: fd.get('email') || '',
-						username: fd.get('username') || '',
-						displayName: '',
-						password: fd.get('password') || '',
-						referrerUsername: fd.get('referrer') || '',
-						founder,
-					});
-					document.getElementById('signup-password').value = '';
+					const result = await submitFoundingSignup({ referrerUsername: fd.get('referrer') || '', founder });
 					clearSignature();
 					form.reset();
-					const needsVerification = result.kind === 'created' && result.verificationRequired;
-					document.getElementById('founder-success-title').textContent = result.kind === 'created'
-						? '발기인 동의와 가입이 완료되었습니다'
-						: result.alreadyRegistered ? '이미 발기인 동의서가 접수되어 있습니다' : '발기인 동의서가 접수되었습니다';
-					document.getElementById('founder-success-detail').textContent = needsVerification
-						? '동의서와 계정은 함께 저장되었습니다. 가입한 이메일의 인증 링크를 열면 나의 초대 현황을 이용할 수 있습니다. 메일이 없으면 스팸함을 확인하거나 인증 메일을 다시 받아 주세요.'
-						: '함께해 주셔서 감사합니다. 이제 나의 링크로 사람들을 초대해 보세요.';
-					const successLink = document.getElementById('founder-success-link');
-					successLink.href = needsVerification ? '/auth' : '/account';
-					successLink.textContent = needsVerification ? '로그인하기' : '나의 초대 현황 보기';
+					document.getElementById('founder-success-title').textContent = result.alreadyRegistered ? '이미 발기인 동의서가 접수되어 있습니다' : '발기인 동의서가 접수되었습니다';
+					document.getElementById('founder-success-detail').textContent = '함께해 주셔서 감사합니다. 이제 나의 링크로 사람들을 초대해 보세요.';
 
 					form.classList.add('hidden');
 					successDiv.classList.remove('hidden');
