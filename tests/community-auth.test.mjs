@@ -37,8 +37,14 @@ async function setup({ url = 'https://aiparty.kr/auth', user = null, sessionEven
     link.dataset = { authMode: match[1] };
     return link;
   });
+  const socialButtons = [...page.matchAll(/data-oauth="([^"]+)"/g)].map((match, index) => {
+    const button = element(`auth-oauth-${index}`);
+    button.dataset = { oauth: match[1] };
+    return button;
+  });
   const supabase = {
     auth: {
+      signInWithOAuth: ok('signInWithOAuth'),
       onAuthStateChange(listener) { authListener = listener; return { data: { subscription: { unsubscribe() {} } } }; },
       async initialize() {
         if (autoHandleCode) currentUrl.searchParams.delete('code');
@@ -66,7 +72,7 @@ async function setup({ url = 'https://aiparty.kr/auth', user = null, sessionEven
     replace(value) { redirects.push(['replace', value]); },
   };
   const context = vm.createContext({
-    document: { getElementById: element, querySelectorAll: () => links },
+    document: { getElementById: element, querySelectorAll: (selector) => (selector === '[data-oauth]' ? socialButtons : links) },
     window: { location, history: { replaceState(_state, _title, value) { currentUrl = new URL(value, currentUrl); } } },
     supabase, URL, URLSearchParams,
     authError: () => '요청을 처리하지 못했습니다. 다시 시도해 주세요.',
@@ -83,6 +89,10 @@ async function setup({ url = 'https://aiparty.kr/auth', user = null, sessionEven
     emit(event, session) { authListener(event, session); },
     async navigate(mode) {
       links.find((link) => link.dataset.authMode === mode).listeners.get('click')({ button: 0, preventDefault() {} });
+      await tick();
+    },
+    async social(provider) {
+      socialButtons.find((button) => button.dataset.oauth === provider).listeners.get('click')();
       await tick();
     },
     async submit(id) {
@@ -309,4 +319,16 @@ test('all remaining auth controls referenced by the module exist in the page', (
   for (const [, id] of source.matchAll(/byId\('([^']+)'\)/g)) {
     assert.ok(ids.has(id), `Missing auth element: ${id}`);
   }
+});
+
+test('social sign-in buttons return to the verified callback with the requested destination', async () => {
+  const app = await setup({ url: 'https://aiparty.kr/auth?next=%2F%23founding-members' });
+  await app.social('google');
+  assert.equal(app.calls.length, 1);
+  assert.equal(app.calls[0][0], 'signInWithOAuth');
+  assert.equal(JSON.stringify(app.calls[0][1]), JSON.stringify({
+    provider: 'google',
+    options: { redirectTo: 'https://aiparty.kr/auth?mode=callback&next=%2F%23founding-members' },
+  }));
+  assert.equal(app.redirects.length, 0);
 });
